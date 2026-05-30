@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digitone Sequencer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- Header / Transport -->
+  <header id="header">
+    <div id="logo">Digitone <span>Sequencer</span></div>
+
+    <div class="transport">
+      <button id="btn-play"  class="transport-btn" title="Play">▶</button>
+      <button id="btn-stop"  class="transport-btn active" title="Stop">■</button>
+    </div>
+
+    <div class="header-group">
+      <span class="header-label">BPM</span>
+      <input id="bpm" type="number" min="20" max="300" value="120">
+    </div>
+
+    <div class="header-group">
+      <span class="header-label">Steps</span>
+      <select id="pat-len" class="header-sel" style="min-width:80px">
+        <option value="8">8</option>
+        <option value="16" selected>16</option>
+        <option value="32">32</option>
+        <option value="64">64</option>
+      </select>
+    </div>
+
+    <div class="header-group">
+      <span class="header-label">MIDI Out</span>
+      <select id="midi-select" class="header-sel">
+        <option value="-1">-- No Output --</option>
+      </select>
+    </div>
+
+    <div class="header-group">
+      <span class="header-label">FX CH</span>
+      <input id="fx-channel" type="number" min="1" max="16" value="9">
+    </div>
+
+    <span id="midi-status"></span>
+  </header>
+
+  <!-- Track lanes -->
+  <section id="tracks"></section>
+
+  <!-- Bottom panel -->
+  <section id="bottom-panel">
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="params">Params</button>
+      <button class="tab-btn" data-tab="plocks">P-Locks</button>
+      <button class="tab-btn" data-tab="lfos">LFOs</button>
+      <button class="tab-btn" data-tab="fx">FX / Master</button>
+    </div>
+    <div id="panel-content"></div>
+  </section>
+
+</div>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
