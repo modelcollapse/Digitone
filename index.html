@@ -614,6 +614,80 @@
       font-family: var(--mono);
     }
 
+    /* ── Image Placeholders ── */
+    .img-placeholder {
+      background: var(--panel);
+      border: 1px dashed rgba(208,171,57,.25);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 10px; position: relative; overflow: hidden;
+      color: var(--muted);
+    }
+    .img-placeholder::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 18px,
+        rgba(208,171,57,.03) 18px,
+        rgba(208,171,57,.03) 19px
+      );
+    }
+    .img-placeholder-icon {
+      font-size: 1.6rem; opacity: .25; position: relative;
+    }
+    .img-placeholder-label {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--muted); opacity: .6;
+      position: relative; text-align: center; padding: 0 16px;
+    }
+    .img-placeholder-dim {
+      font-family: var(--mono); font-size: 9px; color: var(--gold);
+      opacity: .45; position: relative;
+    }
+
+    /* Full-bleed hero image strip */
+    .img-hero-strip {
+      width: 100%; height: 320px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Half-width beside text */
+    .img-half { width: 100%; height: 340px; }
+
+    /* Square card image */
+    .img-square { width: 100%; aspect-ratio: 1 / 1; }
+
+    /* Wide short banner */
+    .img-banner { width: 100%; height: 200px; }
+
+    /* Tall portrait */
+    .img-portrait { width: 100%; height: 420px; }
+
+    /* Inline figure block */
+    .figure-block { margin: 32px 0; }
+    .figure-block figcaption {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .12em;
+      color: var(--muted); padding: 8px 12px;
+      border-left: 2px solid var(--border);
+      margin-top: 0;
+    }
+
+    /* Two-up image row */
+    .img-two-up { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
+    .img-two-up .img-placeholder { min-height: 260px; }
+
+    /* Three-up image row */
+    .img-three-up { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
+    .img-three-up .img-placeholder { min-height: 200px; }
+
+    @media (max-width: 768px) {
+      .img-two-up { grid-template-columns: 1fr; }
+      .img-three-up { grid-template-columns: 1fr; }
+    }
+
     /* ── Births Formula ── */
     .births-formula {
       padding: 20px 32px; border-top: 1px solid var(--border);
@@ -755,6 +829,15 @@
   </div>
 </section>
 
+<!-- IMG: Hero full-bleed strip -->
+<figure class="figure-block" style="margin:0">
+  <div class="img-placeholder img-hero-strip">
+    <span class="img-placeholder-icon">🌌</span>
+    <span class="img-placeholder-label">Hero Image — Full Bleed<br>Suggested: celestial chart / Apple logo overlay / dark cosmological photograph</span>
+    <span class="img-placeholder-dim">Full width × 320px</span>
+  </div>
+</figure>
+
 <!-- ═══════ EDITOR'S NOTE ═══════ -->
 <section id="editors-note">
   <div class="section-band">
@@ -777,6 +860,15 @@
         "Millionaires don't use astrology. Billionaires do."
         <cite>— Attributed to J.P. Morgan<br>(widely quoted; difficult to verify)</cite>
       </div>
+      <!-- IMG: Editor portrait or Wolff Olins archival -->
+      <figure class="figure-block" style="margin:0">
+        <div class="img-placeholder img-square" style="max-height:220px">
+          <span class="img-placeholder-icon">📷</span>
+          <span class="img-placeholder-label">Editor portrait or archival brand image</span>
+          <span class="img-placeholder-dim">280 × 220px</span>
+        </div>
+        <figcaption>Image caption — editor / context</figcaption>
+      </figure>
     </div>
     <div class="editors-note-body">
       <h2 class="editors-note-heading">Corporations Are People.<br>So What's <em>Their Sign?</em></h2>
@@ -855,6 +947,23 @@
       </p>
     </div>
   </div>
+
+  <!-- IMG: Three Births two-up -->
+  <figure class="figure-block" style="margin:0">
+    <div class="img-two-up">
+      <div class="img-placeholder">
+        <span class="img-placeholder-icon">🏠</span>
+        <span class="img-placeholder-label">The Los Altos Garage, 1976<br>Suggested: archival photo / recreation</span>
+        <span class="img-placeholder-dim">½ width × 260px</span>
+      </div>
+      <div class="img-placeholder">
+        <span class="img-placeholder-icon">📋</span>
+        <span class="img-placeholder-label">Apple partnership document, April 1, 1976<br>Suggested: document scan / historical record</span>
+        <span class="img-placeholder-dim">½ width × 260px</span>
+      </div>
+    </div>
+    <figcaption style="border-left:none;border-top:1px solid var(--border);padding:8px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted)">Left: The Cupertino garage where Apple was founded. Right: The partnership agreement signed April 1, 1976.</figcaption>
+  </figure>
 
   <!-- Formula banner -->
   <div class="births-formula">
@@ -941,6 +1050,22 @@
       <div class="chart-row"><p class="chart-planet">Neptune ♆</p><p class="chart-position">26° Rx<span class="chart-sign">Libra · 2H</span></p></div>
       <div class="chart-row"><p class="chart-planet">Pluto ♇</p><p class="chart-position">24° Rx<span class="chart-sign">Leo · 12H</span></p></div>
       <div class="chart-row"><p class="chart-planet">North Node</p><p class="chart-position">3°24'<span class="chart-sign">Capricorn · 4H</span></p></div>
+    </div>
+  </div>
+
+  <!-- IMG: Jobs chart section two-up (portrait + natal chart wheel) -->
+  <div style="padding:0 32px 40px">
+    <div class="img-two-up">
+      <div class="img-placeholder img-portrait" style="min-height:320px">
+        <span class="img-placeholder-icon">☿</span>
+        <span class="img-placeholder-label">Steve Jobs natal chart wheel<br>Suggested: rendered chart diagram (astro.com export)</span>
+        <span class="img-placeholder-dim">½ width × 320px</span>
+      </div>
+      <div class="img-placeholder img-portrait" style="min-height:320px">
+        <span class="img-placeholder-icon">📷</span>
+        <span class="img-placeholder-label">Steve Jobs portrait, c. 1984–2007<br>Suggested: keynote / product launch photograph</span>
+        <span class="img-placeholder-dim">½ width × 320px</span>
+      </div>
     </div>
   </div>
 
@@ -1131,6 +1256,29 @@
     <p class="body-text">In the summer of 1974, Jobs — then nineteen, a Reed College dropout working at Atari — left for India with his college friend Daniel Kottke to seek spiritual guidance. He traveled to the Kainchi Ashram of Neem Karoli Baba, a Hindu guru whose other devotees included Harvard professor Richard Alpert, later known as Ram Dass. He found the guru dead — Neem Karoli Baba had died in September 1973, months before Jobs arrived. Jobs and Kottke spent seven months traveling through the Indian countryside instead.</p>
     <p class="body-text">He returned to California with a shaved head, in traditional Indian clothing, and with a philosophy that would shape everything Apple made: <em>minimalism, non-verbal knowing, the primacy of feel over specification.</em> Jobs described it directly: "The people in the Indian countryside don't use their intellect like we do, they use their intuition instead, and their intuition is far more developed than in the rest of the world. Intuition is a very powerful thing, more powerful than intellect, in my opinion. That's had a big impact on my work."</p>
 
+    <!-- IMG: India / spiritual three-up -->
+  </div>
+  <figure class="figure-block" style="margin:0 0 0">
+    <div class="img-three-up">
+      <div class="img-placeholder">
+        <span class="img-placeholder-icon">🕌</span>
+        <span class="img-placeholder-label">Kainchi Ashram, Nainital, India<br>Suggested: archival or contemporary photograph</span>
+        <span class="img-placeholder-dim">⅓ width × 200px</span>
+      </div>
+      <div class="img-placeholder">
+        <span class="img-placeholder-icon">🧘</span>
+        <span class="img-placeholder-label">Jobs in India, 1974<br>Suggested: archival photograph (public domain)</span>
+        <span class="img-placeholder-dim">⅓ width × 200px</span>
+      </div>
+      <div class="img-placeholder">
+        <span class="img-placeholder-icon">💻</span>
+        <span class="img-placeholder-label">Atari Astrochart program, 1975<br>Suggested: screenshot / recreation (Adafruit, 2026)</span>
+        <span class="img-placeholder-dim">⅓ width × 200px</span>
+      </div>
+    </div>
+    <figcaption style="border-left:none;border-top:1px solid var(--border);padding:8px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted)">Left: Kainchi Ashram. Center: Jobs in India, 1974. Right: Astrochart, the horoscope program Jobs wrote at Atari in 1975 — the year before Apple.</figcaption>
+  </figure>
+  <div class="sub-feature">
     <p class="sub-feature-kicker" style="margin-top:40px">Zen Buddhism and Design</p>
     <h3 class="sub-feature-heading">The Monk, the <em>Minimalism</em></h3>
     <p class="body-text">Jobs studied Zen with Kobun Chino Otogawa at the Haiku Zen Center in Los Altos beginning in the mid-1970s. Kobun was later the Zen monk who married Jobs and Laurene Powell in 1991. The concrete design influence of Zen on Apple products is documented and acknowledged.</p>
@@ -1161,6 +1309,16 @@
       Every Apple product launch happens on a specific date, in a specific sky. Over forty years, a pattern emerges: certain signs appear at pivotal moments, Jupiter and Saturn mark the transitions, and the launches that changed everything tend to cluster around cardinal points and sign-change boundaries.
     </p>
   </div>
+  <!-- IMG: 1984 ad / keynote banner -->
+  <figure class="figure-block" style="margin:0">
+    <div class="img-placeholder img-banner">
+      <span class="img-placeholder-icon">📺</span>
+      <span class="img-placeholder-label">The 1984 Super Bowl advertisement, or a product launch keynote still<br>Suggested: film still, press photograph, or promotional image</span>
+      <span class="img-placeholder-dim">Full width × 200px</span>
+    </div>
+    <figcaption style="border-left:none;border-top:1px solid var(--border);padding:8px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted)">The "1984" advertisement aired January 22, 1984, two days before the Macintosh launch. Directed by Ridley Scott. Never broadcast again.</figcaption>
+  </figure>
+
   <div class="rituals-timeline">
     <div class="ritual-item">
       <div class="ritual-date-col">
@@ -1271,8 +1429,12 @@
   </div>
   <div class="store-inner">
     <div class="store-img">
-      <span class="store-glyph">🏛️</span>
-      <span class="store-img-label">Fifth Avenue · New York · 2006</span>
+      <div class="img-placeholder" style="width:100%;height:100%;border:none;background:transparent">
+        <span class="img-placeholder-icon">🏛️</span>
+        <span class="img-placeholder-label">Apple Store Fifth Avenue glass cube<br>Suggested: architectural exterior photograph, night shot preferred</span>
+        <span class="img-placeholder-dim">½ width × 480px</span>
+      </div>
+      <span class="store-img-label">Fifth Avenue · New York · May 19, 2006</span>
     </div>
     <div class="store-text">
       <p class="store-kicker">Retail as Sacred Architecture</p>
@@ -1306,6 +1468,15 @@
     <p class="feature-intro" style="margin-top:16px">
       The Cook era brought Apple into Virgo territory: health, the body, precision, the integration of biological data into daily life. Apple Watch and Apple Health represent the company's most intimate product category yet — and the most Virgoan.
     </p>
+    <!-- IMG: Body interface banner -->
+    <figure class="figure-block" style="margin:16px 0 0">
+      <div class="img-placeholder img-banner" style="height:160px">
+        <span class="img-placeholder-icon">⌚</span>
+        <span class="img-placeholder-label">Apple Watch and Apple Health — product photography or health data visualization<br>Suggested: Apple press kit imagery, wrist shot, Health app screenshot</span>
+        <span class="img-placeholder-dim">Full width × 160px</span>
+      </div>
+    </figure>
+
     <div class="body-interface-grid">
       <div class="interface-card">
         <span class="interface-icon">⌚</span>
@@ -1343,6 +1514,16 @@
     <h2 class="feature-heading">Every 12 Years,<br>the Sky <em>Repeats</em></h2>
     <p class="feature-intro">The most extensively analyzed astrological pattern in Jobs' career: the correlation between his major innovations and Jupiter's 12-year cycle transiting between his natal Midheaven (MC at 21° Gemini) and Imum Coeli (IC at 21° Sagittarius). Products launched near Jupiter on the IC became permanent institutions. Products launched near Jupiter on the MC were eventually discontinued.</p>
   </div>
+
+  <!-- IMG: Jupiter cycle visualization -->
+  <figure class="figure-block" style="margin:0">
+    <div class="img-placeholder img-hero-strip" style="height:240px">
+      <span class="img-placeholder-icon">♃</span>
+      <span class="img-placeholder-label">Jupiter cycle diagram or career timeline visualization<br>Suggested: custom infographic mapping IC/MC transits against product launches, or astrological chart wheel</span>
+      <span class="img-placeholder-dim">Full width × 240px</span>
+    </div>
+    <figcaption style="border-left:none;border-top:1px solid var(--border);padding:8px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted)">Jupiter's 12-year orbit mapped against Jobs' natal MC/IC axis. Products launched near IC (bottom of chart) became permanent. Products launched near MC were discontinued.</figcaption>
+  </figure>
 
   <div style="padding: 0 32px 48px">
     <table class="jup-table">
@@ -1466,6 +1647,15 @@
       <p class="body-text">
         <strong>The shadow is not the opposite of the light. It is the shape the light makes when something stands in it.</strong> Apple stands in its own light constantly. What part of ourselves did we place inside the device? And do we know how to get it back?
       </p>
+      <!-- IMG: Shadow section portrait -->
+      <figure class="figure-block" style="margin:24px 0 0">
+        <div class="img-placeholder" style="height:200px">
+          <span class="img-placeholder-icon">🪞</span>
+          <span class="img-placeholder-label">Shadow image — suggested: bitten apple, Foxconn assembly line, or symbolic duality photograph</span>
+          <span class="img-placeholder-dim">½ width × 200px</span>
+        </div>
+        <figcaption>Image caption — shadow / contrast</figcaption>
+      </figure>
     </div>
   </div>
 </section>
