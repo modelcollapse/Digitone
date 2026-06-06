@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Botanist — Rare Specimens</title>
+  <title>Astrology Collide — Issue 01: Apple</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -15,829 +15,631 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:        #E5E1D5;
-      --surface:   #FDFBF7;
-      --gold:      #D0AB39;
-      --lime:      #91D93A;
-      --ink:       #161615;
-      --ink-60:    rgba(22,22,21,.6);
-      --muted:     #5A5A58;
-      --border:    #161615;
-      --border-lt: rgba(22,22,21,.12);
-
-      --shadow-card:
-        rgba(0,0,0,.035) 0px 2.8px 2.2px 0,
-        rgba(0,0,0,.047) 0px 6.7px 5.3px 0,
-        rgba(0,0,0,.06)  0px 12.5px 10px 0,
-        rgba(0,0,0,.07)  0px 22.3px 17.9px 0,
-        rgba(0,0,0,.086) 0px 41.8px 33.4px 0,
-        rgba(0,0,0,.12)  0px 100px 80px 0;
-      --shadow-side:
-        rgba(0,0,0,0) 0px 0px 0px 0,
-        rgba(0,0,0,0) 0px 0px 0px 0,
-        rgba(0,0,0,.05) 5px 0px 10px 0;
-      --shadow-inset:
-        rgba(0,0,0,.06) -5px 0px 20px 0px inset;
-
-      --blur: blur(12px);
-      --r-shell: 2px 6px 6px 2px;
-      --r-inner: 1px 5px 5px 1px;
+      --void:     #07060a;
+      --deep:     #0e0c14;
+      --ink:      #15121e;
+      --panel:    #1c1826;
+      --gold:     #D0AB39;
+      --gold-dim: rgba(208,171,57,.5);
+      --silver:   #a8a3b8;
+      --lavender: #c5bdf5;
+      --cream:    #f0ece5;
+      --white:    #ffffff;
+      --muted:    #6e6882;
+      --border:   rgba(208,171,57,.14);
+      --border-w: rgba(255,255,255,.07);
+      --mono:     'JetBrains Mono', monospace;
     }
 
     html { overflow-x: hidden; }
     body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: 'Manrope', sans-serif;
+      background: var(--void);
+      color: var(--cream);
+      font-family: 'Inter', sans-serif;
       font-weight: 300;
-      font-size: 12px;
-      line-height: 1.8;
+      font-size: 13px;
+      line-height: 1.7;
       overflow-x: hidden;
     }
 
-    /* ── WebGL canvas ── */
-    #webgl {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-    }
+    /* ── WebGL ── */
+    #webgl { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 
-    /* ── Progress bar ── */
+    /* ── Progress ── */
     #progress-bar {
-      position: fixed;
-      top: 0; left: 0;
-      height: 2px;
-      width: 0%;
-      background: linear-gradient(90deg, var(--gold), var(--lime));
+      position: fixed; top: 0; left: 0; height: 1px; width: 0%;
+      background: linear-gradient(90deg, var(--gold), var(--lavender));
       z-index: 1000;
-    }
-
-    /* ── Glass shell mixin ── */
-    .glass-shell {
-      background: linear-gradient(to right bottom,
-        rgba(255,255,255,.8),
-        rgba(0,0,0,.05),
-        rgba(0,0,0,.15));
-      padding: 1px;
-      border-radius: var(--r-shell);
-    }
-    .glass-inner {
-      background: rgba(253,251,247,.78);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      border-radius: var(--r-inner);
     }
 
     /* ── NAV ── */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 900;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 24px;
-      transition: background .5s, backdrop-filter .5s, border-color .5s;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 32px;
       border-bottom: 1px solid transparent;
+      transition: background .5s, border-color .5s, backdrop-filter .5s;
     }
     nav.scrolled {
-      background: rgba(229,225,213,.9);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      border-color: var(--border-lt);
+      background: rgba(7,6,10,.9);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-color: var(--border);
     }
-    .nav-logo {
+    .nav-wordmark {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 14px;
-      font-weight: 300;
-      letter-spacing: .25em;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: .28em;
       text-transform: uppercase;
-      color: var(--ink);
+      color: var(--cream);
       text-decoration: none;
     }
-    .nav-logo em { font-style: normal; color: var(--gold); }
+    .nav-wordmark em { font-style: normal; color: var(--gold); }
     .nav-links { display: flex; gap: 24px; list-style: none; }
     .nav-links a {
-      font-size: 11px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color .25s;
+      font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; transition: color .25s;
     }
-    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover { color: var(--gold); }
     .nav-issue {
-      font-size: 11px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--ink);
-      text-decoration: none;
-      border: 1px solid var(--border);
-      padding: 5px 12px;
-      transition: all .25s;
+      font-family: var(--mono); font-size: 10px; letter-spacing: .1em;
+      color: var(--muted); border: 1px solid var(--border); padding: 5px 10px;
+      text-decoration: none; transition: all .25s;
     }
-    .nav-issue:hover { background: var(--ink); color: var(--surface); }
+    .nav-issue:hover { border-color: var(--gold); color: var(--gold); }
 
     section { position: relative; z-index: 1; }
 
-    /* ── HERO ── */
+    /* ═══════════════════════════════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════════════════════════════ */
     #hero {
       min-height: 100vh;
-      display: grid;
-      grid-template-rows: 1fr auto;
-      padding: 0;
+      display: flex; flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 0 0 0;
       overflow: hidden;
       border-bottom: 1px solid var(--border);
     }
-    .hero-body {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 24px;
-      padding-top: 120px;
-    }
+    .hero-body { padding: 120px 32px 40px; }
     .hero-kicker {
-      font-size: 11px;
-      letter-spacing: .3em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 16px;
-      opacity: 0;
+      font-family: var(--mono);
+      font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px; opacity: 0;
     }
-    .hero-title {
+    .hero-masthead {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(56px, 10vw, 120px);
-      font-weight: 300;
-      line-height: 1;
-      letter-spacing: -0.025em;
-      text-transform: uppercase;
-      color: var(--ink);
-      margin-bottom: 24px;
+      font-size: clamp(52px, 9vw, 108px);
+      font-weight: 300; line-height: .93;
+      letter-spacing: -0.03em; text-transform: uppercase;
+      color: var(--white); margin-bottom: 8px;
     }
-    .hero-title .char { display: inline-block; opacity: 0; }
-    .hero-title .word-gold { color: var(--gold); }
-    .hero-rule {
-      width: 0;
-      height: 1px;
-      background: var(--ink);
-      margin-bottom: 24px;
+    .hero-masthead .char { display: inline-block; opacity: 0; }
+    .hero-masthead .line-2 { color: var(--gold); display: block; }
+    .hero-issue-line {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .25em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 32px; opacity: 0;
     }
-    .hero-desc {
-      max-width: 520px;
-      font-size: 13px;
-      line-height: 1.9;
-      color: var(--muted);
-      margin-bottom: 32px;
-      opacity: 0;
+    .hero-deck {
+      max-width: 560px; font-size: 14px; line-height: 1.85;
+      color: var(--silver); margin-bottom: 36px; opacity: 0;
     }
-    .hero-actions {
-      display: flex;
-      gap: 8px;
-      opacity: 0;
+    .hero-deck em { font-style: italic; color: var(--lavender); }
+    .hero-cta { display: flex; gap: 10px; opacity: 0; }
+    .btn-primary {
+      background: var(--gold); color: var(--void);
+      font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
+      padding: 11px 22px; border: 1px solid var(--gold); transition: all .3s; cursor: pointer;
     }
-    .btn-solid {
-      background: var(--ink);
-      color: var(--surface);
-      font-family: 'Manrope', sans-serif;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      text-decoration: none;
-      padding: 10px 20px;
-      border: 1px solid var(--ink);
-      transition: all .3s;
-      cursor: pointer;
-    }
-    .btn-solid:hover { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+    .btn-primary:hover { background: transparent; color: var(--gold); }
     .btn-ghost {
-      background: transparent;
-      color: var(--ink);
-      font-family: 'Manrope', sans-serif;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      text-decoration: none;
-      padding: 10px 20px;
+      background: transparent; color: var(--cream);
+      font-family: 'Inter', sans-serif; font-size: 11px;
+      letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
+      padding: 11px 22px; border: 1px solid var(--border-w); transition: all .3s; cursor: pointer;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+    .hero-bottom {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 32px; border-top: 1px solid var(--border); opacity: 0;
+    }
+    .hero-bottom-label {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .hero-planets {
+      display: flex; gap: 20px;
+      font-family: var(--mono); font-size: 11px; color: var(--muted);
+    }
+    .hero-planets span { color: var(--gold); }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       EDITOR'S NOTE
+    ═══════════════════════════════════════════════════════════════════ */
+    #editors-note {
+      background: var(--deep);
+      border-bottom: 1px solid var(--border);
+    }
+    .editors-note-inner {
+      display: grid; grid-template-columns: 280px 1fr;
+    }
+    .editors-note-aside {
+      padding: 48px 32px;
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 32px;
+    }
+    .aside-label {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--gold);
+    }
+    .aside-meta { display: flex; flex-direction: column; gap: 8px; }
+    .aside-meta-row {
+      display: flex; justify-content: space-between;
+      font-family: var(--mono); font-size: 10px; color: var(--muted);
+      padding: 6px 0; border-bottom: 1px solid var(--border);
+    }
+    .aside-meta-row span { color: var(--cream); }
+    .aside-quote {
+      font-family: 'Cormorant Garamond', serif; font-size: 15px;
+      font-style: italic; color: var(--lavender); line-height: 1.5;
+    }
+    .aside-quote cite {
+      display: block; margin-top: 8px;
+      font-style: normal; font-family: 'Inter', sans-serif;
+      font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--muted);
+    }
+    .editors-note-body { padding: 48px 48px 48px 40px; }
+    .editors-note-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 4vw, 48px); font-weight: 300;
+      line-height: 1.05; letter-spacing: -0.02em; text-transform: uppercase;
+      color: var(--white); margin-bottom: 28px;
+    }
+    .editors-note-heading em { font-style: italic; color: var(--gold); text-transform: none; }
+    .body-text {
+      font-size: 14px; color: var(--silver); line-height: 1.9; margin-bottom: 18px;
+    }
+    .body-text em { font-style: italic; color: var(--cream); }
+    .body-text strong { font-weight: 500; color: var(--cream); }
+    .byline {
+      margin-top: 32px; font-family: var(--mono); font-size: 10px;
+      letter-spacing: .15em; text-transform: uppercase; color: var(--muted);
+    }
+    .byline em { color: var(--gold); font-style: normal; }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       SECTION LABEL (reusable header band)
+    ═══════════════════════════════════════════════════════════════════ */
+    .section-band {
+      display: flex; align-items: center; gap: 16px;
+      padding: 14px 32px; border-bottom: 1px solid var(--border);
+      background: var(--void);
+    }
+    .section-band-num {
+      font-family: var(--mono); font-size: 10px; color: var(--gold); min-width: 28px;
+    }
+    .section-band-title {
+      font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted);
+      flex: 1;
+    }
+    .section-band-rule { flex: 1; height: 1px; background: var(--border); }
+    .section-band-tag {
+      font-family: var(--mono); font-size: 10px; color: var(--muted);
+      border: 1px solid var(--border); padding: 3px 8px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       THE THREE BIRTHS
+    ═══════════════════════════════════════════════════════════════════ */
+    #three-births { background: var(--void); }
+    .births-intro {
+      padding: 64px 32px 48px;
+      max-width: 760px;
+    }
+    .feature-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 5vw, 64px); font-weight: 300;
+      line-height: 1.0; letter-spacing: -0.025em; text-transform: uppercase;
+      color: var(--white); margin-bottom: 20px;
+    }
+    .feature-heading em { font-style: italic; color: var(--gold); text-transform: none; }
+    .feature-intro {
+      font-size: 15px; color: var(--silver); line-height: 1.85; max-width: 620px;
+    }
+    .births-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--border);
+    }
+    .birth-card {
+      padding: 40px 32px;
+      border-right: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .birth-card:last-child { border-right: none; }
+    .birth-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .6s cubic-bezier(.2,.8,.2,1);
+    }
+    .birth-card:hover::before { transform: scaleX(1); }
+    .birth-sign {
+      font-size: 2.4rem; display: block; margin-bottom: 12px; opacity: .75;
+    }
+    .birth-date {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .15em;
+      color: var(--gold); margin-bottom: 8px;
+    }
+    .birth-heading {
+      font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400;
+      color: var(--white); line-height: 1.2; margin-bottom: 12px;
+    }
+    .birth-sub {
+      font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--lavender); margin-bottom: 16px;
+    }
+    .birth-body { font-size: 12px; color: var(--muted); line-height: 1.8; }
+
+    /* Chart data panel */
+    .chart-panel {
+      margin: 0 32px 48px;
       border: 1px solid var(--border);
-      transition: all .3s;
-      cursor: pointer;
+      background: var(--deep);
     }
-    .btn-ghost:hover { background: var(--ink); color: var(--surface); }
+    .chart-panel-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 20px; border-bottom: 1px solid var(--border);
+    }
+    .chart-panel-title {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--gold);
+    }
+    .chart-panel-sub { font-family: var(--mono); font-size: 10px; color: var(--muted); }
+    .chart-rows { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .chart-row {
+      padding: 12px 20px; border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .chart-row:nth-child(4n) { border-right: none; }
+    .chart-planet {
+      font-family: var(--mono); font-size: 9px; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 3px;
+    }
+    .chart-position { font-family: var(--mono); font-size: 12px; color: var(--cream); }
+    .chart-sign { font-size: 10px; color: var(--gold); margin-left: 4px; }
 
-    .hero-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 24px;
-      border-top: 1px solid var(--border-lt);
-      opacity: 0;
-    }
-    .hero-footer-label {
-      font-size: 11px;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .hero-scroll {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 11px;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .hero-scroll-line {
-      width: 32px;
-      height: 1px;
-      background: var(--muted);
-      transform-origin: left;
-      animation: lineBreath 2s ease-in-out infinite;
-    }
-    .hero-specimen-tag {
-      position: absolute;
-      top: 40%;
-      right: 24px;
-      writing-mode: vertical-rl;
-      font-size: 11px;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--muted);
-      opacity: 0;
-    }
-
-    /* ── Divider ── */
-    .full-divider {
-      height: 1px;
-      background: var(--border-lt);
-      width: 100%;
-    }
-
-    /* ── Section header ── */
-    .section-header {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      align-items: center;
-      gap: 16px;
-      padding: 16px 24px;
-      border-bottom: 1px solid var(--border-lt);
-    }
-    .section-kicker {
-      font-size: 11px;
-      letter-spacing: .25em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .section-rule { height: 1px; background: var(--border-lt); }
-    .section-count { font-size: 11px; color: var(--muted); letter-spacing: .08em; }
-
-    /* ── TOC ── */
-    #toc { background: var(--surface); border-bottom: 1px solid var(--border); }
-    .toc-grid {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-    }
-    .toc-left {
-      padding: 34px 24px;
-      border-right: 1px solid var(--border-lt);
-    }
-    .toc-label { font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
-    .toc-heading {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(28px, 4vw, 48px);
-      font-weight: 300;
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
-    }
-    .toc-heading em { font-style: italic; color: var(--gold); text-transform: none; }
-    .toc-issue-tag {
-      display: inline-block;
-      margin-top: 24px;
-      font-size: 11px;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--muted);
-      border: 1px solid var(--border-lt);
-      padding: 5px 10px;
-    }
-    .toc-right { padding: 0; }
-    .toc-item {
-      display: grid;
-      grid-template-columns: 40px 1fr auto;
-      align-items: center;
-      gap: 16px;
-      padding: 20px 24px;
-      border-bottom: 1px solid var(--border-lt);
-      text-decoration: none;
-      color: inherit;
-      transition: background .2s;
-    }
-    .toc-item:hover { background: rgba(208,171,57,.06); }
-    .toc-item:hover .toc-arrow { opacity: 1; transform: translateX(4px); }
-    .toc-num { font-size: 11px; letter-spacing: .1em; color: var(--gold); }
-    .toc-title-wrap {}
-    .toc-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 18px;
-      font-weight: 400;
-      display: block;
-      margin-bottom: 2px;
-    }
-    .toc-sub { font-size: 11px; color: var(--muted); }
-    .toc-meta { display: flex; align-items: center; gap: 8px; }
-    .toc-tag {
-      font-size: 10px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      border: 1px solid var(--border-lt);
-      padding: 3px 7px;
-    }
-    .toc-arrow { color: var(--ink); opacity: 0; transition: all .25s; font-size: 14px; }
-
-    /* ── Stats ── */
-    #stats {
+    /* ═══════════════════════════════════════════════════════════════════
+       PULL QUOTE
+    ═══════════════════════════════════════════════════════════════════ */
+    .pullquote-band {
+      padding: 72px 32px;
       background: var(--ink);
-      color: var(--surface);
-      border-bottom: 1px solid rgba(255,255,255,.1);
-    }
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4,1fr);
-    }
-    .stat-item {
-      padding: 40px 24px;
-      border-right: 1px solid rgba(255,255,255,.08);
-    }
-    .stat-item:last-child { border-right: none; }
-    .stat-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(36px, 5vw, 64px);
-      font-weight: 300;
-      line-height: 1;
-      color: var(--gold);
-      display: block;
-      margin-bottom: 8px;
-    }
-    .stat-label { font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: rgba(253,251,247,.5); }
-
-    /* ── Features ── */
-    #features { background: var(--bg); }
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
-      border-top: 1px solid var(--border-lt);
-    }
-    .feat-card {
-      padding: 24px;
-      border-right: 1px solid var(--border-lt);
-      border-bottom: 1px solid var(--border-lt);
-      position: relative;
-      overflow: hidden;
-      transition: background .3s;
-      cursor: pointer;
-    }
-    .feat-card:nth-child(3n) { border-right: none; }
-    .feat-card:hover { background: rgba(208,171,57,.05); }
-    .feat-card::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--gold), var(--lime));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform .5s cubic-bezier(.2,.8,.2,1);
-    }
-    .feat-card:hover::after { transform: scaleX(1); }
-    .feat-specimen-id {
-      font-size: 10px;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .feat-specimen-id::before {
-      content: '';
-      display: inline-block;
-      width: 20px;
-      height: 1px;
-      background: var(--gold);
-    }
-    .feat-img {
-      aspect-ratio: 16/9;
-      background: rgba(22,22,21,.06);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      position: relative;
-      border: 1px solid var(--border-lt);
-    }
-    .feat-img-glyph { font-size: 3rem; opacity: .3; }
-    .feat-img-tag {
-      position: absolute;
-      bottom: 8px; left: 8px;
-      font-size: 10px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--surface);
-      background: var(--ink);
-      padding: 3px 7px;
-    }
-    .feat-heading {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 20px;
-      font-weight: 400;
-      line-height: 1.2;
-      margin-bottom: 8px;
-    }
-    .feat-heading em { font-style: italic; color: var(--gold); }
-    .feat-body { font-size: 12px; color: var(--muted); line-height: 1.8; }
-
-    /* ── Pull quote ── */
-    .pullquote-section {
-      padding: 80px 24px;
-      background: var(--surface);
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
       overflow: hidden;
     }
-    .pullquote-inner { max-width: 860px; margin: 0 auto; position: relative; }
-    .pullquote-rule {
-      width: 40px;
-      height: 2px;
-      background: var(--gold);
-      margin-bottom: 32px;
-    }
+    .pullquote-inner { max-width: 820px; margin: 0 auto; position: relative; }
+    .pq-rule { width: 0; height: 1px; background: var(--gold); margin-bottom: 28px; }
     blockquote {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(22px, 3.5vw, 40px);
-      font-style: italic;
-      font-weight: 300;
-      line-height: 1.35;
-      color: var(--ink);
-      margin-bottom: 24px;
+      font-size: clamp(20px, 3vw, 36px); font-style: italic; font-weight: 300;
+      color: var(--cream); line-height: 1.4; margin-bottom: 20px;
     }
     .quote-word { display: inline-block; }
     cite {
-      font-style: normal;
-      font-size: 11px;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      color: var(--muted);
+      font-style: normal; font-family: var(--mono);
+      font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted);
     }
-    .pullquote-bg-num {
-      position: absolute;
-      top: -20px; right: 0;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 200px;
-      font-weight: 300;
-      color: var(--ink);
-      opacity: .03;
-      line-height: 1;
-      pointer-events: none;
-      user-select: none;
+    .pq-bg {
+      position: absolute; top: -30px; right: -10px;
+      font-family: 'Cormorant Garamond', serif; font-size: 220px; font-weight: 300;
+      color: var(--white); opacity: .025; line-height: 1; pointer-events: none; user-select: none;
     }
 
-    /* ── Articles ── */
-    .article-section {
-      border-bottom: 1px solid var(--border-lt);
-      overflow: hidden;
+    /* ═══════════════════════════════════════════════════════════════════
+       FOUNDERS
+    ═══════════════════════════════════════════════════════════════════ */
+    #founders { background: var(--deep); }
+    .founders-intro { padding: 64px 32px 0; max-width: 720px; }
+    .founders-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      border-top: 1px solid var(--border); margin-top: 48px;
     }
-    .article-inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-    }
-    .article-inner.reverse { direction: rtl; }
-    .article-inner.reverse > * { direction: ltr; }
-    .article-img-col {
-      border-right: 1px solid var(--border-lt);
-      background: rgba(22,22,21,.04);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 520px;
+    .founder-card {
+      padding: 40px 32px;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
       position: relative;
-      overflow: hidden;
     }
-    .article-inner.reverse .article-img-col { border-right: none; border-left: 1px solid var(--border-lt); }
-    .article-img-glyph { font-size: 6rem; opacity: .12; }
-    .article-img-label {
-      position: absolute;
-      bottom: 16px; left: 16px;
-      font-size: 10px;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--muted);
-      border: 1px solid var(--border-lt);
-      padding: 4px 8px;
-      background: rgba(253,251,247,.7);
-      backdrop-filter: var(--blur);
+    .founder-card:nth-child(2n) { border-right: none; }
+    .founder-arcana {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 4px;
     }
-    .article-img-number {
-      position: absolute;
-      top: 16px; right: 16px;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 80px;
-      font-weight: 300;
-      color: var(--ink);
-      opacity: .05;
-      line-height: 1;
+    .founder-name {
+      font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300;
+      letter-spacing: -0.02em; text-transform: uppercase; color: var(--white);
+      margin-bottom: 4px; line-height: 1;
     }
-    .article-text-col {
-      padding: 48px 40px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+    .founder-sign {
+      font-family: var(--mono); font-size: 10px; color: var(--muted);
+      letter-spacing: .12em; margin-bottom: 20px; display: block;
     }
-    .article-kicker {
-      font-size: 10px;
-      letter-spacing: .28em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .founder-rule { width: 24px; height: 1px; background: var(--gold); margin-bottom: 16px; }
+    .founder-body { font-size: 13px; color: var(--muted); line-height: 1.85; }
+    .founder-body strong { color: var(--cream); font-weight: 400; }
+    .founder-body em { font-style: italic; color: var(--lavender); }
+    .founder-glyph {
+      position: absolute; top: 32px; right: 32px;
+      font-size: 3rem; opacity: .06; pointer-events: none;
     }
-    .article-kicker::before {
-      content: '';
-      width: 16px;
-      height: 1px;
-      background: var(--gold);
-    }
-    .article-heading {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(24px, 3vw, 42px);
-      font-weight: 300;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
-      color: var(--ink);
-      margin-bottom: 20px;
-    }
-    .article-heading em { font-style: italic; color: var(--gold); text-transform: none; }
-    .article-body { font-size: 12px; color: var(--muted); line-height: 1.9; margin-bottom: 16px; }
-    .article-taxonomic {
-      display: inline-block;
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: 13px;
-      color: var(--muted);
-      border-left: 2px solid var(--gold);
-      padding-left: 12px;
-      margin-bottom: 20px;
-    }
-    .read-more {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 11px;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--ink);
-      text-decoration: none;
-      transition: gap .25s;
-    }
-    .read-more::after {
-      content: '→';
-      transition: transform .25s;
-    }
-    .read-more:hover { gap: 12px; }
-    .read-more:hover::after { transform: translateX(4px); }
 
-    /* ── Specimen catalog ── */
-    #catalog { background: var(--surface); }
-    .catalog-grid {
-      display: grid;
-      grid-template-columns: repeat(6,1fr);
-      border-top: 1px solid var(--border-lt);
+    /* ═══════════════════════════════════════════════════════════════════
+       PRODUCT RITUALS
+    ═══════════════════════════════════════════════════════════════════ */
+    #product-rituals { background: var(--void); }
+    .rituals-intro { padding: 64px 32px 0; max-width: 720px; }
+    .rituals-timeline { margin-top: 48px; }
+    .ritual-item {
+      display: grid; grid-template-columns: 180px 1px 1fr;
+      gap: 0 32px;
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      align-items: stretch;
     }
-    .catalog-card {
-      padding: 20px 16px;
-      border-right: 1px solid var(--border-lt);
-      border-bottom: 1px solid var(--border-lt);
-      transition: background .25s;
-      cursor: default;
+    .ritual-date-col {
+      padding: 32px 0; display: flex; flex-direction: column; justify-content: flex-start;
     }
-    .catalog-card:hover { background: rgba(208,171,57,.06); }
-    .catalog-glyph { font-size: 1.6rem; display: block; margin-bottom: 8px; opacity: .6; }
-    .catalog-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 13px;
-      font-weight: 400;
-      display: block;
-      margin-bottom: 2px;
+    .ritual-date {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .15em;
+      color: var(--gold); margin-bottom: 4px;
     }
-    .catalog-latin { font-size: 10px; color: var(--muted); font-style: italic; }
-    .catalog-status {
-      display: inline-block;
-      margin-top: 6px;
-      font-size: 10px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      padding: 2px 5px;
-      border: 1px solid;
+    .ritual-sign-line {
+      font-family: var(--mono); font-size: 11px; color: var(--muted);
     }
-    .status-cr { color: #c0392b; border-color: #c0392b; }
-    .status-en { color: #e67e22; border-color: #e67e22; }
-    .status-vu { color: var(--gold); border-color: var(--gold); }
-    .status-lc { color: var(--lime); border-color: #6ab52e; }
+    .ritual-line {
+      width: 1px; background: var(--border); position: relative;
+    }
+    .ritual-line::before {
+      content: ''; position: absolute; top: 34px; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 7px; height: 7px; border-radius: 50%;
+      border: 1px solid var(--gold); background: var(--void);
+    }
+    .ritual-content { padding: 32px 0; }
+    .ritual-product {
+      font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 400;
+      color: var(--white); margin-bottom: 4px; line-height: 1.1;
+    }
+    .ritual-product em { font-style: italic; color: var(--gold); }
+    .ritual-tagline {
+      font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--lavender); margin-bottom: 12px;
+    }
+    .ritual-body { font-size: 13px; color: var(--muted); line-height: 1.8; max-width: 560px; }
 
-    /* ── Glass cards (cultivation notes) ── */
-    #cultivation { background: var(--bg); padding: 64px 24px; }
-    .cultivation-inner { max-width: 1200px; margin: 0 auto; }
-    .cultivation-heading {
+    /* ═══════════════════════════════════════════════════════════════════
+       STORE AS TEMPLE
+    ═══════════════════════════════════════════════════════════════════ */
+    #store-temple {
+      background: var(--deep);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .store-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .store-img {
+      background: var(--panel);
+      display: flex; align-items: center; justify-content: center;
+      min-height: 480px; position: relative; overflow: hidden;
+      border-right: 1px solid var(--border);
+    }
+    .store-glyph { font-size: 6rem; opacity: .08; }
+    .store-img-label {
+      position: absolute; bottom: 20px; left: 20px;
+      font-family: var(--mono); font-size: 10px; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--muted);
+      border: 1px solid var(--border); padding: 5px 10px;
+      background: rgba(7,6,10,.7); backdrop-filter: blur(8px);
+    }
+    .store-text { padding: 56px 48px; display: flex; flex-direction: column; justify-content: center; }
+    .store-kicker {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
+    }
+    .store-heading {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(28px, 4vw, 52px);
-      font-weight: 300;
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
-      margin-bottom: 40px;
+      font-size: clamp(26px, 3.5vw, 44px); font-weight: 300;
+      line-height: 1.1; letter-spacing: -0.02em; text-transform: uppercase;
+      color: var(--white); margin-bottom: 20px;
     }
-    .cultivation-heading em { font-style: italic; color: var(--gold); text-transform: none; }
-    .cult-grid {
-      display: grid;
-      grid-template-columns: repeat(5,1fr);
-      gap: 4px;
-    }
-    .cult-shell {
-      background: linear-gradient(to right bottom,
-        rgba(255,255,255,.8),
-        rgba(0,0,0,.05),
-        rgba(0,0,0,.15));
-      padding: 1px;
-      border-radius: var(--r-shell);
-      box-shadow: var(--shadow-card);
-      cursor: pointer;
-      transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s;
-    }
-    .cult-shell:hover {
-      transform: translateY(-6px);
-      box-shadow: var(--shadow-card), 0 20px 40px rgba(208,171,57,.15);
-    }
-    .cult-inner {
-      background: rgba(253,251,247,.85);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      border-radius: var(--r-inner);
-      padding: 24px 16px 20px;
-      text-align: center;
-    }
-    .cult-num {
-      font-size: 10px;
-      letter-spacing: .2em;
-      color: var(--gold);
-      margin-bottom: 12px;
-    }
-    .cult-glyph { font-size: 2.4rem; display: block; margin-bottom: 12px; }
-    .cult-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 15px;
-      font-weight: 400;
-      display: block;
-      margin-bottom: 4px;
-    }
-    .cult-desc { font-size: 11px; color: var(--muted); line-height: 1.6; }
+    .store-heading em { font-style: italic; color: var(--gold); text-transform: none; }
 
-    /* ── Newsletter ── */
-    #newsletter {
+    /* ═══════════════════════════════════════════════════════════════════
+       BODY BECOMES INTERFACE
+    ═══════════════════════════════════════════════════════════════════ */
+    #body-interface { background: var(--void); }
+    .body-interface-inner { padding: 64px 32px; }
+    .body-interface-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 40px;
+    }
+    .interface-card {
+      background: var(--void); padding: 32px;
+      transition: background .3s;
+    }
+    .interface-card:hover { background: var(--deep); }
+    .interface-icon { font-size: 1.8rem; margin-bottom: 12px; display: block; opacity: .6; }
+    .interface-date {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .15em;
+      color: var(--gold); margin-bottom: 8px;
+    }
+    .interface-heading {
+      font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400;
+      color: var(--white); margin-bottom: 12px;
+    }
+    .interface-body { font-size: 12px; color: var(--muted); line-height: 1.8; }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       THE APPLE SHADOW
+    ═══════════════════════════════════════════════════════════════════ */
+    #apple-shadow {
       background: var(--ink);
-      color: var(--surface);
-      padding: 80px 24px;
-      text-align: center;
-      border-top: 1px solid rgba(255,255,255,.08);
+      border-top: 1px solid var(--border);
     }
-    .newsletter-inner { max-width: 560px; margin: 0 auto; }
-    .newsletter-kicker {
-      font-size: 11px;
-      letter-spacing: .28em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 20px;
+    .shadow-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
     }
-    .newsletter-heading {
+    .shadow-left { padding: 64px 48px 64px 32px; border-right: 1px solid var(--border); }
+    .shadow-right { padding: 64px 32px 64px 48px; }
+    .shadow-heading {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(28px, 4vw, 48px);
-      font-weight: 300;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
-      margin-bottom: 12px;
+      font-size: clamp(28px, 4vw, 52px); font-weight: 300;
+      line-height: 1.05; letter-spacing: -0.025em; text-transform: uppercase;
+      color: var(--white); margin-bottom: 24px;
     }
-    .newsletter-heading em { font-style: italic; color: var(--gold); text-transform: none; }
-    .newsletter-sub { font-size: 12px; color: rgba(253,251,247,.5); margin-bottom: 32px; line-height: 1.8; }
-    .newsletter-form { display: flex; }
-    .newsletter-input {
-      flex: 1;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.15);
-      border-right: none;
-      color: var(--surface);
-      padding: 12px 16px;
-      font-family: 'Manrope', sans-serif;
-      font-size: 12px;
-      outline: none;
+    .shadow-heading em { font-style: italic; color: rgba(208,171,57,.6); text-transform: none; }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       SYMBOLIC TIMELINE
+    ═══════════════════════════════════════════════════════════════════ */
+    #timeline { background: var(--deep); border-top: 1px solid var(--border); }
+    .timeline-intro { padding: 48px 32px 0; }
+    .timeline-table { width: 100%; border-collapse: collapse; margin-top: 32px; }
+    .timeline-table th {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--gold);
+      padding: 10px 16px; border-bottom: 1px solid var(--border);
+      text-align: left; background: var(--deep);
+    }
+    .timeline-table td {
+      font-size: 12px; padding: 12px 16px;
+      border-bottom: 1px solid var(--border); color: var(--silver);
+      vertical-align: top;
+    }
+    .timeline-table tr:hover td { background: var(--ink); }
+    .td-date { font-family: var(--mono); font-size: 11px; color: var(--gold); white-space: nowrap; }
+    .td-event { color: var(--cream); font-size: 13px; }
+    .td-sign { font-family: var(--mono); font-size: 11px; color: var(--lavender); }
+    .td-note { font-size: 11px; color: var(--muted); }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       REFERENCES
+    ═══════════════════════════════════════════════════════════════════ */
+    #references { background: var(--void); border-top: 1px solid var(--border); padding: 48px 32px; }
+    .ref-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 32px; }
+    .ref-group-title {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
+      padding-bottom: 8px; border-bottom: 1px solid var(--border);
+    }
+    .ref-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .ref-list li { font-size: 12px; color: var(--muted); line-height: 1.6; }
+    .ref-list a { color: var(--lavender); text-decoration: none; transition: color .2s; }
+    .ref-list a:hover { color: var(--gold); }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       NEWSLETTER
+    ═══════════════════════════════════════════════════════════════════ */
+    #newsletter {
+      background: var(--ink); padding: 80px 32px;
+      text-align: center; border-top: 1px solid var(--border);
+    }
+    .nl-inner { max-width: 500px; margin: 0 auto; }
+    .nl-kicker {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .28em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 20px;
+    }
+    .nl-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(26px, 4vw, 44px); font-weight: 300;
+      line-height: 1.1; letter-spacing: -0.02em; text-transform: uppercase;
+      color: var(--white); margin-bottom: 12px;
+    }
+    .nl-heading em { font-style: italic; color: var(--gold); text-transform: none; }
+    .nl-sub { font-size: 13px; color: var(--muted); margin-bottom: 28px; line-height: 1.8; }
+    .nl-form { display: flex; }
+    .nl-input {
+      flex: 1; background: rgba(255,255,255,.04); border: 1px solid var(--border-w);
+      border-right: none; color: var(--cream); padding: 12px 16px;
+      font-family: 'Inter', sans-serif; font-size: 13px; outline: none;
       transition: border-color .25s;
     }
-    .newsletter-input:focus { border-color: var(--gold); }
-    .newsletter-input::placeholder { color: rgba(253,251,247,.3); }
-    .newsletter-btn {
-      background: var(--gold);
-      color: var(--ink);
-      border: 1px solid var(--gold);
-      padding: 12px 20px;
-      font-family: 'Manrope', sans-serif;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all .25s;
-      white-space: nowrap;
+    .nl-input:focus { border-color: var(--gold); }
+    .nl-input::placeholder { color: var(--muted); }
+    .nl-btn {
+      background: var(--gold); color: var(--void); border: 1px solid var(--gold);
+      padding: 12px 20px; font-family: 'Inter', sans-serif; font-size: 11px;
+      font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+      cursor: pointer; transition: all .25s; white-space: nowrap;
     }
-    .newsletter-btn:hover { background: var(--lime); border-color: var(--lime); }
+    .nl-btn:hover { background: transparent; color: var(--gold); }
 
-    /* ── Footer ── */
+    /* ═══════════════════════════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════════════════════════ */
     footer {
-      background: var(--surface);
+      background: var(--deep);
       border-top: 1px solid var(--border);
-      padding: 40px 24px 24px;
+      padding: 40px 32px 24px;
     }
     .footer-top {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 40px;
-      padding-bottom: 32px;
-      border-bottom: 1px solid var(--border-lt);
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px; padding-bottom: 32px; border-bottom: 1px solid var(--border);
     }
-    .footer-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 20px;
-      font-weight: 300;
-      letter-spacing: .18em;
-      text-transform: uppercase;
+    .footer-wordmark {
+      font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 300;
+      letter-spacing: .18em; text-transform: uppercase; color: var(--white);
       margin-bottom: 8px;
     }
-    .footer-logo em { font-style: normal; color: var(--gold); }
-    .footer-tagline { font-size: 11px; color: var(--muted); line-height: 1.8; max-width: 260px; }
-    .footer-col-title { font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+    .footer-wordmark em { color: var(--gold); font-style: normal; }
+    .footer-tagline { font-size: 12px; color: var(--muted); line-height: 1.7; max-width: 260px; }
+    .footer-col-title {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 14px;
+    }
     .footer-col ul { list-style: none; }
     .footer-col li { margin-bottom: 8px; }
     .footer-col a { font-size: 12px; color: var(--muted); text-decoration: none; transition: color .2s; }
-    .footer-col a:hover { color: var(--ink); }
+    .footer-col a:hover { color: var(--cream); }
     .footer-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 20px;
-      font-size: 11px;
-      color: var(--muted);
-    }
-    .footer-socials { display: flex; gap: 16px; }
-    .footer-socials a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color .2s; }
-    .footer-socials a:hover { color: var(--ink); }
-
-    @keyframes lineBreath {
-      0%,100% { transform: scaleX(1); opacity: .6; }
-      50% { transform: scaleX(1.3); opacity: 1; }
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 20px; font-size: 11px; color: var(--muted);
+      font-family: var(--mono);
     }
 
+    /* ── Responsive ── */
     @media (max-width: 1024px) {
-      .features-grid { grid-template-columns: repeat(2,1fr); }
-      .catalog-grid { grid-template-columns: repeat(4,1fr); }
-      .cult-grid { grid-template-columns: repeat(3,1fr); }
+      .births-grid { grid-template-columns: 1fr; }
+      .birth-card { border-right: none; }
+      .chart-rows { grid-template-columns: repeat(2, 1fr); }
+      .founders-grid { grid-template-columns: 1fr; }
+      .founder-card { border-right: none; }
+      .ref-grid { grid-template-columns: 1fr 1fr; }
       .footer-top { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 768px) {
-      nav { padding: 12px 16px; }
+      nav { padding: 14px 18px; }
       .nav-links { display: none; }
-      .toc-grid { grid-template-columns: 1fr; }
-      .toc-left { border-right: none; border-bottom: 1px solid var(--border-lt); }
-      .stats-grid { grid-template-columns: repeat(2,1fr); }
-      .features-grid { grid-template-columns: 1fr; }
-      .article-inner { grid-template-columns: 1fr; }
-      .article-inner.reverse { direction: ltr; }
-      .article-img-col { min-height: 280px; }
-      .catalog-grid { grid-template-columns: repeat(3,1fr); }
-      .cult-grid { grid-template-columns: repeat(2,1fr); }
+      .editors-note-inner { grid-template-columns: 1fr; }
+      .editors-note-aside { border-right: none; border-bottom: 1px solid var(--border); }
+      .body-interface-grid { grid-template-columns: 1fr; }
+      .shadow-inner { grid-template-columns: 1fr; }
+      .shadow-left { border-right: none; border-bottom: 1px solid var(--border); }
+      .store-inner { grid-template-columns: 1fr; }
+      .store-img { min-height: 240px; border-right: none; border-bottom: 1px solid var(--border); }
+      .ritual-item { grid-template-columns: 120px 1px 1fr; }
+      .ref-grid { grid-template-columns: 1fr; }
       .footer-top { grid-template-columns: 1fr; }
-      .footer-bottom { flex-direction: column; gap: 12px; }
-    }
-    @media (max-width: 480px) {
-      .catalog-grid { grid-template-columns: repeat(2,1fr); }
-      .cult-grid { grid-template-columns: 1fr 1fr; }
-      .newsletter-form { flex-direction: column; }
-      .newsletter-input { border-right: 1px solid rgba(255,255,255,.15); }
+      .footer-bottom { flex-direction: column; gap: 8px; }
+      .nl-form { flex-direction: column; }
+      .nl-input { border-right: 1px solid var(--border-w); }
     }
   </style>
 </head>
@@ -848,407 +650,627 @@
 
 <!-- NAV -->
 <nav id="main-nav">
-  <a href="#hero" class="nav-logo">The Botanist <em>·</em> Rare Specimens</a>
+  <a href="#hero" class="nav-wordmark">Astrology <em>Collide</em></a>
   <ul class="nav-links">
-    <li><a href="#features">Specimens</a></li>
-    <li><a href="#catalog">Catalog</a></li>
-    <li><a href="#cultivation">Notes</a></li>
-    <li><a href="#newsletter">Subscribe</a></li>
+    <li><a href="#three-births">The Births</a></li>
+    <li><a href="#founders">Founders</a></li>
+    <li><a href="#product-rituals">Products</a></li>
+    <li><a href="#timeline">Timeline</a></li>
   </ul>
-  <a href="#newsletter" class="nav-issue">Issue № 01</a>
+  <a href="#newsletter" class="nav-issue">Issue 01 · Apple</a>
 </nav>
 
-<!-- HERO -->
+<!-- ═══════ HERO ═══════ -->
 <section id="hero">
   <div class="hero-body">
-    <p class="hero-kicker">Vol. I · Rare Specimens · Winter 2026</p>
-    <h1 class="hero-title" id="hero-title">Rare<br><span class="word-gold">Specimens</span></h1>
-    <div class="hero-rule" id="hero-rule"></div>
-    <p class="hero-desc">A field journal devoted to botanical curiosities at the edge of existence — the ghost orchids, living fossils, and cloud-forest relics that survived when everything else did not.</p>
-    <div class="hero-actions">
-      <a href="#toc" class="btn-solid">Read the Issue</a>
-      <a href="#catalog" class="btn-ghost">Browse Catalog</a>
+    <p class="hero-kicker">Astrology Collide · Issue 01</p>
+    <h1 class="hero-masthead" id="hero-masthead">
+      When a<br>
+      <span class="line-2">Corporation<br>Has a Chart</span>
+    </h1>
+    <p class="hero-issue-line">Vol. I · Apple Computer Inc. · Founded Aries · Incorporated Capricorn · IPO Sagittarius</p>
+    <p class="hero-deck">
+      Apple was born three times, and each birth has a different chart.
+      This is Issue 01 of <em>Astrology Collide</em> — a zine about what happens when you look at the sky
+      on the day a company decides to change everything.
+    </p>
+    <div class="hero-cta">
+      <a href="#editors-note" class="btn-primary">Read the Issue</a>
+      <a href="#timeline" class="btn-ghost">View the Timeline</a>
     </div>
   </div>
-  <div class="hero-footer">
-    <span class="hero-footer-label">The Botanist Magazine · Issue 01 · Winter 2026</span>
-    <div class="hero-scroll">
-      <div class="hero-scroll-line"></div>
-      Scroll
-    </div>
-  </div>
-  <span class="hero-specimen-tag">Specimen Reference A-001 — A-391</span>
-</section>
-
-<!-- TOC -->
-<section id="toc">
-  <div class="section-header">
-    <span class="section-kicker">Contents</span>
-    <div class="section-rule"></div>
-    <span class="section-count">5 Articles</span>
-  </div>
-  <div class="toc-grid">
-    <div class="toc-left">
-      <p class="toc-label">In This Issue</p>
-      <h2 class="toc-heading">What the <em>rarest</em> plants on earth can teach us</h2>
-      <span class="toc-issue-tag">Issue № 01 — Winter 2026</span>
-    </div>
-    <ul style="list-style:none">
-      <li><a href="#features" class="toc-item">
-        <span class="toc-num">01</span>
-        <div class="toc-title-wrap">
-          <span class="toc-title">The Ghost Orchid of Florida's Swamps</span>
-          <span class="toc-sub">Dendrophylax lindenii and the myth of the rootless flower</span>
-        </div>
-        <div class="toc-meta"><span class="toc-tag">Field Report</span><span class="toc-arrow">→</span></div>
-      </a></li>
-      <li><a href="#article-1" class="toc-item">
-        <span class="toc-num">02</span>
-        <div class="toc-title-wrap">
-          <span class="toc-title">Welwitschia: A Plant That Lives 2,000 Years</span>
-          <span class="toc-sub">The Namibian desert's solitary genius</span>
-        </div>
-        <div class="toc-meta"><span class="toc-tag">Specimen Study</span><span class="toc-arrow">→</span></div>
-      </a></li>
-      <li><a href="#article-2" class="toc-item">
-        <span class="toc-num">03</span>
-        <div class="toc-title-wrap">
-          <span class="toc-title">The Corpse Flower & Its Decade of Patience</span>
-          <span class="toc-sub">Amorphophallus titanum and the bloom that waits ten years</span>
-        </div>
-        <div class="toc-meta"><span class="toc-tag">Botany</span><span class="toc-arrow">→</span></div>
-      </a></li>
-      <li><a href="#article-3" class="toc-item">
-        <span class="toc-num">04</span>
-        <div class="toc-title-wrap">
-          <span class="toc-title">Cloud Forest Expedition: Peru, 3,400 m</span>
-          <span class="toc-sub">28 days searching for species that don't want to be found</span>
-        </div>
-        <div class="toc-meta"><span class="toc-tag">Expedition</span><span class="toc-arrow">→</span></div>
-      </a></li>
-      <li><a href="#cultivation" class="toc-item">
-        <span class="toc-num">05</span>
-        <div class="toc-title-wrap">
-          <span class="toc-title">Cultivation Notes: Growing the Uncultivable</span>
-          <span class="toc-sub">Protocols for five of the world's most demanding specimens</span>
-        </div>
-        <div class="toc-meta"><span class="toc-tag">Practice</span><span class="toc-arrow">→</span></div>
-      </a></li>
-    </ul>
-  </div>
-</section>
-
-<!-- STATS -->
-<section id="stats">
-  <div class="section-header" style="border-color:rgba(255,255,255,.08); color:rgba(253,251,247,.4)">
-    <span class="section-kicker" style="color:rgba(253,251,247,.4)">By the Numbers</span>
-    <div class="section-rule" style="background:rgba(255,255,255,.08)"></div>
-    <span class="section-count" style="color:rgba(253,251,247,.4)">The State of the Plant Kingdom</span>
-  </div>
-  <div class="stats-grid">
-    <div class="stat-item">
-      <span class="stat-num" data-target="391">0</span>
-      <p class="stat-label">Thousand known plant species</p>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num" data-target="2">0</span>
-      <p class="stat-label">New species found per week</p>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num" data-target="40">0</span>
-      <p class="stat-label">% facing extinction threat</p>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num" data-target="17">0</span>
-      <p class="stat-label">Habitats mapped in this issue</p>
+  <div class="hero-bottom">
+    <span class="hero-bottom-label">Issue 01 · Apple · Corporate Astrology · Web Edition</span>
+    <div class="hero-planets">
+      <span>☉</span> Pisces &nbsp;·&nbsp;
+      <span>☽</span> Aries &nbsp;·&nbsp;
+      <span>☿</span> Aquarius Rx &nbsp;·&nbsp;
+      <span>♃</span> Cancer 10H
     </div>
   </div>
 </section>
 
-<!-- FEATURES -->
-<section id="features">
-  <div class="section-header">
-    <span class="section-kicker">Featured Specimens</span>
-    <div class="section-rule"></div>
-    <span class="section-count">6 Species</span>
+<!-- ═══════ EDITOR'S NOTE ═══════ -->
+<section id="editors-note">
+  <div class="section-band">
+    <span class="section-band-num">00</span>
+    <span class="section-band-title">Editor's Note</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">Origin Story</span>
   </div>
-  <div class="features-grid">
-    <div class="feat-card">
-      <div class="feat-specimen-id">Spec. A-001</div>
-      <div class="feat-img">
-        <span class="feat-img-glyph">🌸</span>
-        <span class="feat-img-tag">Critically Endangered</span>
+  <div class="editors-note-inner">
+    <div class="editors-note-aside">
+      <p class="aside-label">Publication Data</p>
+      <div class="aside-meta">
+        <div class="aside-meta-row">Issue <span>01 · Apple</span></div>
+        <div class="aside-meta-row">Format <span>Web Zine</span></div>
+        <div class="aside-meta-row">Subject <span>Corporate Astrology</span></div>
+        <div class="aside-meta-row">Lens <span>Symbolic / Archetypal</span></div>
+        <div class="aside-meta-row">Voice <span>Branding + Mythology</span></div>
       </div>
-      <h3 class="feat-heading"><em>Dendrophylax lindenii</em></h3>
-      <p class="feat-body">The ghost orchid survives without leaves, drawing sustenance through roots fused to a single host tree. It blooms perhaps once a decade — if conditions are precisely right.</p>
+      <div class="aside-quote">
+        "Millionaires don't use astrology. Billionaires do."
+        <cite>— Attributed to J.P. Morgan<br>(widely quoted; difficult to verify)</cite>
+      </div>
     </div>
-    <div class="feat-card">
-      <div class="feat-specimen-id">Spec. A-017</div>
-      <div class="feat-img">
-        <span class="feat-img-glyph">🌿</span>
-        <span class="feat-img-tag">Vulnerable</span>
-      </div>
-      <h3 class="feat-heading"><em>Welwitschia mirabilis</em></h3>
-      <p class="feat-body">Two leaves. Only ever two. The Welwitschia grows them for two thousand years, splitting and fraying in the Namib wind into what looks like wreckage but is, in fact, survival perfected.</p>
+    <div class="editors-note-body">
+      <h2 class="editors-note-heading">When Mitt Romney Said<br>Corporations Were <em>People,</em><br>I Felt That</h2>
+      <p class="body-text">
+        I was working in branding at the time — Wolff Olins, where we spent our days treating companies like living things with identities, personalities, and developmental arcs. So when Romney made his remark, it didn't sound absurd to me. It sounded like an accidental admission of something the branding world had been acting on for decades: that companies behave like characters. That they have birth dates, formative traumas, peak moments, and declines.
+      </p>
+      <p class="body-text">
+        The question that opened this zine wasn't <em>do corporations have charts.</em> It was: what happens when you look? What do you actually find when you take the birth date of Apple Computer — April 1, 1976, a garage in Cupertino — and run it against the sky?
+      </p>
+      <p class="body-text">
+        You find Aries. <strong>You find a company that arrived like a declaration.</strong> Then you run the incorporation date — January 3, 1977 — and you find Capricorn: structure, institution, ambition harnessed. Then the IPO — December 12, 1980 — and you find Sagittarius: the myth goes public, the story becomes an offer to the world.
+      </p>
+      <p class="body-text">
+        Three births. Three charts. Three different faces of the same company. I don't know if the cosmos arranged Apple. I know that when you map it this way, something comes into focus that doesn't come into focus any other way. That's enough for a zine.
+      </p>
+      <p class="body-text">
+        This is Issue 01. It's about Apple. The next issues are about companies you probably use every day. Each one was born somewhere under some configuration of sky. We're just going to start looking.
+      </p>
+      <p class="byline">— Astrology Collide &nbsp;·&nbsp; <em>Vol. I, Issue 01</em></p>
     </div>
-    <div class="feat-card">
-      <div class="feat-specimen-id">Spec. A-044</div>
-      <div class="feat-img">
-        <span class="feat-img-glyph">🌱</span>
-        <span class="feat-img-tag">Endangered</span>
-      </div>
-      <h3 class="feat-heading"><em>Amorphophallus titanum</em></h3>
-      <p class="feat-body">The corpse flower stores energy for up to ten years, then erupts for 48 hours in an inflorescence that can reach three metres — and smells, deliberately, of rotting flesh.</p>
+  </div>
+</section>
+
+<!-- ═══════ THE THREE BIRTHS ═══════ -->
+<section id="three-births">
+  <div class="section-band">
+    <span class="section-band-num">01</span>
+    <span class="section-band-title">Feature</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">The Three Births</span>
+  </div>
+  <div class="births-intro">
+    <h2 class="feature-heading">Three Births,<br>Three <em>Charts</em></h2>
+    <p class="feature-intro">
+      Most companies have one founding date. Apple has three — and each one tells a different story about what the company is. Not versions of the same story. Different stories. Which means Apple has always been plural. It has always been more than one thing at once.
+    </p>
+  </div>
+  <div class="births-grid">
+    <div class="birth-card">
+      <span class="birth-sign">♈</span>
+      <p class="birth-date">April 1, 1976</p>
+      <h3 class="birth-heading">The Soul</h3>
+      <p class="birth-sub">Aries Sun · The First Fire</p>
+      <p class="birth-body">
+        April Fool's Day. Jobs chose the date — some accounts suggest deliberately. Aries is the sign of pure initiation: the first fire, the cardinal act, the leap before the map exists. There is no chart more appropriate for a company that began with Wozniak showing Jobs a circuit board in a garage and Jobs saying: this changes everything.
+        <br><br>
+        The Aries Sun gives Apple its irreducible conviction. It is always, at its core, an act of declaration. Every product launch, however polished, still contains this original gesture: something willed into existence by sheer Aries nerve.
+      </p>
     </div>
-    <div class="feat-card">
-      <div class="feat-specimen-id">Spec. A-088</div>
-      <div class="feat-img">
-        <span class="feat-img-glyph">🌲</span>
-        <span class="feat-img-tag">Critically Endangered</span>
-      </div>
-      <h3 class="feat-heading"><em>Wollemia nobilis</em></h3>
-      <p class="feat-body">Discovered in 1994 in a canyon west of Sydney. Botanists thought it had been extinct for two million years. Only 100 trees exist in the wild, in a location kept secret by the government.</p>
+    <div class="birth-card">
+      <span class="birth-sign">♑</span>
+      <p class="birth-date">January 3, 1977</p>
+      <h3 class="birth-heading">The Body</h3>
+      <p class="birth-sub">Capricorn Sun · The Institution</p>
+      <p class="birth-body">
+        Apple Computer Inc. is legally born under Capricorn: the architect, the mountain goat, the sign that builds structures meant to last centuries. This is the Apple that hired Mike Markkula, raised venture capital, drafted shareholder agreements, and learned to think in quarters. The Capricorn chart is the machine behind the dream.
+        <br><br>
+        Notice what Capricorn brings that Aries lacks: patience, institutional memory, and the ability to operate at scale. Every time Apple makes a decision that prioritises long-term positioning over short-term flash, it is operating from this chart.
+      </p>
     </div>
-    <div class="feat-card">
-      <div class="feat-specimen-id">Spec. A-112</div>
-      <div class="feat-img">
-        <span class="feat-img-glyph">🌺</span>
-        <span class="feat-img-tag">Near Threatened</span>
-      </div>
-      <h3 class="feat-heading"><em>Tacca chantrieri</em></h3>
-      <p class="feat-body">The black bat flower produces the deepest black pigmentation found in any flowering plant, with whisker-like filaments extending up to 70 cm. It grows in a single narrow band of tropical forest floor.</p>
+    <div class="birth-card">
+      <span class="birth-sign">♐</span>
+      <p class="birth-date">December 12, 1980</p>
+      <h3 class="birth-heading">The Market Persona</h3>
+      <p class="birth-sub">Sagittarius Sun · The Myth Made Public</p>
+      <p class="birth-body">
+        The IPO. The day Apple became a thing anyone could own a piece of. Sagittarius is the sign of philosophy, far horizons, and the arrow shot toward a truth not yet visible. This chart rules Apple's public mythology: its think different campaigns, its keynotes as sermons, its products as invitations to a better version of your life.
+        <br><br>
+        The Jupiter return to 1° Taurus on the founding date — and Uranus's return to 2° Taurus on August 2, 2018, the day Apple crossed $1 trillion — is not something the company planned. But it is something the sky recorded.
+      </p>
     </div>
-    <div class="feat-card">
-      <div class="feat-specimen-id">Spec. A-203</div>
-      <div class="feat-img">
-        <span class="feat-img-glyph">🪴</span>
-        <span class="feat-img-tag">Vulnerable</span>
+  </div>
+
+  <!-- Steve Jobs Chart Panel -->
+  <div class="chart-panel">
+    <div class="chart-panel-header">
+      <span class="chart-panel-title">Steve Jobs · Natal Chart Data</span>
+      <span class="chart-panel-sub">b. February 24, 1955 · 7:15 PM · San Francisco, CA</span>
+    </div>
+    <div class="chart-rows">
+      <div class="chart-row">
+        <p class="chart-planet">Sun ☉</p>
+        <p class="chart-position">5°44'<span class="chart-sign">Pisces</span></p>
       </div>
-      <h3 class="feat-heading"><em>Rafflesia arnoldii</em></h3>
-      <p class="feat-body">The world's largest individual flower, with no roots, stems, or leaves. It lives entirely inside the tissue of a host vine, invisible for years, before manifesting as a single enormous bloom.</p>
+      <div class="chart-row">
+        <p class="chart-planet">Moon ☽</p>
+        <p class="chart-position">7°44'<span class="chart-sign">Aries</span></p>
+      </div>
+      <div class="chart-row">
+        <p class="chart-planet">Mercury ☿</p>
+        <p class="chart-position">14°24'<span class="chart-sign">Aquarius Rx</span></p>
+      </div>
+      <div class="chart-row">
+        <p class="chart-planet">Venus ♀</p>
+        <p class="chart-position">—<span class="chart-sign">Capricorn</span></p>
+      </div>
+      <div class="chart-row">
+        <p class="chart-planet">Mars ♂</p>
+        <p class="chart-position">29°<span class="chart-sign">Aries</span></p>
+      </div>
+      <div class="chart-row">
+        <p class="chart-planet">Jupiter ♃</p>
+        <p class="chart-position">10H<span class="chart-sign">Cancer</span></p>
+      </div>
+      <div class="chart-row">
+        <p class="chart-planet">Uranus ♅</p>
+        <p class="chart-position">10H<span class="chart-sign">Cancer conj. ♃</span></p>
+      </div>
+      <div class="chart-row">
+        <p class="chart-planet">Saturn ♄</p>
+        <p class="chart-position">—<span class="chart-sign">Scorpio</span></p>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- PULL QUOTE 1 -->
-<section class="pullquote-section">
+<section class="pullquote-band">
   <div class="pullquote-inner">
-    <div class="pullquote-rule"></div>
-    <blockquote id="quote-text-1">
-      "A plant that blooms once in a decade asks nothing of you — except that you be there."
+    <div class="pq-rule"></div>
+    <blockquote id="pq-1">
+      "Apple was born three times. Aries for the soul. Capricorn for the body. Sagittarius for the myth that went public and never came back down."
     </blockquote>
-    <cite>— Dr. Maren Solberg, Field Botanist · The Botanist, Vol. I</cite>
-    <div class="pullquote-bg-num">I</div>
+    <cite>— Astrology Collide, Issue 01</cite>
+    <div class="pq-bg">I</div>
   </div>
 </section>
 
-<!-- ARTICLE 1 -->
-<section class="article-section" id="article-1">
-  <div class="article-inner">
-    <div class="article-img-col" id="aimg-1">
-      <span class="article-img-glyph">🌿</span>
-      <span class="article-img-label">Welwitschia mirabilis · Namib Desert</span>
-      <span class="article-img-number">02</span>
+<!-- ═══════ THE FOUNDERS AS ARCHETYPES ═══════ -->
+<section id="founders">
+  <div class="section-band">
+    <span class="section-band-num">02</span>
+    <span class="section-band-title">Feature</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">The Founders as Archetypes</span>
+  </div>
+  <div class="founders-intro">
+    <h2 class="feature-heading">Four Men, Four <em>Archetypes</em></h2>
+    <p class="feature-intro">
+      Every company at its origin is a cast of characters playing roles that the mythology later simplifies. Apple had four founders. Most people remember one. But each brought something the others couldn't — and each embodies a different relationship to the work of building something new.
+    </p>
+  </div>
+  <div class="founders-grid">
+    <div class="founder-card">
+      <span class="founder-glyph">🌊</span>
+      <p class="founder-arcana">The Magician · Tarot I</p>
+      <h3 class="founder-name">Steve Jobs</h3>
+      <span class="founder-sign">Sun Pisces · Moon Aries · Mercury Aquarius Rx</span>
+      <div class="founder-rule"></div>
+      <p class="founder-body">
+        The Pisces Sun gives Jobs his peculiar quality — <em>the ability to see what doesn't exist yet and treat it as already real.</em> Pisces is the final sign, the sign that dissolves boundaries, the sign of the visionary who cannot always distinguish between the world as it is and the world as it could be. In Jobs, this was not a flaw. It was the mechanism.
+        <br><br>
+        His Aries Moon is the urgency beneath the vision — the emotional need for initiation, for motion, for the constant arrival of the new. The famous reality distortion field is not a trick. It is the natural output of a Pisces Sun convinced of what it sees, operating through an Aries Moon that cannot tolerate stillness.
+        <br><br>
+        <strong>Mercury retrograde in Aquarius</strong>: Jobs' mind was unconventional even by unconventional standards. He thought backwards from a future most people couldn't picture. Mercury Rx suggests a processing style that internalises before it speaks — which explains both his silences and his pronouncements.
+      </p>
     </div>
-    <div class="article-text-col" id="atxt-1">
-      <p class="article-kicker">Specimen Study</p>
-      <h2 class="article-heading">Welwitschia:<br><em>A Living Fossil</em></h2>
-      <p class="article-taxonomic">Welwitschia mirabilis · Hook.f. · 1863</p>
-      <p class="article-body">In 1859, the botanist Friedrich Welwitsch fell to his knees before a plant he had never seen in any taxonomy. He wept. He later wrote that he could not bring himself to collect a specimen — that disturbing it felt like desecration.</p>
-      <p class="article-body">Welwitschia is the sole living species of its order. It has two leaves. Only ever two. Both grow continuously from the base, the tips weathering and fraying over centuries in the Namib wind. The oldest confirmed specimens are over 1,500 years old.</p>
-      <a href="#" class="read-more">Read the Full Specimen Study</a>
+    <div class="founder-card">
+      <span class="founder-glyph">⚡</span>
+      <p class="founder-arcana">The Inventor · Tarot XVII</p>
+      <h3 class="founder-name">Steve Wozniak</h3>
+      <span class="founder-sign">Sun Aquarius · The Engineer of the Impossible</span>
+      <div class="founder-rule"></div>
+      <p class="founder-body">
+        Wozniak is the Aquarian ideal made flesh: the technologist as humanitarian, the inventor who built the Apple I as a gift for friends and was surprised when Jobs saw a product in it. The Apple I and Apple II were Wozniak's machines — technically brilliant, built for joy, almost entirely uninterested in commerce.
+        <br><br>
+        <em>Aquarius is the sign of the future arriving early.</em> Wozniak arrived early. He was doing in 1975 what the industry would spend the next decade learning to do. He didn't need the mythology that Jobs built around the work — the work was its own mythology to him.
+        <br><br>
+        The partnership of Jobs and Wozniak is an Aries/Aquarius alliance: fire and air, the visionary and the inventor, the salesman and the engineer. Neither could have built what they built without the other, and both knew it, and that knowledge didn't always make things easy.
+      </p>
+    </div>
+    <div class="founder-card">
+      <span class="founder-glyph">🚶</span>
+      <p class="founder-arcana">The One Who Walked Away · Tarot 0</p>
+      <h3 class="founder-name">Ronald Wayne</h3>
+      <span class="founder-sign">The Third Founder · Sold His Stake for $800</span>
+      <div class="founder-rule"></div>
+      <p class="founder-body">
+        Ronald Wayne is the third founder nobody talks about. He drew the original Apple logo — Newton under the apple tree — and wrote the first partnership agreement. Twelve days after signing, he sold his 10% stake back to Jobs and Wozniak for $800. At Apple's 2023 valuation, that stake would have been worth approximately $300 billion.
+        <br><br>
+        Wayne later said he had no regrets. He had his reasons — he was older, had other debts, and assessed the risk differently than two men in their twenties with nothing to lose. His is the archetype of the Fool at the beginning of the tarot: the one who stands at the edge, sees the cliff, and steps back.
+        <br><br>
+        <em>The Wayne story is the shadow story of every founding.</em> Not every character who appears at the origin survives to the mythology. His exit is as much a part of Apple's chart as any planet.
+      </p>
+    </div>
+    <div class="founder-card">
+      <span class="founder-glyph">♍</span>
+      <p class="founder-arcana">The Administrator · Tarot VIII</p>
+      <h3 class="founder-name">Tim Cook</h3>
+      <span class="founder-sign">Sun Scorpio · The Virgo Era Made Flesh</span>
+      <div class="founder-rule"></div>
+      <p class="founder-body">
+        Jobs handed the company to Cook on August 24, 2011 — a Virgo date, a Virgo transfer. Cook is the archetype of Strength, the tarot card of inner mastery, of power held rather than performed. Where Jobs operated from Pisces dissolution and Aries fire, Cook operates from precision, process, and supply chain as art form.
+        <br><br>
+        The Cook era is marked by Apple's move from products as mythology to products as infrastructure. The iPhone under Cook became the most profitable product in history. <strong>Under Cook, Apple crossed $1 trillion</strong> (August 2, 2018) and $3 trillion (January 2022). The sky on August 2, 2018 showed Uranus at 2° Taurus — nearly conjunct Jupiter at 1° Taurus from Apple's founding date.
+        <br><br>
+        <em>Scorpio Sun, Virgo transition date, trillion-dollar scale.</em> The administrator who made the myth into infrastructure.
+      </p>
     </div>
   </div>
 </section>
 
-<!-- ARTICLE 2 -->
-<section class="article-section" id="article-2">
-  <div class="article-inner reverse">
-    <div class="article-img-col" id="aimg-2">
-      <span class="article-img-glyph">🌱</span>
-      <span class="article-img-label">Amorphophallus titanum · Sumatra</span>
-      <span class="article-img-number">03</span>
-    </div>
-    <div class="article-text-col" id="atxt-2">
-      <p class="article-kicker">Botany</p>
-      <h2 class="article-heading">The Corpse Flower's <em>Decade of Patience</em></h2>
-      <p class="article-taxonomic">Amorphophallus titanum · Becc. · 1878</p>
-      <p class="article-body">The titan arum doesn't flower on a schedule you can plan around. It gathers carbohydrates for up to a decade, building a corm that can weigh 90 kilograms, and when it finally blooms, the event lasts 48 hours. It heats its spathe to 36°C — human body temperature — to volatilise the compounds that smell like a rotting corpse.</p>
-      <p class="article-body">This is not an accident. The heat propels the scent for hundreds of metres, attracting the carrion beetles that will carry pollen to another titan arum, if one happens to be blooming nearby. Timing, across a forest, with no roots connecting them.</p>
-      <a href="#" class="read-more">Read the Full Article</a>
-    </div>
+<!-- ═══════ THE PRODUCT RITUALS ═══════ -->
+<section id="product-rituals">
+  <div class="section-band">
+    <span class="section-band-num">03</span>
+    <span class="section-band-title">Feature</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">The Product Rituals</span>
   </div>
-</section>
-
-<!-- ARTICLE 3 -->
-<section class="article-section" id="article-3">
-  <div class="article-inner">
-    <div class="article-img-col" id="aimg-3">
-      <span class="article-img-glyph">🌫️</span>
-      <span class="article-img-label">Cloud Forest · Manu, Peru · 3,400 m</span>
-      <span class="article-img-number">04</span>
-    </div>
-    <div class="article-text-col" id="atxt-3">
-      <p class="article-kicker">Expedition Report</p>
-      <h2 class="article-heading">Cloud Forest:<br><em>28 Days at 3,400 m</em></h2>
-      <p class="article-taxonomic">Manu Biosphere Reserve · Peru · 2025</p>
-      <p class="article-body">The cloud forest exists in a band of perpetual mist. Below, the Amazon basin. Above, the altiplano. Here, in the wet zone between 2,500 and 3,800 metres, plants evolved in isolation long enough to become entirely new forms.</p>
-      <p class="article-body">Our team spent 28 days in a single 4-hectare plot. We documented 14 species new to science — among them a miniature orchid with a petal span of 2.1 mm, visible only under magnification, and a bromeliad that had evolved to eat insects rather than wait for nutrients to arrive through rain.</p>
-      <a href="#" class="read-more">Read the Expedition Report</a>
-    </div>
+  <div class="rituals-intro">
+    <h2 class="feature-heading">Products as <em>Rituals</em></h2>
+    <p class="feature-intro">
+      Every Apple product launch happens on a specific date, in a specific sky. Over forty years, a pattern emerges: certain signs appear at pivotal moments, Jupiter and Saturn mark the transitions, and the launches that changed everything tend to cluster around cardinal points and sign-change boundaries.
+    </p>
   </div>
-</section>
-
-<!-- SPECIMEN CATALOG -->
-<section id="catalog">
-  <div class="section-header">
-    <span class="section-kicker">Specimen Catalog</span>
-    <div class="section-rule"></div>
-    <span class="section-count">12 Species · Vol. I Selection</span>
-  </div>
-  <div class="catalog-grid">
-    <div class="catalog-card"><span class="catalog-glyph">🌸</span><span class="catalog-name">Ghost Orchid</span><span class="catalog-latin">Dendrophylax lindenii</span><span class="catalog-status status-cr">CR</span></div>
-    <div class="catalog-card"><span class="catalog-glyph">🌿</span><span class="catalog-name">Welwitschia</span><span class="catalog-latin">Welwitschia mirabilis</span><span class="catalog-status status-vu">VU</span></div>
-    <div class="catalog-card"><span class="catalog-glyph">🌱</span><span class="catalog-name">Titan Arum</span><span class="catalog-latin">Amorphophallus titanum</span><span class="catalog-status status-en">EN</span></div>
-    <div class="catalog-card"><span class="catalog-glyph">🌲</span><span class="catalog-name">Wollemi Pine</span><span class="catalog-latin">Wollemia nobilis</span><span class="catalog-status status-cr">CR</span></div>
-    <div class="catalog-card"><span class="catalog-glyph">🌺</span><span class="catalog-name">Black Bat Flower</span><span class="catalog-latin">Tacca chantrieri</span><span class="catalog-status status-vu">VU</span></div>
-    <div class="catalog-card"><span class="catalog-glyph">🪴</span><span class="catalog-name">Rafflesia</span><span class="catalog-latin">Rafflesia arnoldii</span><span class="catalog-status status-cr">CR</span></div>
-    <div class="catalog-card"><span class="catalog-glyph">🌻</span><span class="catalog-name">Jade Vine</span><span class="catalog-latin">Strongylodon macrobotrys</span><span class="catalog-status status-en">EN</span></div>
-    <div class="catalog-card"><span class="catalog-glyph">🍀</span><span class="catalog-name">Wood's Cycad</span><span class="catalog-latin">Encephalartos woodii</span><span class="catalog-status status-cr">CR</span></div>
-    <div class="catalog-card"><span class="catalog-glyph">🌾</span><span class="catalog-name">Dragon Blood Tree</span><span class="catalog-latin">Dracaena cinnabari</span><span class="catalog-status status-vu">VU</span></div>
-    <div class="catalog-card"><span class="catalog-glyph">🌵</span><span class="catalog-name">Saguaro Cactus</span><span class="catalog-latin">Carnegiea gigantea</span><span class="catalog-status status-lc">LC</span></div>
-    <div class="catalog-card"><span class="catalog-glyph">🌳</span><span class="catalog-name">Baobab</span><span class="catalog-latin">Adansonia grandidieri</span><span class="catalog-status status-en">EN</span></div>
-    <div class="catalog-card"><span class="catalog-glyph">🪷</span><span class="catalog-name">Middlemist Red</span><span class="catalog-latin">Camellia japonica cv.</span><span class="catalog-status status-cr">CR</span></div>
+  <div class="rituals-timeline">
+    <div class="ritual-item">
+      <div class="ritual-date-col">
+        <p class="ritual-date">January 24, 1984</p>
+        <p class="ritual-sign-line">☉ Aquarius</p>
+      </div>
+      <div class="ritual-line"></div>
+      <div class="ritual-content">
+        <h3 class="ritual-product">The <em>Macintosh</em></h3>
+        <p class="ritual-tagline">Aquarius · The Machine That Speaks to the People</p>
+        <p class="ritual-body">
+          "Hello." The Mac introduced itself. No product had done that before, and Aquarius — the sign of the future, the collective, the democratisation of intelligence — is exactly the right sky for a machine that claimed to put the power of a computer into the hands of everyone. The 1984 ad aired once during the Super Bowl and changed advertising permanently. That is an Aquarius move: the single gesture that rewrites the rules.
+        </p>
+      </div>
+    </div>
+    <div class="ritual-item">
+      <div class="ritual-date-col">
+        <p class="ritual-date">October 23, 2001</p>
+        <p class="ritual-sign-line">☉ Scorpio</p>
+      </div>
+      <div class="ritual-line"></div>
+      <div class="ritual-content">
+        <h3 class="ritual-product">The <em>iPod</em></h3>
+        <p class="ritual-tagline">Scorpio · 1,000 Songs in Your Pocket</p>
+        <p class="ritual-body">
+          Scorpio governs depth, obsession, and the intimate. The iPod arrived six weeks after 9/11, in a culture suddenly desperate for private experience, for the ability to disappear inside music. "One thousand songs in your pocket" is a Scorpio promise: not a feature list, an interior world. The device that made Apple cool again launched under the sign of interiority.
+        </p>
+      </div>
+    </div>
+    <div class="ritual-item">
+      <div class="ritual-date-col">
+        <p class="ritual-date">June 29, 2007</p>
+        <p class="ritual-sign-line">☉ Cancer</p>
+      </div>
+      <div class="ritual-line"></div>
+      <div class="ritual-content">
+        <h3 class="ritual-product">The <em>iPhone</em></h3>
+        <p class="ritual-tagline">Cancer · The Phone That Became Home</p>
+        <p class="ritual-body">
+          Cancer rules home, belonging, the body as a nest. The iPhone launched under Cancer and became, within five years, the place where most people lived their emotional lives: their photos, their relationships, their memories. Jobs' own Jupiter and Uranus sit in Cancer in the 10th house — public career, world-changing work. The iPhone is the most literal expression of his natal chart's promise.
+        </p>
+      </div>
+    </div>
+    <div class="ritual-item">
+      <div class="ritual-date-col">
+        <p class="ritual-date">April 3, 2010</p>
+        <p class="ritual-sign-line">☉ Aries</p>
+      </div>
+      <div class="ritual-line"></div>
+      <div class="ritual-content">
+        <h3 class="ritual-product">The <em>iPad</em></h3>
+        <p class="ritual-tagline">Aries · The Post-PC Beginning</p>
+        <p class="ritual-body">
+          Jobs called it the most important thing he'd ever done. He launched it under Aries — the founding sign, the sign of first gestures. The iPad arrived as a declaration that the personal computer era was ending and something else was beginning. Aries again, doing what it always does: showing up at the origin point and naming what comes next.
+        </p>
+      </div>
+    </div>
+    <div class="ritual-item">
+      <div class="ritual-date-col">
+        <p class="ritual-date">February 2, 2024</p>
+        <p class="ritual-sign-line">☉ Aquarius</p>
+      </div>
+      <div class="ritual-line"></div>
+      <div class="ritual-content">
+        <h3 class="ritual-product">Apple <em>Vision Pro</em></h3>
+        <p class="ritual-tagline">Aquarius Again · Spatial Computing Arrives</p>
+        <p class="ritual-body">
+          Apple returns to Aquarius for its most radical product since the iPhone. Vision Pro is the company's first spatial computing device — the beginning, Apple says, of a new era. Aquarius appeared at the Mac in 1984. It appears here again, forty years later, for the next paradigm. The sign of the future-that-arrived-early, repeating.
+        </p>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- PULL QUOTE 2 -->
-<section class="pullquote-section">
+<section class="pullquote-band">
   <div class="pullquote-inner">
-    <div class="pullquote-rule"></div>
-    <blockquote id="quote-text-2">
-      "Every rare plant is a question the earth asked once and almost forgot how to answer."
+    <div class="pq-rule"></div>
+    <blockquote id="pq-2">
+      "The iPhone launched under Cancer — the sign of home, belonging, and the body as a nest. Within five years, it had become the place where most people lived their emotional lives."
     </blockquote>
-    <cite>— Editorial Foreword · The Botanist, Vol. I</cite>
-    <div class="pullquote-bg-num">II</div>
+    <cite>— Astrology Collide, Issue 01</cite>
+    <div class="pq-bg">II</div>
   </div>
 </section>
 
-<!-- CULTIVATION NOTES -->
-<section id="cultivation">
-  <div class="cultivation-inner">
-    <div class="section-header" style="padding:0 0 16px 0; margin-bottom:32px; border-color:var(--border-lt)">
-      <span class="section-kicker">Cultivation Notes</span>
-      <div class="section-rule"></div>
-      <span class="section-count">5 Protocols</span>
+<!-- ═══════ STORE AS TEMPLE ═══════ -->
+<section id="store-temple">
+  <div class="section-band">
+    <span class="section-band-num">04</span>
+    <span class="section-band-title">Feature</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">The Store as Temple</span>
+  </div>
+  <div class="store-inner">
+    <div class="store-img">
+      <span class="store-glyph">🏛️</span>
+      <span class="store-img-label">Fifth Avenue · New York · 2006</span>
     </div>
-    <h2 class="cultivation-heading">Growing the <em>Uncultivable</em></h2>
-    <div class="cult-grid">
-      <div class="cult-shell">
-        <div class="cult-inner">
-          <div class="cult-num">Protocol I</div>
-          <span class="cult-glyph">💧</span>
-          <span class="cult-name">Humidity Control</span>
-          <p class="cult-desc">Maintain 85–95% relative humidity for cloud forest epiphytes. Daily misting at dawn replicates condensation cycles.</p>
-        </div>
-      </div>
-      <div class="cult-shell">
-        <div class="cult-inner">
-          <div class="cult-num">Protocol II</div>
-          <span class="cult-glyph">🌡️</span>
-          <span class="cult-name">Thermal Rhythm</span>
-          <p class="cult-desc">A 10°C night-to-day temperature drop triggers dormancy cycles critical for orchid bloom induction.</p>
-        </div>
-      </div>
-      <div class="cult-shell">
-        <div class="cult-inner">
-          <div class="cult-num">Protocol III</div>
-          <span class="cult-glyph">🪨</span>
-          <span class="cult-name">Substrate Composition</span>
-          <p class="cult-desc">For desert specimens: 60% coarse pumice, 30% decomposed granite, 10% aged bark. Zero organic matter retained.</p>
-        </div>
-      </div>
-      <div class="cult-shell">
-        <div class="cult-inner">
-          <div class="cult-num">Protocol IV</div>
-          <span class="cult-glyph">🔬</span>
-          <span class="cult-name">Mycorrhizal Inoculation</span>
-          <p class="cult-desc">Ghost orchid seeds require specific fungal partners. Collect substrate from beneath existing specimens and transfer directly.</p>
-        </div>
-      </div>
-      <div class="cult-shell">
-        <div class="cult-inner">
-          <div class="cult-num">Protocol V</div>
-          <span class="cult-glyph">📅</span>
-          <span class="cult-name">Patience as Method</span>
-          <p class="cult-desc">Titan arum corms require 7–10 years before first bloom. There is no shortcut. Document and wait.</p>
-        </div>
-      </div>
+    <div class="store-text">
+      <p class="store-kicker">Retail as Sacred Architecture</p>
+      <h2 class="store-heading">Four Temples<br>and a <em>Glass Cube</em></h2>
+      <p class="body-text">
+        The first Apple Store opened May 19, 2001 — Taurus season, the sign of beautiful objects, of value made tangible, of the physical world as a site of meaning. Jobs understood something that no technology company had understood before: that the store was the brand. That walking into an Apple Store was a religious experience, and that this was not a metaphor.
+      </p>
+      <p class="body-text">
+        The stores are temples. The layout — open, white, minimal — is the architecture of a church without doctrine. The Genius Bar is the confessional booth where you bring your broken thing and a trained priest helps you restore it. The products are displayed like relics. <em>Nothing is priced.</em> You don't come in to shop. You come in to believe.
+      </p>
+      <p class="body-text">
+        The Fifth Avenue cube — open 24 hours, glass, a literal beacon — is Apple's most honest building. It doesn't pretend to be a store. It's a lantern. The glass box you enter to descend underground to the space where the products live: you go down into the temple. You go below the city. The cube is Taurus's earthly beauty made sacred infrastructure.
+      </p>
+      <p class="body-text">
+        Jobs called the four signature stores — Manhattan, Chicago, London, Tokyo — his four temples. He said this without irony. He was a Zen Buddhist. He understood that objects carry meaning, that space shapes consciousness, that beauty is not decorative. It is load-bearing.
+      </p>
     </div>
   </div>
 </section>
 
-<!-- NEWSLETTER -->
+<!-- ═══════ THE BODY BECOMES INTERFACE ═══════ -->
+<section id="body-interface">
+  <div class="section-band">
+    <span class="section-band-num">05</span>
+    <span class="section-band-title">Feature</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">The Body Becomes Interface</span>
+  </div>
+  <div class="body-interface-inner">
+    <h2 class="feature-heading">The Body Becomes<br>the <em>Interface</em></h2>
+    <p class="feature-intro" style="margin-top:16px">
+      The Cook era brought Apple into Virgo territory: health, the body, precision, the integration of biological data into daily life. Apple Watch and Apple Health represent the company's most intimate product category yet — and the most Virgoan.
+    </p>
+    <div class="body-interface-grid">
+      <div class="interface-card">
+        <span class="interface-icon">⌚</span>
+        <p class="interface-date">April 24, 2015 · Taurus</p>
+        <h3 class="interface-heading">Apple Watch</h3>
+        <p class="interface-body">
+          The first device Apple had made that required physical contact to work — you wear it, it touches you, it measures you. Taurus governs the body as a site of sensory experience, and the Watch arrived under that sign to claim the wrist. It counts your heartbeats. It knows when you've fallen. It suggests when to breathe.
+          <br><br>
+          This is Apple moving from the hand (iPhone) to the wrist to, eventually, the body as total interface. Virgo as destination: the health-monitoring, bio-tracking, precision-wellness future that Cook has been building toward since 2014.
+        </p>
+      </div>
+      <div class="interface-card">
+        <span class="interface-icon">🫀</span>
+        <p class="interface-date">September 17, 2014 · Virgo</p>
+        <h3 class="interface-heading">Apple Health</h3>
+        <p class="interface-body">
+          Virgo rules health, the body's systems, the detail-oriented practices of maintenance and care. Apple Health launched under its own sign: September 17, Virgo. A centralised platform for every biometric the iPhone could collect — steps, sleep, heart rate, reproductive cycles, medication schedules.
+          <br><br>
+          Jobs died of a pancreatic neuroendocrine tumour — a disease whose early detection is now part of what Apple's health monitoring is built to catch. There is something almost unbearable about that arc: the company he built, operating under the sign that governs the precise bodily care he famously resisted, building tools to catch what killed him.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ THE APPLE SHADOW ═══════ -->
+<section id="apple-shadow">
+  <div class="section-band">
+    <span class="section-band-num">06</span>
+    <span class="section-band-title">Feature</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">The Apple Shadow</span>
+  </div>
+  <div class="shadow-inner">
+    <div class="shadow-left">
+      <h2 class="shadow-heading">The Cost of<br><em>Enchantment</em></h2>
+      <p class="body-text">
+        The shadow of every mythology is the thing it cannot look at directly. Apple's mythology is built on beauty, simplicity, the democratisation of creative power. The shadow is the supply chain that manufactures that beauty — and the labour conditions, the locked ecosystems, the environmental cost of the annual upgrade cycle.
+      </p>
+      <p class="body-text">
+        <strong>Foxconn.</strong> The suicides at the Zhengzhou factory in 2010 and 2011. The nets installed outside windows. Apple's response — audits, supplier responsibility reports, incremental improvements — reads like a company trying to discharge a debt it cannot fully acknowledge.
+      </p>
+      <p class="body-text">
+        The Pisces shadow is denial — the refusal to see what disrupts the vision. Jobs' biographers describe a man who could hold two truths simultaneously: that the products were beautiful and that the conditions of their manufacture were not. The Pisces chart allowed him to operate inside that contradiction without apparent discomfort.
+      </p>
+    </div>
+    <div class="shadow-right">
+      <p class="body-text" style="margin-top: 0">
+        <em>The Capricorn shadow is the shadow of ambition that cannot stop.</em> Apple's planned obsolescence — the product cycle that renders last year's device functionally slow within eighteen months — is a Capricorn mechanism: the institution perpetuating itself through engineered scarcity, structured desire.
+      </p>
+      <p class="body-text">
+        The Sagittarius shadow is the shadow of the myth that outgrows its truth. Think Different. The campaign aired in 1997 and showed Einstein, Gandhi, Picasso — the dissidents, the dreamers, the ones who changed history. Apple used their images to sell computers. The gap between the mythology and the product is where the shadow lives.
+      </p>
+      <p class="body-text">
+        None of this makes the products less beautiful. None of it makes the mythology less powerful. <strong>The shadow is not the opposite of the light. It is the shape the light makes when something stands in it.</strong> Apple stands in its own light constantly. The shape it casts is the shadow.
+      </p>
+      <p class="body-text">
+        A zine about corporate astrology is not a takedown. It is an attempt to see all of it — the brilliant, the flawed, the structurally necessary contradictions — through a different kind of lens. The sky doesn't judge. It just records.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- PULL QUOTE 3 -->
+<section class="pullquote-band">
+  <div class="pullquote-inner">
+    <div class="pq-rule"></div>
+    <blockquote id="pq-3">
+      "The shadow is not the opposite of the light. It is the shape the light makes when something stands in it. Apple stands in its own light constantly."
+    </blockquote>
+    <cite>— Astrology Collide, Issue 01 · The Apple Shadow</cite>
+    <div class="pq-bg">III</div>
+  </div>
+</section>
+
+<!-- ═══════ SYMBOLIC TIMELINE ═══════ -->
+<section id="timeline">
+  <div class="section-band">
+    <span class="section-band-num">07</span>
+    <span class="section-band-title">Reference</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">Symbolic Timeline</span>
+  </div>
+  <div class="timeline-intro">
+    <h2 class="feature-heading" style="font-size:clamp(24px,3vw,40px)">Apple's Dates<br>and Their <em>Skies</em></h2>
+  </div>
+  <table class="timeline-table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Event</th>
+        <th>Sun Sign</th>
+        <th>Astrological Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="td-date">Apr 1, 1976</td><td class="td-event">Apple Computer founded</td><td class="td-sign">♈ Aries</td><td class="td-note">Cardinal fire; pure initiation; Jupiter at 1° Taurus on founding</td></tr>
+      <tr><td class="td-date">Jan 3, 1977</td><td class="td-event">Apple Computer Inc. incorporated</td><td class="td-sign">♑ Capricorn</td><td class="td-note">Cardinal earth; institution built; ambition structured</td></tr>
+      <tr><td class="td-date">Dec 12, 1980</td><td class="td-event">Apple IPO · $1.8B valuation</td><td class="td-sign">♐ Sagittarius</td><td class="td-note">Mutable fire; myth goes public; philosophy becomes an offer</td></tr>
+      <tr><td class="td-date">Jan 24, 1984</td><td class="td-event">Macintosh launches</td><td class="td-sign">♒ Aquarius</td><td class="td-note">"Hello." The computer that speaks; future-arrival; revolutionary gesture</td></tr>
+      <tr><td class="td-date">Nov 1997</td><td class="td-event">Apple Online Store opens</td><td class="td-sign">♏ Scorpio</td><td class="td-note">Direct commerce; the company controls distribution; Scorpio revenge arc</td></tr>
+      <tr><td class="td-date">May 19, 2001</td><td class="td-event">First Apple Store opens</td><td class="td-sign">♉ Taurus</td><td class="td-note">Beautiful objects; value made tangible; the store as temple</td></tr>
+      <tr><td class="td-date">Oct 23, 2001</td><td class="td-event">iPod launches</td><td class="td-sign">♏ Scorpio</td><td class="td-note">Interiority; obsession; 1,000 songs as private world; 6 wks after 9/11</td></tr>
+      <tr><td class="td-date">Jun 29, 2007</td><td class="td-event">iPhone launches</td><td class="td-sign">♋ Cancer</td><td class="td-note">Home; belonging; conj. Jobs' natal Jupiter/Uranus Cancer 10H</td></tr>
+      <tr><td class="td-date">Apr 3, 2010</td><td class="td-event">iPad launches</td><td class="td-sign">♈ Aries</td><td class="td-note">Post-PC declaration; return to founding sign; new beginning named</td></tr>
+      <tr><td class="td-date">Aug 24, 2011</td><td class="td-event">Jobs hands CEO to Tim Cook</td><td class="td-sign">♍ Virgo</td><td class="td-note">Virgo transition; precision, health, supply chain era begins</td></tr>
+      <tr><td class="td-date">Sep 17, 2014</td><td class="td-event">Apple Health launches</td><td class="td-sign">♍ Virgo</td><td class="td-note">Virgo governs health; launches under its own sign</td></tr>
+      <tr><td class="td-date">Apr 24, 2015</td><td class="td-event">Apple Watch launches</td><td class="td-sign">♉ Taurus</td><td class="td-note">Body as sensory site; tactile computing; the wrist claimed</td></tr>
+      <tr><td class="td-date">Aug 2, 2018</td><td class="td-event">Apple crosses $1 trillion</td><td class="td-sign">♌ Leo</td><td class="td-note">Uranus at 2° Taurus — near-exact return to founding Jupiter at 1° Taurus</td></tr>
+      <tr><td class="td-date">Jan 3, 2022</td><td class="td-event">Apple crosses $3 trillion</td><td class="td-sign">♑ Capricorn</td><td class="td-note">Return to incorporation sign; Capricorn's long game paying off</td></tr>
+      <tr><td class="td-date">Feb 2, 2024</td><td class="td-event">Vision Pro launches</td><td class="td-sign">♒ Aquarius</td><td class="td-note">Aquarius returns; spatial computing; 40 years after the Mac</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════ REFERENCES ═══════ -->
+<section id="references">
+  <div class="section-band" style="margin:0 -32px; padding-left:32px; padding-right:32px">
+    <span class="section-band-num">08</span>
+    <span class="section-band-title">Sources & References</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">Web Edition</span>
+  </div>
+  <div class="ref-grid">
+    <div>
+      <p class="ref-group-title">Astrology Sources</p>
+      <ul class="ref-list">
+        <li><a href="https://www.astro.com/astro-databank/Jobs,_Steve" target="_blank">Astro-Databank: Steve Jobs natal chart data</a></li>
+        <li><a href="https://www.adafruit.com/product/4406" target="_blank">Adafruit Astrochart: Apple Computer Inc. founding chart</a></li>
+        <li>Karen Christino, <em>Foreseeing the Future: Evangeline Adams and Astrology in America</em></li>
+        <li>Jessica Adams, <a href="https://www.jessicaadams.com" target="_blank">jessicaadams.com</a> — Apple $1 trillion Jupiter analysis</li>
+        <li>W.D. Gann, <em>The Tunnel Thru the Air</em> (1927) — commodity cycle timing</li>
+      </ul>
+    </div>
+    <div>
+      <p class="ref-group-title">Apple & Jobs Sources</p>
+      <ul class="ref-list">
+        <li>Walter Isaacson, <em>Steve Jobs</em> (Simon & Schuster, 2011)</li>
+        <li>Brent Schlender & Rick Tetzeli, <em>Becoming Steve Jobs</em></li>
+        <li><a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000320193" target="_blank">SEC EDGAR: Apple Inc. (AAPL) public filings</a></li>
+        <li>Apple Newsroom press releases, 1984–2024</li>
+        <li>Stanford Commencement Address, Jobs, 2005 — "connecting the dots"</li>
+      </ul>
+    </div>
+    <div>
+      <p class="ref-group-title">Corporate Astrology Context</p>
+      <ul class="ref-list">
+        <li>Reagan White House astrologer: <a href="https://en.wikipedia.org/wiki/Joan_Quigley" target="_blank">Joan Quigley, Wikipedia</a></li>
+        <li>J.P. Morgan quote — various sources; origin disputed; see <a href="https://quoteinvestigator.com" target="_blank">Quote Investigator</a></li>
+        <li><a href="https://link.springer.com/article/10.1007/s10708-022-10696-7" target="_blank">Capitalism and astrology: academic research on belief systems</a> (Springer, 2022)</li>
+        <li>Mitt Romney quote: "Corporations are people, my friend" — Iowa State Fair, August 11, 2011</li>
+        <li>Wolff Olins brand methodology — <a href="https://www.wolffolins.com" target="_blank">wolffolins.com</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ NEWSLETTER ═══════ -->
 <section id="newsletter">
-  <div class="newsletter-inner">
-    <p class="newsletter-kicker">Field Notes · Monthly</p>
-    <h2 class="newsletter-heading">Dispatches from the <em>field</em></h2>
-    <p class="newsletter-sub">Monthly specimen reports, cultivation protocols, expedition diaries, and alerts on newly described species. For those who take plants seriously.</p>
-    <form class="newsletter-form" onsubmit="handleSubscribe(event)">
-      <input class="newsletter-input" type="email" placeholder="your@email.com" required>
-      <button class="newsletter-btn" type="submit">Subscribe</button>
+  <div class="nl-inner">
+    <p class="nl-kicker">Issue 02 Is Coming</p>
+    <h2 class="nl-heading">The next corporation<br>has a <em>chart too</em></h2>
+    <p class="nl-sub">Issue 02 looks at a different company, a different founding date, a different set of planetary conditions. Subscribe and we'll send it when it's ready.</p>
+    <form class="nl-form" onsubmit="handleSubscribe(event)">
+      <input class="nl-input" type="email" placeholder="your@email.com" required>
+      <button class="nl-btn" type="submit">Subscribe</button>
     </form>
-    <p id="newsletter-confirm" style="display:none;margin-top:16px;font-size:12px;color:var(--gold);letter-spacing:.1em;">✦ You are now on the field list.</p>
+    <p id="nl-confirm" style="display:none;margin-top:16px;font-size:12px;color:var(--gold);letter-spacing:.1em;font-family:var(--mono)">✦ You're on the list.</p>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ═══════ FOOTER ═══════ -->
 <footer>
   <div class="footer-top">
     <div>
-      <div class="footer-logo">The Botanist <em>·</em> Rare Specimens</div>
-      <p class="footer-tagline">An independent journal for field botanists, collectors, and everyone who has ever stopped to look closely at something growing in an unlikely place.</p>
+      <div class="footer-wordmark">Astrology <em>Collide</em></div>
+      <p class="footer-tagline">A zine about corporations, founding dates, and what happens when you look at the sky on the day someone decides to change everything.</p>
     </div>
     <div class="footer-col">
-      <p class="footer-col-title">Journal</p>
+      <p class="footer-col-title">Issues</p>
       <ul>
-        <li><a href="#">Current Issue</a></li>
+        <li><a href="#">Issue 01 · Apple</a></li>
+        <li><a href="#">Issue 02 · TBA</a></li>
         <li><a href="#">Archive</a></li>
-        <li><a href="#">Subscribe</a></li>
         <li><a href="#">About</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <p class="footer-col-title">Topics</p>
       <ul>
-        <li><a href="#">Field Reports</a></li>
-        <li><a href="#">Specimen Studies</a></li>
-        <li><a href="#">Cultivation Notes</a></li>
-        <li><a href="#">Taxonomy</a></li>
+        <li><a href="#">Corporate Astrology</a></li>
+        <li><a href="#">Founder Charts</a></li>
+        <li><a href="#">Product Timing</a></li>
+        <li><a href="#">Brand Mythology</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <p class="footer-col-title">Community</p>
+      <p class="footer-col-title">Connect</p>
       <ul>
         <li><a href="#">Newsletter</a></li>
-        <li><a href="#">Expeditions</a></li>
-        <li><a href="#">Seed Exchange</a></li>
+        <li><a href="#">Instagram</a></li>
         <li><a href="#">Contact</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2026 The Botanist Magazine. All rights reserved.</span>
-    <div class="footer-socials">
-      <a href="#" title="Instagram">◈</a>
-      <a href="#" title="Twitter">◉</a>
-      <a href="#" title="iNaturalist">◆</a>
-      <a href="#" title="YouTube">▷</a>
-    </div>
+    <span>© 2026 Astrology Collide. All rights reserved.</span>
+    <span>Issue 01 · Apple Computer Inc. · Web Edition</span>
   </div>
 </footer>
 
-<!-- Three.js via importmap -->
+<!-- Three.js -->
 <script type="importmap">
   { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
 </script>
@@ -1258,6 +1280,7 @@ import * as THREE from 'three';
 
 const canvas   = document.getElementById('webgl');
 const scene    = new THREE.Scene();
+scene.fog      = new THREE.FogExp2(0x07060a, 0.020);
 const camera   = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.1, 200);
 camera.position.z = 14;
 
@@ -1266,383 +1289,251 @@ renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.setSize(innerWidth, innerHeight);
 renderer.setClearColor(0x000000, 0);
 
-// ── Lights ───────────────────────────────────────────────────────────────────
-scene.add(new THREE.AmbientLight(0xf0e8d0, 1.0));
-const goldLight   = new THREE.PointLight(0xD0AB39, 2.5, 40);
-goldLight.position.set(3, 4, 6);
-scene.add(goldLight);
-const warmLight   = new THREE.PointLight(0xa07820, 2.0, 30);
-warmLight.position.set(-5, -2, 5);
-scene.add(warmLight);
+// Lights
+scene.add(new THREE.AmbientLight(0x1a0a2e, 1.2));
+const goldLight   = new THREE.PointLight(0xD0AB39, 3.0, 40); goldLight.position.set(3,4,6); scene.add(goldLight);
+const purpleLight = new THREE.PointLight(0x6b3fa0, 4.0, 30); purpleLight.position.set(-5,-2,5); scene.add(purpleLight);
 
-// ── Star field — dark/gold points, subtle on light bg ─────────────────────────
-function makeStars(count, spread, size, color, opacity) {
+// Stars
+function makeStars(n, spread, size, color, opacity) {
   const geo = new THREE.BufferGeometry();
-  const pos = new Float32Array(count * 3);
-  for (let i = 0; i < count * 3; i++) pos[i] = (Math.random() - .5) * spread;
-  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const pos = new Float32Array(n*3);
+  for (let i=0;i<n*3;i++) pos[i]=(Math.random()-.5)*spread;
+  geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
   return new THREE.Points(geo, new THREE.PointsMaterial({
-    color, size, transparent: true, opacity,
-    sizeAttenuation: true, depthWrite: false,
-    blending: THREE.NormalBlending,
+    color, size, transparent:true, opacity, sizeAttenuation:true,
+    blending:THREE.AdditiveBlending, depthWrite:false
   }));
 }
-const starsGold = makeStars(600,  100, 0.07, 0xD0AB39, 0.22);
-const starsDark = makeStars(1000, 120, 0.04, 0x4a3e28, 0.18);
-scene.add(starsGold, starsDark);
+const stars1 = makeStars(1800, 120, 0.08, 0xffffff, 0.85);
+const stars2 = makeStars(500,  80,  0.16, 0xD0AB39, 0.45);
+scene.add(stars1, stars2);
 
-// ── Moon orb — warm gold tones, semi-transparent ──────────────────────────────
-const moonGeo = new THREE.SphereGeometry(2.5, 64, 64);
-const moonMat = new THREE.MeshStandardMaterial({
-  color:            0xe8d8a0,
-  emissive:         0xD0AB39,
-  emissiveIntensity:0.08,
-  roughness:        0.75,
-  metalness:        0.1,
-  transparent:      true,
-  opacity:          0.13,
-});
-const moon = new THREE.Mesh(moonGeo, moonMat);
+// Moon orb
+const moon = new THREE.Mesh(
+  new THREE.SphereGeometry(2.5, 64, 64),
+  new THREE.MeshStandardMaterial({ color:0x1a0a3a, emissive:0x4a1f80, emissiveIntensity:.55, roughness:.6, metalness:.1, transparent:true, opacity:.82 })
+);
 moon.position.set(-5.5, 2.5, -4);
 scene.add(moon);
-
-// Moon edge ring (thin outline effect)
-const moonEdge = new THREE.Mesh(
-  new THREE.SphereGeometry(2.55, 48, 48),
-  new THREE.MeshBasicMaterial({
-    color: 0xD0AB39, wireframe: true,
-    transparent: true, opacity: 0.06,
-  })
+const halo = new THREE.Mesh(
+  new THREE.SphereGeometry(3.5, 32, 32),
+  new THREE.MeshBasicMaterial({ color:0x6b3fa0, transparent:true, opacity:.07, blending:THREE.AdditiveBlending, depthWrite:false, side:THREE.BackSide })
 );
-moonEdge.position.copy(moon.position);
-scene.add(moonEdge);
+halo.position.copy(moon.position);
+scene.add(halo);
 
-// ── Saturn-like planet ────────────────────────────────────────────────────────
-const saturnMat = new THREE.MeshStandardMaterial({
-  color:            0xc8b06a,
-  emissive:         0xD0AB39,
-  emissiveIntensity:0.05,
-  roughness:        0.6,
-  metalness:        0.15,
-  transparent:      true,
-  opacity:          0.18,
-});
-const saturn = new THREE.Mesh(new THREE.SphereGeometry(1.0, 48, 48), saturnMat);
-saturn.position.set(6, -2.5, -2);
-scene.add(saturn);
+// Saturn
+const saturn = new THREE.Mesh(
+  new THREE.SphereGeometry(1.1,48,48),
+  new THREE.MeshStandardMaterial({ color:0x2a1840, emissive:0xD0AB39, emissiveIntensity:.12, roughness:.4, metalness:.2 })
+);
+saturn.position.set(6,-2.5,-2); scene.add(saturn);
 
-const ringMat = new THREE.MeshBasicMaterial({
-  color: 0xD0AB39, transparent: true, opacity: 0.18, depthWrite: false,
-  side: THREE.DoubleSide,
-});
-const ring = new THREE.Mesh(new THREE.TorusGeometry(1.8, 0.06, 5, 100), ringMat);
-ring.position.copy(saturn.position);
-ring.rotation.x = Math.PI * 0.38;
-scene.add(ring);
+const ring = new THREE.Mesh(
+  new THREE.TorusGeometry(1.9,.065,5,120),
+  new THREE.MeshBasicMaterial({ color:0xD0AB39, transparent:true, opacity:.28, blending:THREE.AdditiveBlending, depthWrite:false })
+);
+ring.position.copy(saturn.position); ring.rotation.x = Math.PI*.38; scene.add(ring);
 
 const ring2 = new THREE.Mesh(
-  new THREE.TorusGeometry(2.2, 0.025, 4, 80),
-  new THREE.MeshBasicMaterial({ color: 0x91D93A, transparent: true, opacity: 0.09, depthWrite: false, side: THREE.DoubleSide })
+  new THREE.TorusGeometry(2.3,.03,4,100),
+  new THREE.MeshBasicMaterial({ color:0x9b59d0, transparent:true, opacity:.12, blending:THREE.AdditiveBlending, depthWrite:false })
 );
-ring2.position.copy(saturn.position);
-ring2.rotation.x = Math.PI * 0.38;
-scene.add(ring2);
+ring2.position.copy(saturn.position); ring2.rotation.x = Math.PI*.38; scene.add(ring2);
 
-// ── Crystal polyhedra — wireframe, ink + gold ─────────────────────────────────
-function makeCrystal(GeoClass, args, x, y, z, color, opacity) {
-  const mesh = new THREE.Mesh(
-    new GeoClass(...args),
-    new THREE.MeshBasicMaterial({ color, wireframe: true, transparent: true, opacity })
-  );
-  mesh.position.set(x, y, z);
-  scene.add(mesh);
-  return mesh;
+// Crystals
+function crystal(Geo, args, x, y, z, color, opacity) {
+  const m = new THREE.Mesh(new Geo(...args), new THREE.MeshBasicMaterial({ color, wireframe:true, transparent:true, opacity }));
+  m.position.set(x,y,z); scene.add(m); return m;
 }
-const crystal1 = makeCrystal(THREE.OctahedronGeometry,  [0.7, 0],  3.5,  3.5, -6,  0xD0AB39, 0.18);
-const crystal2 = makeCrystal(THREE.IcosahedronGeometry, [0.5, 0], -3.0, -3.5, -5,  0x91D93A, 0.14);
-const crystal3 = makeCrystal(THREE.TetrahedronGeometry, [0.55, 0], 1.5, -4.5, -8,  0x161615, 0.08);
-const crystal4 = makeCrystal(THREE.OctahedronGeometry,  [0.32, 0],-6.5,  1.0, -3,  0xD0AB39, 0.10);
+const c1 = crystal(THREE.OctahedronGeometry,  [.7,0],  3.5,  3.5,-6, 0xD0AB39,.18);
+const c2 = crystal(THREE.IcosahedronGeometry, [.5,0], -3.0, -3.5,-5, 0x9b59d0,.14);
+const c3 = crystal(THREE.TetrahedronGeometry, [.55,0], 1.5, -4.5,-8, 0xD0AB39,.12);
+const c4 = crystal(THREE.OctahedronGeometry,  [.32,0],-6.5,  1.0,-3, 0xc9a8f5,.10);
 
-// ── Mouse + scroll ────────────────────────────────────────────────────────────
-const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
-window.addEventListener('mousemove', e => {
-  mouse.tx = (e.clientX / innerWidth  - .5) * 2;
-  mouse.ty = (e.clientY / innerHeight - .5) * 2;
-});
-let scrollY = 0;
-window.addEventListener('scroll', () => { scrollY = window.scrollY; });
+// Mouse + scroll
+const mouse = {x:0,y:0,tx:0,ty:0};
+window.addEventListener('mousemove', e => { mouse.tx=(e.clientX/innerWidth-.5)*2; mouse.ty=(e.clientY/innerHeight-.5)*2; });
+let scrollY=0;
+window.addEventListener('scroll', () => { scrollY=window.scrollY; });
 
-// ── Animate ───────────────────────────────────────────────────────────────────
 const clock = new THREE.Clock();
 function animate() {
   requestAnimationFrame(animate);
   const t = clock.getElapsedTime();
-
-  mouse.x += (mouse.tx - mouse.x) * .04;
-  mouse.y += (mouse.ty - mouse.y) * .04;
-
-  const scrollPct = scrollY / Math.max(document.body.scrollHeight - innerHeight, 1);
-  camera.position.y += (-scrollPct * 5 - camera.position.y) * .05;
-  camera.position.x += (mouse.x * .5 - camera.position.x) * .04;
-  camera.rotation.z += (-mouse.x * .012 - camera.rotation.z) * .04;
-
-  // Star rotation
-  starsGold.rotation.y = t * 0.010;
-  starsDark.rotation.y = t * 0.007;
-
-  // Moon bob
-  moon.position.y    = 2.5 + Math.sin(t * 0.28) * 0.22;
-  moon.rotation.y    = t * 0.05;
-  moonEdge.position.copy(moon.position);
-  moonEdge.rotation.y = moon.rotation.y;
-
-  // Saturn spin + drift
-  saturn.rotation.y  = t * 0.16;
-  saturn.position.x  = 6    + Math.sin(t * 0.14) * 0.25;
-  saturn.position.y  = -2.5 + Math.cos(t * 0.20) * 0.18;
-  ring.position.copy(saturn.position);
-  ring2.position.copy(saturn.position);
-  ring.rotation.z    = t * 0.035;
-
-  // Crystals rotate
-  crystal1.rotation.x = t * 0.20; crystal1.rotation.y = t * 0.13;
-  crystal2.rotation.x = t * 0.14; crystal2.rotation.z = t * 0.17;
-  crystal3.rotation.y = t * 0.16; crystal3.rotation.z = t * 0.11;
-  crystal4.rotation.x = t * 0.09; crystal4.rotation.y = t * 0.22;
-
-  // Light pulse
-  goldLight.intensity = 2.3 + Math.sin(t * 1.1) * 0.5;
-  warmLight.intensity = 1.8 + Math.sin(t * 0.7 + 1) * 0.4;
-
-  renderer.render(scene, camera);
+  mouse.x += (mouse.tx-mouse.x)*.04;
+  mouse.y += (mouse.ty-mouse.y)*.04;
+  const sp = scrollY/Math.max(document.body.scrollHeight-innerHeight,1);
+  camera.position.y += (-sp*5-camera.position.y)*.06;
+  camera.position.x += (mouse.x*.6-camera.position.x)*.04;
+  camera.rotation.z += (-mouse.x*.015-camera.rotation.z)*.04;
+  stars1.rotation.y = t*.012; stars2.rotation.y = t*.008; stars1.rotation.x = t*.004;
+  moon.position.y = 2.5+Math.sin(t*.3)*.25; moon.rotation.y = t*.06;
+  halo.position.copy(moon.position);
+  saturn.rotation.y = t*.18;
+  saturn.position.x = 6+Math.sin(t*.15)*.3;
+  saturn.position.y = -2.5+Math.cos(t*.22)*.2;
+  ring.position.copy(saturn.position); ring2.position.copy(saturn.position);
+  ring.rotation.z = t*.04;
+  c1.rotation.x=t*.22; c1.rotation.y=t*.14;
+  c2.rotation.x=t*.15; c2.rotation.z=t*.19;
+  c3.rotation.y=t*.17; c3.rotation.z=t*.12;
+  c4.rotation.x=t*.10; c4.rotation.y=t*.24;
+  goldLight.intensity = 2.8+Math.sin(t*1.2)*.6;
+  purpleLight.intensity = 3.8+Math.sin(t*.7+1)*.8;
+  renderer.render(scene,camera);
 }
 animate();
 
 window.addEventListener('resize', () => {
-  camera.aspect = innerWidth / innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth, innerHeight);
+  camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
 });
 </script>
 
 <script>
-// ── Lenis ─────────────────────────────────────────────────────────────────────
-const lenis = new Lenis({
-  duration:    1.8,
-  easing:      t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  smoothWheel: true,
-  wheelMultiplier: 0.9,
-});
-
+// Lenis
+const lenis = new Lenis({ duration:2.0, easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)), smoothWheel:true, wheelMultiplier:0.85 });
 gsap.registerPlugin(ScrollTrigger);
-gsap.ticker.add(time => lenis.raf(time * 1000));
+gsap.ticker.add(time => lenis.raf(time*1000));
 gsap.ticker.lagSmoothing(0);
 lenis.on('scroll', ScrollTrigger.update);
 ScrollTrigger.scrollerProxy(document.body, {
-  scrollTop(v) { return arguments.length ? lenis.scrollTo(v, { immediate: true }) : lenis.scroll; },
-  getBoundingClientRect() { return { top: 0, left: 0, width: innerWidth, height: innerHeight }; },
+  scrollTop(v) { return arguments.length ? lenis.scrollTo(v,{immediate:true}) : lenis.scroll; },
+  getBoundingClientRect() { return {top:0,left:0,width:innerWidth,height:innerHeight}; }
 });
 ScrollTrigger.defaults({ scroller: document.body });
 
-// Progress bar + nav
 lenis.on('scroll', ({ progress, scroll }) => {
-  document.getElementById('progress-bar').style.width = (progress * 100) + '%';
+  document.getElementById('progress-bar').style.width = (progress*100)+'%';
   document.getElementById('main-nav').classList.toggle('scrolled', scroll > 60);
 });
 
-// ── Char split ────────────────────────────────────────────────────────────────
+// Char split
 function splitChars(el) {
   function walk(node) {
-    if (node.nodeType === 3) {
-      const chars = [...node.textContent];
-      chars.forEach(ch => {
-        const s = document.createElement('span');
-        s.className = 'char';
-        s.style.display = 'inline-block';
-        s.textContent = ch === ' ' ? ' ' : ch;
-        node.parentNode.insertBefore(s, node);
+    if (node.nodeType===3) {
+      [...node.textContent].forEach(ch => {
+        const s=document.createElement('span');
+        s.className='char'; s.style.display='inline-block';
+        s.textContent=ch===' '?' ':ch;
+        node.parentNode.insertBefore(s,node);
       });
       node.parentNode.removeChild(node);
-    } else if (node.nodeType === 1) {
-      [...node.childNodes].forEach(walk);
-    }
+    } else if (node.nodeType===1) { [...node.childNodes].forEach(walk); }
   }
   [...el.childNodes].forEach(walk);
   return el.querySelectorAll('.char');
 }
-
 function splitWords(el) {
-  el.innerHTML = el.innerHTML.replace(/(\S+)/g, '<span class="quote-word" style="display:inline-block">$1</span>');
+  el.innerHTML=el.innerHTML.replace(/(\S+)/g,'<span class="quote-word" style="display:inline-block">$1</span>');
   return el.querySelectorAll('.quote-word');
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-// HERO
-// ══════════════════════════════════════════════════════════════════════════════
-const heroTl = gsap.timeline({ delay: 0.15 });
+// ── HERO ──
+const heroTl = gsap.timeline({ delay:.2 });
+heroTl.fromTo('.hero-kicker', { opacity:0, y:14, letterSpacing:'.45em' }, { opacity:1, y:0, letterSpacing:'.22em', duration:1.0, ease:'power3.out' });
+const masterEl = document.getElementById('hero-masthead');
+const masterChars = splitChars(masterEl);
+heroTl.fromTo(masterChars, { opacity:0, y:60, rotateX:-40 }, { opacity:1, y:0, rotateX:0, duration:.85, ease:'back.out(1.5)', stagger:.025 }, '-=0.5');
+heroTl.fromTo('.hero-issue-line', { opacity:0, y:12 }, { opacity:1, y:0, duration:.8, ease:'power3.out' }, '-=0.3');
+heroTl.fromTo('.hero-deck',       { opacity:0, y:16, filter:'blur(5px)' }, { opacity:1, y:0, filter:'blur(0px)', duration:.9, ease:'power3.out' }, '-=0.4');
+heroTl.fromTo('.hero-cta',        { opacity:0, y:12 }, { opacity:1, y:0, duration:.7, ease:'power3.out' }, '-=0.4');
+heroTl.fromTo('.hero-bottom',     { opacity:0 }, { opacity:1, duration:.9 }, '-=0.2');
 
-heroTl.fromTo('.hero-kicker',
-  { opacity: 0, y: 12, letterSpacing: '0.5em' },
-  { opacity: 1, y: 0,  letterSpacing: '0.3em', duration: 0.9, ease: 'power3.out' }
-);
-
-const titleEl    = document.getElementById('hero-title');
-const titleChars = splitChars(titleEl);
-heroTl.fromTo(titleChars,
-  { opacity: 0, y: 50, rotateX: -25 },
-  { opacity: 1, y: 0,  rotateX: 0, duration: 0.8, ease: 'power3.out', stagger: 0.03 },
-  '-=0.5'
-);
-
-heroTl.to('#hero-rule', { width: '80px', duration: 0.8, ease: 'power3.inOut' }, '-=0.2');
-
-heroTl.fromTo('.hero-desc',
-  { opacity: 0, y: 16, filter: 'blur(4px)' },
-  { opacity: 1, y: 0,  filter: 'blur(0px)', duration: 0.9, ease: 'power3.out' },
-  '-=0.5'
-);
-
-heroTl.fromTo('.hero-actions',
-  { opacity: 0, y: 12 },
-  { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
-  '-=0.4'
-);
-
-heroTl.fromTo('.hero-footer, .hero-specimen-tag',
-  { opacity: 0 },
-  { opacity: 1, duration: 0.9, stagger: 0.1 },
-  '-=0.3'
-);
-
-// Hero scroll-out parallax
-gsap.to('#hero .hero-body', {
-  y: -60, opacity: 0, ease: 'none',
-  scrollTrigger: { trigger: '#hero', start: 'center center', end: 'bottom top', scrub: 1.8 }
+gsap.to('#hero .hero-body', { y:-60, opacity:0, ease:'none',
+  scrollTrigger: { trigger:'#hero', start:'center center', end:'bottom top', scrub:1.8 }
 });
 
-// ══════════════════════════════════════════════════════════════════════════════
-// TOC
-// ══════════════════════════════════════════════════════════════════════════════
-gsap.timeline({ scrollTrigger: { trigger: '#toc', start: 'top 75%' } })
-  .fromTo('.toc-left',   { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out' })
-  .fromTo('.toc-item',   { opacity: 0, x: 30  }, { opacity: 1, x: 0, duration: 0.7, ease: 'power3.out', stagger: 0.09 }, '-=0.5');
+// ── EDITORS NOTE ──
+gsap.timeline({ scrollTrigger:{ trigger:'#editors-note', start:'top 75%' } })
+  .fromTo('.editors-note-aside', { opacity:0, x:-30 }, { opacity:1, x:0, duration:.9, ease:'power3.out' })
+  .fromTo('.editors-note-heading', { opacity:0, y:24 }, { opacity:1, y:0, duration:.9, ease:'power3.out' }, '-=0.6')
+  .fromTo('.editors-note-body .body-text', { opacity:0, y:16 }, { opacity:1, y:0, duration:.7, ease:'power3.out', stagger:.1 }, '-=0.5');
 
-// ══════════════════════════════════════════════════════════════════════════════
-// STATS
-// ══════════════════════════════════════════════════════════════════════════════
-gsap.fromTo('.stat-item',
-  { opacity: 0, y: 30 },
-  { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.12,
-    scrollTrigger: { trigger: '#stats', start: 'top 80%' } }
+// ── BIRTHS ──
+gsap.fromTo('.birth-card',
+  { opacity:0, y:40, scale:.94 },
+  { opacity:1, y:0, scale:1, duration:.8, ease:'power3.out', stagger:.12,
+    scrollTrigger:{ trigger:'.births-grid', start:'top 78%' } }
 );
-document.querySelectorAll('.stat-num[data-target]').forEach(el => {
-  const target = +el.dataset.target;
-  ScrollTrigger.create({
-    trigger: el, start: 'top 85%', once: true,
-    onEnter() {
-      gsap.to({ val: 0 }, {
-        val: target, duration: 1.4, ease: 'power2.out',
-        onUpdate() { el.textContent = Math.round(this.targets()[0].val); }
-      });
-    }
-  });
-});
-
-// ══════════════════════════════════════════════════════════════════════════════
-// FEATURES
-// ══════════════════════════════════════════════════════════════════════════════
-gsap.fromTo('.feat-card',
-  { opacity: 0, y: 40, scale: 0.96 },
-  { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'power3.out',
-    stagger: { amount: 0.5 },
-    scrollTrigger: { trigger: '.features-grid', start: 'top 78%' } }
+gsap.fromTo('.chart-row',
+  { opacity:0, y:10 },
+  { opacity:1, y:0, duration:.4, ease:'power2.out', stagger:.04,
+    scrollTrigger:{ trigger:'.chart-panel', start:'top 82%' } }
 );
 
-// ══════════════════════════════════════════════════════════════════════════════
-// PULL QUOTES
-// ══════════════════════════════════════════════════════════════════════════════
-['#quote-text-1', '#quote-text-2'].forEach(sel => {
+// ── PULL QUOTES ──
+['#pq-1','#pq-2','#pq-3'].forEach(sel => {
   const el    = document.querySelector(sel);
   const words = splitWords(el);
-  const parent = el.closest('.pullquote-section');
-  gsap.fromTo(parent.querySelector('.pullquote-rule'),
-    { width: 0 },
-    { width: '40px', duration: 0.8, ease: 'power3.inOut',
-      scrollTrigger: { trigger: parent, start: 'top 82%' } }
-  );
-  gsap.fromTo(words,
-    { opacity: 0, y: 10 },
-    { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', stagger: 0.04,
-      scrollTrigger: { trigger: el, start: 'top 80%' } }
-  );
-  gsap.fromTo(parent.querySelector('cite'),
-    { opacity: 0, y: 6 },
-    { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
-      scrollTrigger: { trigger: parent.querySelector('cite'), start: 'top 88%' } }
-  );
+  const band  = el.closest('.pullquote-band');
+  gsap.to(band.querySelector('.pq-rule'), { width:'40px', duration:.8, ease:'power3.inOut',
+    scrollTrigger:{ trigger:band, start:'top 82%' } });
+  gsap.fromTo(words, { opacity:0, y:10 }, { opacity:1, y:0, duration:.45, ease:'power2.out', stagger:.035,
+    scrollTrigger:{ trigger:el, start:'top 80%' } });
+  gsap.fromTo(band.querySelector('cite'), { opacity:0 }, { opacity:1, duration:.7,
+    scrollTrigger:{ trigger:band.querySelector('cite'), start:'top 88%' } });
 });
 
-// ══════════════════════════════════════════════════════════════════════════════
-// ARTICLES — cinematic split
-// ══════════════════════════════════════════════════════════════════════════════
-[
-  { img: '#aimg-1', txt: '#atxt-1', imgX: -60, txtX: 50 },
-  { img: '#aimg-2', txt: '#atxt-2', imgX: 60,  txtX: -50 },
-  { img: '#aimg-3', txt: '#atxt-3', imgX: -60, txtX: 50 },
-].forEach(({ img, txt, imgX, txtX }) => {
-  const trigger = document.querySelector(img).closest('.article-section');
-  gsap.fromTo(img,
-    { opacity: 0, x: imgX, scale: 0.96 },
-    { opacity: 1, x: 0, scale: 1, duration: 1.1, ease: 'power3.out',
-      scrollTrigger: { trigger, start: 'top 78%' } }
-  );
-  gsap.fromTo(txt,
-    { opacity: 0, x: txtX },
-    { opacity: 1, x: 0, duration: 1.0, ease: 'power3.out',
-      scrollTrigger: { trigger, start: 'top 78%' } }
-  );
-  gsap.to(img, {
-    y: -30, ease: 'none',
-    scrollTrigger: { trigger, start: 'top bottom', end: 'bottom top', scrub: 2 }
-  });
-});
-
-// ══════════════════════════════════════════════════════════════════════════════
-// CATALOG — wave ripple
-// ══════════════════════════════════════════════════════════════════════════════
-gsap.fromTo('.catalog-card',
-  { opacity: 0, y: 24, scale: 0.92 },
-  { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: 'back.out(1.3)',
-    stagger: { amount: 0.6, from: 'start', grid: [2, 6] },
-    scrollTrigger: { trigger: '.catalog-grid', start: 'top 80%' } }
+// ── FOUNDERS ──
+gsap.fromTo('.founder-card',
+  { opacity:0, y:48, scale:.95 },
+  { opacity:1, y:0, scale:1, duration:.9, ease:'back.out(1.3)', stagger:.14,
+    scrollTrigger:{ trigger:'.founders-grid', start:'top 78%' } }
 );
 
-// ══════════════════════════════════════════════════════════════════════════════
-// CULTIVATION GLASS CARDS — stagger fan in
-// ══════════════════════════════════════════════════════════════════════════════
-gsap.fromTo('.cult-shell',
-  { opacity: 0, y: 50, rotation: i => (i - 2) * 2 },
-  { opacity: 1, y: 0, rotation: 0, duration: 0.9, ease: 'back.out(1.4)',
-    stagger: { amount: 0.4, from: 'center' },
-    scrollTrigger: { trigger: '.cult-grid', start: 'top 80%' } }
+// ── PRODUCT RITUALS ──
+gsap.fromTo('.ritual-item',
+  { opacity:0, x:-30 },
+  { opacity:1, x:0, duration:.8, ease:'power3.out', stagger:.1,
+    scrollTrigger:{ trigger:'.rituals-timeline', start:'top 80%' } }
 );
 
-// ══════════════════════════════════════════════════════════════════════════════
-// NEWSLETTER
-// ══════════════════════════════════════════════════════════════════════════════
-gsap.fromTo('.newsletter-inner',
-  { opacity: 0, y: 40, scale: 0.95 },
-  { opacity: 1, y: 0, scale: 1, duration: 1.0, ease: 'power3.out',
-    scrollTrigger: { trigger: '#newsletter', start: 'top 80%' } }
+// ── STORE TEMPLE ──
+gsap.fromTo('#store-temple .store-img', { opacity:0, x:-50, scale:.95 }, { opacity:1, x:0, scale:1, duration:1.1, ease:'power3.out',
+  scrollTrigger:{ trigger:'#store-temple', start:'top 75%' } });
+gsap.fromTo('#store-temple .store-text', { opacity:0, x:50 }, { opacity:1, x:0, duration:1.0, ease:'power3.out',
+  scrollTrigger:{ trigger:'#store-temple', start:'top 75%' } });
+
+// ── BODY INTERFACE ──
+gsap.fromTo('.interface-card',
+  { opacity:0, y:30, scale:.95 },
+  { opacity:1, y:0, scale:1, duration:.8, ease:'power3.out', stagger:.15,
+    scrollTrigger:{ trigger:'.body-interface-grid', start:'top 80%' } }
 );
 
-// ── Newsletter submit ─────────────────────────────────────────────────────────
+// ── SHADOW ──
+gsap.fromTo('.shadow-left', { opacity:0, x:-40 }, { opacity:1, x:0, duration:1.0, ease:'power3.out',
+  scrollTrigger:{ trigger:'#apple-shadow', start:'top 75%' } });
+gsap.fromTo('.shadow-right', { opacity:0, x:40 }, { opacity:1, x:0, duration:1.0, ease:'power3.out',
+  scrollTrigger:{ trigger:'#apple-shadow', start:'top 75%' } });
+
+// ── TIMELINE ──
+gsap.fromTo('.timeline-table tbody tr',
+  { opacity:0, y:12 },
+  { opacity:1, y:0, duration:.5, ease:'power2.out', stagger:.04,
+    scrollTrigger:{ trigger:'.timeline-table', start:'top 80%' } }
+);
+
+// ── REFERENCES ──
+gsap.fromTo('.ref-group-title, .ref-list li',
+  { opacity:0, y:10 },
+  { opacity:1, y:0, duration:.5, ease:'power2.out', stagger:.03,
+    scrollTrigger:{ trigger:'#references', start:'top 80%' } }
+);
+
+// ── NEWSLETTER ──
+gsap.fromTo('.nl-inner', { opacity:0, y:40, scale:.94 }, { opacity:1, y:0, scale:1, duration:1.0, ease:'power3.out',
+  scrollTrigger:{ trigger:'#newsletter', start:'top 80%' } });
+
 window.handleSubscribe = function(e) {
   e.preventDefault();
-  const confirm = document.getElementById('newsletter-confirm');
-  confirm.style.display = 'block';
-  gsap.fromTo(confirm, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' });
-  e.target.style.display = 'none';
+  const c=document.getElementById('nl-confirm');
+  c.style.display='block';
+  gsap.fromTo(c,{opacity:0,y:8},{opacity:1,y:0,duration:.7,ease:'power3.out'});
+  e.target.style.display='none';
 };
 </script>
 
