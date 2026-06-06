@@ -614,6 +614,70 @@
       font-family: var(--mono);
     }
 
+    /* ── Births Formula ── */
+    .births-formula {
+      padding: 20px 32px; border-top: 1px solid var(--border);
+      background: var(--deep); display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+      font-family: var(--mono); font-size: 11px; letter-spacing: .16em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .births-formula span:not(.formula-dot) { color: var(--cream); }
+    .formula-dot { color: var(--gold); }
+
+    /* ── Jobs Chart Extended ── */
+    .chart-panel-wide { margin: 0 32px 48px; border: 1px solid var(--border); background: var(--deep); }
+    .chart-panel-wide .chart-panel-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid var(--border); }
+    .chart-rows-5 { display: grid; grid-template-columns: repeat(5, 1fr); }
+    .chart-rows-5 .chart-row:nth-child(5n) { border-right: none; }
+    .chart-panel-section { padding: 16px 20px; border-top: 1px solid var(--border); }
+    .chart-panel-section-title { font-family: var(--mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+    .grand-cross-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); }
+    .grand-cross-cell { background: var(--deep); padding: 14px 16px; }
+    .gc-arm { font-family: var(--mono); font-size: 10px; color: var(--gold); margin-bottom: 4px; }
+    .gc-expr { font-size: 12px; color: var(--muted); line-height: 1.6; }
+    .gc-expr strong { color: var(--cream); font-weight: 400; }
+    .dasha-table { width: 100%; border-collapse: collapse; }
+    .dasha-table td { font-size: 12px; padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--silver); }
+    .dasha-table td:first-child { font-family: var(--mono); font-size: 11px; color: var(--gold); white-space: nowrap; }
+    .dasha-table td:last-child { color: var(--muted); font-size: 11px; }
+    .vedic-table { width: 100%; border-collapse: collapse; }
+    .vedic-table td { font-size: 12px; padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--silver); }
+    .vedic-table td:first-child { font-family: var(--mono); font-size: 11px; color: var(--lavender); }
+
+    /* ── Feature section generic ── */
+    #spiritual-arch, #jupiter-cycle, #corporate-chart { background: var(--void); }
+    #jobs-chart { background: var(--deep); }
+    .sub-feature { padding: 0 32px 48px; }
+    .sub-feature-heading {
+      font-family: 'Cormorant Garamond', serif; font-size: clamp(20px, 2.5vw, 30px); font-weight: 300;
+      letter-spacing: -0.02em; text-transform: uppercase; color: var(--white);
+      margin: 40px 0 12px; line-height: 1.1;
+    }
+    .sub-feature-heading em { font-style: italic; color: var(--gold); text-transform: none; }
+    .sub-feature-kicker { font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .data-chip {
+      display: inline-block; font-family: var(--mono); font-size: 10px;
+      padding: 3px 9px; border: 1px solid var(--border); color: var(--lavender);
+      margin: 0 4px 4px 0; letter-spacing: .08em;
+    }
+    .jup-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    .jup-table th { font-family: var(--mono); font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); padding: 10px 14px; border-bottom: 1px solid var(--border); text-align: left; }
+    .jup-table td { font-size: 12px; padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--silver); vertical-align: top; }
+    .jup-table tr:hover td { background: var(--ink); }
+    .jup-table .td-highlight { color: var(--cream); font-weight: 400; }
+    .tarot-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); margin-top: 20px; }
+    .tarot-cell { background: var(--deep); padding: 16px 14px; }
+    .tarot-card-name { font-family: var(--mono); font-size: 10px; color: var(--gold); margin-bottom: 6px; letter-spacing: .12em; text-transform: uppercase; }
+    .tarot-card-body { font-size: 12px; color: var(--muted); line-height: 1.65; }
+    .shadow-gift-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+    .shadow-gift-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .shadow-gift-table td:first-child { color: var(--cream); font-family: var(--mono); font-size: 11px; }
+    .shadow-gift-table td:last-child { color: var(--muted); }
+    .sn-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+    .sn-table th { font-family: var(--mono); font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); padding: 8px 14px; border-bottom: 1px solid var(--border); text-align: left; }
+    .sn-table td { font-size: 12px; padding: 8px 14px; border-bottom: 1px solid var(--border); color: var(--silver); }
+    .sn-table td:first-child { font-family: var(--mono); font-size: 11px; color: var(--lavender); white-space: nowrap; }
+
     /* ── Responsive ── */
     @media (max-width: 1024px) {
       .births-grid { grid-template-columns: 1fr; }
@@ -653,8 +717,9 @@
   <a href="#hero" class="nav-wordmark">Astrology <em>Collide</em></a>
   <ul class="nav-links">
     <li><a href="#three-births">The Births</a></li>
-    <li><a href="#founders">Founders</a></li>
+    <li><a href="#jobs-chart">Jobs Chart</a></li>
     <li><a href="#product-rituals">Products</a></li>
+    <li><a href="#jupiter-cycle">Jupiter</a></li>
     <li><a href="#timeline">Timeline</a></li>
   </ul>
   <a href="#newsletter" class="nav-issue">Issue 01 · Apple</a>
@@ -714,21 +779,21 @@
       </div>
     </div>
     <div class="editors-note-body">
-      <h2 class="editors-note-heading">When Mitt Romney Said<br>Corporations Were <em>People,</em><br>I Felt That</h2>
+      <h2 class="editors-note-heading">Corporations Are People.<br>So What's <em>Their Sign?</em></h2>
       <p class="body-text">
-        I was working in branding at the time — Wolff Olins, where we spent our days treating companies like living things with identities, personalities, and developmental arcs. So when Romney made his remark, it didn't sound absurd to me. It sounded like an accidental admission of something the branding world had been acting on for decades: that companies behave like characters. That they have birth dates, formative traumas, peak moments, and declines.
+        When Mitt Romney said "corporations are people," something clicked for me. Not politically. Symbolically. I was working in branding at Wolff Olins at the time — surrounded daily by the language of identity, personality, belief systems, archetypes, desire, and myth. In branding, we already treat corporations like people. We give them voices, values, origin stories, shadow traits, enemies, promises, and moods. We build entire worlds around them — and then call it just business.
       </p>
       <p class="body-text">
-        The question that opened this zine wasn't <em>do corporations have charts.</em> It was: what happens when you look? What do you actually find when you take the birth date of Apple Computer — April 1, 1976, a garage in Cupertino — and run it against the sky?
+        But corporations are not just businesses. They are <em>symbolic bodies.</em> They have birth dates, founders, myths, wounds, public personas, and private compulsions. A logo is a sigil. A keynote is a ritual. A flagship store is a temple. A founder story is a creation myth. A launch date is an initiation.
       </p>
       <p class="body-text">
-        You find Aries. <strong>You find a company that arrived like a declaration.</strong> Then you run the incorporation date — January 3, 1977 — and you find Capricorn: structure, institution, ambition harnessed. Then the IPO — December 12, 1980 — and you find Sagittarius: the myth goes public, the story becomes an offer to the world.
+        There is a line attributed to J.P. Morgan: <strong>"Millionaires don't use astrology. Billionaires do."</strong> The quote is difficult to verify — historians trace it to a book published decades after Morgan's death. But its persistence matters almost as much as its origin. Ronald Reagan's administration offered something less deniable: Nancy Reagan consulted astrologer Joan Quigley for seven years after the 1981 assassination attempt. According to former Chief of Staff Donald Regan, virtually every major move was cleared in advance — departure times for Air Force One, scheduling of summits with Gorbachev, timing of press conferences. Astrology was not at the fringe of that administration. It was near the machinery of state.
       </p>
       <p class="body-text">
-        Three births. Three charts. Three different faces of the same company. I don't know if the cosmos arranged Apple. I know that when you map it this way, something comes into focus that doesn't come into focus any other way. That's enough for a zine.
+        For the first issue of Astrology Collide, there is no better place to begin than Apple. Apple is a symbol before it is a stock. Its founding date gives us a chart. Its name gives us a symbol — the garden, the bite, the forbidden knowledge. Its stores give us temples. And here is a detail that never gets enough attention: before Apple existed, the twenty-year-old Jobs was at Atari writing equations for a horoscope software program called <em>Astrochart.</em> The man who would build devices that feel almost divinatory literally began his programming career building a divination system.
       </p>
       <p class="body-text">
-        This is Issue 01. It's about Apple. The next issues are about companies you probably use every day. Each one was born somewhere under some configuration of sky. We're just going to start looking.
+        <strong>Apple did not simply sell us computers. It sold us a self-image — creative, chosen, intuitive, different.</strong> Which means Apple was never just a brand. It was always a chart waiting to be read. That tension is the whole story. And the chart is where we begin.
       </p>
       <p class="byline">— Astrology Collide &nbsp;·&nbsp; <em>Vol. I, Issue 01</em></p>
     </div>
@@ -753,36 +818,51 @@
     <div class="birth-card">
       <span class="birth-sign">♈</span>
       <p class="birth-date">April 1, 1976</p>
-      <h3 class="birth-heading">The Soul</h3>
-      <p class="birth-sub">Aries Sun · The First Fire</p>
+      <h3 class="birth-heading">The Soul Chart</h3>
+      <p class="birth-sub">Aries · The Rebel Spark · Tarot: The Emperor</p>
       <p class="birth-body">
-        April Fool's Day. Jobs chose the date — some accounts suggest deliberately. Aries is the sign of pure initiation: the first fire, the cardinal act, the leap before the map exists. There is no chart more appropriate for a company that began with Wozniak showing Jobs a circuit board in a garage and Jobs saying: this changes everything.
+        April Fool's Day — which is either accidental or the most on-brand founding date in tech history. Two young men in a California garage, a homemade circuit board, and a refusal to accept that computing belonged to corporations and institutions. Aries is the first sign of the zodiac. It does not ask permission. It acts, then adjusts.
         <br><br>
-        The Aries Sun gives Apple its irreducible conviction. It is always, at its core, an act of declaration. Every product launch, however polished, still contains this original gesture: something willed into existence by sheer Aries nerve.
+        In tarot, Aries corresponds to The Emperor — which seems counterintuitive for a company that styled itself as the rebel. But this is Aries' paradox: the rebel and the empire-builder share the same origin. The Emperor is structure born from will. He does not inherit territory. He declares it.
+        <br><br>
+        <strong>Jungian lens: The Hero.</strong> The Aries Apple is the Hero at the threshold — technology removed from the priesthood of experts and placed into human hands. Promethean myth, California edition. The shadow of the Hero arrives early too: the computer for the rest of us eventually became the ecosystem you cannot easily leave.
       </p>
     </div>
     <div class="birth-card">
       <span class="birth-sign">♑</span>
       <p class="birth-date">January 3, 1977</p>
-      <h3 class="birth-heading">The Body</h3>
-      <p class="birth-sub">Capricorn Sun · The Institution</p>
+      <h3 class="birth-heading">The Body Chart</h3>
+      <p class="birth-sub">Capricorn · The Sealed Object · Tarot: The Devil</p>
       <p class="birth-body">
-        Apple Computer Inc. is legally born under Capricorn: the architect, the mountain goat, the sign that builds structures meant to last centuries. This is the Apple that hired Mike Markkula, raised venture capital, drafted shareholder agreements, and learned to think in quarters. The Capricorn chart is the machine behind the dream.
+        Nine months after the spark, Apple becomes a legal entity. The incorporation date gives us Capricorn — and suddenly everything about Apple's design philosophy makes sense from a different angle. Capricorn is the mountain. It is structure, form, discipline, and the slow deliberate climb toward enduring power. Apple is — above almost all else — a company obsessed with form. The edge. The weight. The surface. The invisible screw. The seam that appears to have no seam.
         <br><br>
-        Notice what Capricorn brings that Aries lacks: patience, institutional memory, and the ability to operate at scale. Every time Apple makes a decision that prioritises long-term positioning over short-term flash, it is operating from this chart.
+        In tarot, Capricorn corresponds to The Devil — and The Devil in symbolic terms is not evil. It is attachment, desire, glamour, and the seduction of beautiful material things. Apple makes objects so beautiful that we develop relationships with them. We touch them hundreds of times a day. We sleep beside them. We mourn when they break.
+        <br><br>
+        <strong>Jungian lens: The Persona and the Shadow.</strong> Apple understands persona better than almost any company in history. To own an Apple device is to appear as a certain kind of person. But every Persona casts a Shadow — control dressed as simplicity, a sealed ecosystem, spiritual language of creativity wrapped around a vast machine of supply chain secrecy.
       </p>
     </div>
     <div class="birth-card">
       <span class="birth-sign">♐</span>
       <p class="birth-date">December 12, 1980</p>
       <h3 class="birth-heading">The Market Persona</h3>
-      <p class="birth-sub">Sagittarius Sun · The Myth Made Public</p>
+      <p class="birth-sub">Sagittarius · The Gospel Goes Public · Tarot: Temperance</p>
       <p class="birth-body">
-        The IPO. The day Apple became a thing anyone could own a piece of. Sagittarius is the sign of philosophy, far horizons, and the arrow shot toward a truth not yet visible. This chart rules Apple's public mythology: its think different campaigns, its keynotes as sermons, its products as invitations to a better version of your life.
+        Apple went public on December 12, 1980 — the largest IPO in the United States since Ford in 1956, raising $100 million and creating more than forty instant millionaires. Individual investors in Massachusetts were barred from buying shares by state regulators who deemed them "too risky." A $10,000 investment on IPO day would be worth approximately $32.7 million in 2026.
         <br><br>
-        The Jupiter return to 1° Taurus on the founding date — and Uranus's return to 2° Taurus on August 2, 2018, the day Apple crossed $1 trillion — is not something the company planned. But it is something the sky recorded.
+        In tarot, Sagittarius corresponds to Temperance — the alchemist who blends two substances into something new. Apple blends art and engineering, beauty and utility, individuality and mass production. These combinations should not work. Temperance makes the impossible blend possible.
+        <br><br>
+        <strong>Jungian lens: The Magician.</strong> Steve Jobs did not present products like a salesman. He presented them like revelations. "One more thing" was not a product cue. It was a ritual phrase. The Magician's shadow is manipulation: the ability to enchant is also the ability to distort.
       </p>
     </div>
+  </div>
+
+  <!-- Formula banner -->
+  <div class="births-formula">
+    <span>Aries lights the fire</span>
+    <span class="formula-dot">·</span>
+    <span>Capricorn seals the object</span>
+    <span class="formula-dot">·</span>
+    <span>Sagittarius spreads the gospel</span>
   </div>
 
   <!-- Steve Jobs Chart Panel -->
@@ -828,6 +908,124 @@
   </div>
 </section>
 
+<!-- ═══════ STEVE JOBS COMPLETE CHART ═══════ -->
+<section id="jobs-chart">
+  <div class="section-band">
+    <span class="section-band-num">02</span>
+    <span class="section-band-title">Feature</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">Steve Jobs — The Complete Chart</span>
+  </div>
+  <div class="births-intro">
+    <h2 class="feature-heading">The Most <em>Analyzed</em><br>Founder Chart in Tech</h2>
+    <p class="feature-intro">February 24, 1955 — 7:15 PM PST — San Francisco, California. Birth time rated AA by Astrodatabank — the highest reliability classification. Life Path Number: 28/1. Apple was founded on a date that also sums to 28.</p>
+  </div>
+
+  <!-- Full Planetary Table -->
+  <div class="chart-panel-wide">
+    <div class="chart-panel-header">
+      <span class="chart-panel-title">Complete Planetary Positions · Western / Tropical</span>
+      <span class="chart-panel-sub">b. Feb 24, 1955 · 7:15 PM PST · San Francisco, CA</span>
+    </div>
+    <div class="chart-rows-5 chart-rows">
+      <div class="chart-row"><p class="chart-planet">Sun ☉</p><p class="chart-position">5°44'<span class="chart-sign">Pisces · 6H</span></p></div>
+      <div class="chart-row"><p class="chart-planet">Moon ☽</p><p class="chart-position">7°44'<span class="chart-sign">Aries · 7H</span></p></div>
+      <div class="chart-row"><p class="chart-planet">Ascendant</p><p class="chart-position">22°17'<span class="chart-sign">Virgo</span></p></div>
+      <div class="chart-row"><p class="chart-planet">MC</p><p class="chart-position">21°<span class="chart-sign">Gemini</span></p></div>
+      <div class="chart-row"><p class="chart-planet">Mercury ☿</p><p class="chart-position">14°24' Rx<span class="chart-sign">Aquarius · 5H</span></p></div>
+      <div class="chart-row"><p class="chart-planet">Venus ♀</p><p class="chart-position">21°12'<span class="chart-sign">Capricorn · 4H</span></p></div>
+      <div class="chart-row"><p class="chart-planet">Mars ♂</p><p class="chart-position">29°06'<span class="chart-sign">Aries · 8H</span></p></div>
+      <div class="chart-row"><p class="chart-planet">Jupiter ♃</p><p class="chart-position">20° Rx<span class="chart-sign">Cancer · 10H</span></p></div>
+      <div class="chart-row"><p class="chart-planet">Saturn ♄</p><p class="chart-position">21°<span class="chart-sign">Scorpio · 3H</span></p></div>
+      <div class="chart-row"><p class="chart-planet">Uranus ♅</p><p class="chart-position">21° Rx<span class="chart-sign">Cancer · 10H</span></p></div>
+      <div class="chart-row"><p class="chart-planet">Neptune ♆</p><p class="chart-position">26° Rx<span class="chart-sign">Libra · 2H</span></p></div>
+      <div class="chart-row"><p class="chart-planet">Pluto ♇</p><p class="chart-position">24° Rx<span class="chart-sign">Leo · 12H</span></p></div>
+      <div class="chart-row"><p class="chart-planet">North Node</p><p class="chart-position">3°24'<span class="chart-sign">Capricorn · 4H</span></p></div>
+    </div>
+  </div>
+
+  <div class="sub-feature">
+    <p class="sub-feature-kicker">The Big Three</p>
+    <h3 class="sub-feature-heading">Sun in Pisces, <em>6th House</em></h3>
+    <p class="body-text">Jobs' Pisces Sun placed in the 6th house of daily work is the foundational paradox of his character. Pisces is the visionary dreamer — boundless, imaginative, emotionally porous. But the 6th house grounds that vision in relentless daily craft, perfectionist routine, and service through labor. This placement produces the rare type who can access pure, boundary-less creative vision and then transmute it into disciplined, production-grade work. His famous fourteen-hour work days were not workaholic dysfunction. They were a 6th house Pisces expressing its nature: vision made into daily habit.</p>
+
+    <h3 class="sub-feature-heading">Moon in Aries, <em>7th House</em></h3>
+    <p class="body-text">The Aries Moon is fast, fiery, impatient, and competitive. In the 7th house of partnerships, this explains two central biographical facts: Jobs' notorious interpersonal intensity — his management by confrontation — and his pattern of deeply formative creative partnerships (Wozniak, Jony Ive, John Lasseter). He genuinely believed challenge and even cruelty produced better work. Partners were not collaborators to be protected. They were combatants to be pushed past their limits.</p>
+
+    <h3 class="sub-feature-heading">Virgo Rising</h3>
+    <p class="body-text">The Ascendant defines the outward persona. Virgo rising gives Jobs his exterior of precision, critique, and discriminating perfectionism. The hundreds of designs rejected, the products cancelled weeks before launch, the obsessive attention to parts of the product that customers would never see. His design mantra — <em>"Design is not just what it looks like and feels like. Design is how it works"</em> — is a perfect verbal expression of Virgo rising: the outer appearance must be an accurate reflection of inner function, not a facade over emptiness.</p>
+
+    <p class="sub-feature-kicker" style="margin-top:40px">The Cardinal Grand Cross</p>
+    <h3 class="sub-feature-heading">Four Arms, <em>Four Apple Expressions</em></h3>
+    <p class="body-text">The most important astrological signature in Jobs' chart is a Cardinal Grand Cross linking four planets across four Cardinal signs — the signs of initiation, action, and leadership.</p>
+  </div>
+
+  <!-- Grand Cross Grid -->
+  <div style="padding: 0 32px 48px">
+    <div class="grand-cross-grid">
+      <div class="grand-cross-cell">
+        <p class="gc-arm">Venus in Capricorn · 4H</p>
+        <p class="gc-expr"><strong>Perfect, enduring, practical taste.</strong> Minimalism, material quality, permanence — aluminum, glass, silicon. The aesthetic that cannot be rushed.</p>
+      </div>
+      <div class="grand-cross-cell">
+        <p class="gc-arm">Jupiter-Uranus in Cancer · 10H</p>
+        <p class="gc-expr"><strong>Innovation leadership.</strong> Disruption in the sign of home and family — technology that feels personal, domestic, human. Career peak through rupture.</p>
+      </div>
+      <div class="grand-cross-cell">
+        <p class="gc-arm">Mars in Aries · 29° · 8H</p>
+        <p class="gc-expr"><strong>Pure drive at maximum intensity.</strong> The anaretic degree signals urgency. Competitive ferocity, willingness to kill products that don't meet standards.</p>
+      </div>
+      <div class="grand-cross-cell">
+        <p class="gc-arm">Neptune in Libra · 2H</p>
+        <p class="gc-expr"><strong>The reality distortion field.</strong> Neptune turns illusion into real economic power — making others believe in something that doesn't yet exist.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-feature">
+    <p class="sub-feature-kicker">Mercury Retrograde in Aquarius</p>
+    <h3 class="sub-feature-heading">The <em>Retrograde</em> Genius</h3>
+    <p class="body-text">Mercury rules both his Ascendant (Virgo) and his Midheaven (Gemini). A single planet is the master of both his public face and his career identity. Mercury in Aquarius places his thinking in the sign of technology, the future, and radical departure from convention. In the 5th house of creativity, this Mercury becomes exuberant in sharing ideas — a Jobs keynote was not a product announcement. It was a theatrical event.</p>
+    <p class="body-text">The retrograde status appears at first as a weakness. But when a planet is retrograde, it is actually at its closest approach to Earth — brighter, more intense, not weaker. Jobs' retrograde Mercury produces not a communicator who speaks first but one who incubates deeply and then communicates with unusual force. The long development cycles. The refusal to ship before perfection.</p>
+    <p class="body-text">At 14° Aquarius, Mercury creates a critical geometric link with Apple's corporate chart: Apple's founding North Node sits at 14° Scorpio, forming a square to Jobs' natal Mercury. This is the astrological signature of their karmic interlock.</p>
+
+    <p class="sub-feature-kicker" style="margin-top:40px">The Vedic Chart</p>
+    <h3 class="sub-feature-heading">Pisces Ascendant, <em>Venus Dasha</em></h3>
+    <p class="body-text">In Vedic astrology, the sidereal zodiac shifts all positions by approximately 23 degrees, producing a Pisces Ascendant (Meena Lagna). Saturn sits in Libra — exalted. Moon nakshatra: Uttarabhadra — ruled by Saturn, associated with discipline behind creative vision and the ability to sustain depth over time.</p>
+  </div>
+
+  <!-- Vedic table -->
+  <div style="padding: 0 32px 16px">
+    <table class="vedic-table">
+      <tbody>
+        <tr><td>Sun</td><td>Aquarius · 12H</td></tr>
+        <tr><td>Moon</td><td>Pisces · 1H (Lagna)</td></tr>
+        <tr><td>Mercury</td><td>Capricorn · 11H</td></tr>
+        <tr><td>Venus</td><td>Sagittarius · 10H</td></tr>
+        <tr><td>Mars</td><td>Pisces · 1H</td></tr>
+        <tr><td>Jupiter</td><td>Gemini · 4H</td></tr>
+        <tr><td>Saturn</td><td>Libra (exalted) · 8H</td></tr>
+        <tr><td>Rahu</td><td>Sagittarius · 10H</td></tr>
+        <tr><td>Ketu</td><td>Gemini · 4H</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Dasha -->
+  <div style="padding: 0 32px 48px">
+    <p class="sub-feature-kicker" style="margin-bottom: 12px">The Venus Dasha · 1998–2018</p>
+    <table class="dasha-table">
+      <tbody>
+        <tr><td>Saturn Dasha · 1954–1974</td><td>Birth, childhood, India journey</td></tr>
+        <tr><td>Mercury Dasha · 1974–1991</td><td>Apple founding, Mac, Lisa, firing, NeXT, Toy Story</td></tr>
+        <tr><td>Ketu Dasha · 1991–1998</td><td>Apple near-bankruptcy, return to Apple</td></tr>
+        <tr><td>Venus Dasha · 1998–2018</td><td style="color:var(--cream)">iMac → iPod → iTunes → iPhone → iPad → <strong>$1 trillion milestone</strong></td></tr>
+      </tbody>
+    </table>
+    <p class="body-text" style="margin-top:16px; font-size:12px">The Venus Dasha runs from 1998 to 2018 — beginning precisely when Apple turned the corner from bankruptcy to world dominance. Venus rules beauty, harmony, technology in Jyotish, and material abundance. Jobs entered the Venus period with the iMac, and the period closes with Apple's $1 trillion milestone. The arc from comeback to apotheosis completed under a single planetary period.</p>
+  </div>
+</section>
+
 <!-- PULL QUOTE 1 -->
 <section class="pullquote-band">
   <div class="pullquote-inner">
@@ -843,7 +1041,7 @@
 <!-- ═══════ THE FOUNDERS AS ARCHETYPES ═══════ -->
 <section id="founders">
   <div class="section-band">
-    <span class="section-band-num">02</span>
+    <span class="section-band-num">03</span>
     <span class="section-band-title">Feature</span>
     <div class="section-band-rule"></div>
     <span class="section-band-tag">The Founders as Archetypes</span>
@@ -914,10 +1112,45 @@
   </div>
 </section>
 
+<!-- ═══════ SPIRITUAL ARCHITECTURE ═══════ -->
+<section id="spiritual-arch">
+  <div class="section-band">
+    <span class="section-band-num">04</span>
+    <span class="section-band-title">Feature</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">The Spiritual Architecture</span>
+  </div>
+  <div class="births-intro">
+    <h2 class="feature-heading">Before Apple,<br>There Was <em>India</em></h2>
+    <p class="feature-intro">Before there was an Apple, there was an India journey. Before there was an iPhone, there was a Zen monk. Before there was a product launch, there was a horoscope program. The spiritual biography of Steve Jobs is not footnote material. It is the root system of everything Apple made.</p>
+  </div>
+
+  <div class="sub-feature">
+    <p class="sub-feature-kicker">India · 1974</p>
+    <h3 class="sub-feature-heading">The Journey That <em>Changed Everything</em></h3>
+    <p class="body-text">In the summer of 1974, Jobs — then nineteen, a Reed College dropout working at Atari — left for India with his college friend Daniel Kottke to seek spiritual guidance. He traveled to the Kainchi Ashram of Neem Karoli Baba, a Hindu guru whose other devotees included Harvard professor Richard Alpert, later known as Ram Dass. He found the guru dead — Neem Karoli Baba had died in September 1973, months before Jobs arrived. Jobs and Kottke spent seven months traveling through the Indian countryside instead.</p>
+    <p class="body-text">He returned to California with a shaved head, in traditional Indian clothing, and with a philosophy that would shape everything Apple made: <em>minimalism, non-verbal knowing, the primacy of feel over specification.</em> Jobs described it directly: "The people in the Indian countryside don't use their intellect like we do, they use their intuition instead, and their intuition is far more developed than in the rest of the world. Intuition is a very powerful thing, more powerful than intellect, in my opinion. That's had a big impact on my work."</p>
+
+    <p class="sub-feature-kicker" style="margin-top:40px">Zen Buddhism and Design</p>
+    <h3 class="sub-feature-heading">The Monk, the <em>Minimalism</em></h3>
+    <p class="body-text">Jobs studied Zen with Kobun Chino Otogawa at the Haiku Zen Center in Los Altos beginning in the mid-1970s. Kobun was later the Zen monk who married Jobs and Laurene Powell in 1991. The concrete design influence of Zen on Apple products is documented and acknowledged.</p>
+    <p class="body-text"><strong>Mu — emptiness, negative space, the meaningful absence of things</strong> — is directly reflected in Apple's refusal to include unnecessary buttons, ports, or visual elements. The removal of the headphone jack. The single button. The trackpad with no buttons. Mu made physical. Robert Thurman of Columbia University's Buddhist studies program described Jobs not as a practicing Buddhist but as someone who genuinely absorbed Zen's "compelling vision" — particularly the concept of <em>suchness:</em> things as they are, without conceptual overlay. That is the Apple unboxing experience. No instruction manual. Just the object, presented as itself.</p>
+
+    <p class="sub-feature-kicker" style="margin-top:40px">Atari · 1975</p>
+    <h3 class="sub-feature-heading">The First Program Was a <em>Horoscope</em></h3>
+    <p class="body-text">Before Apple existed, the twenty-year-old Jobs was at Atari writing mathematical equations for a horoscope software program called <strong>Astrochart</strong>. A January 2026 tech history piece on Adafruit documented the recreation of this program, confirming Jobs was involved in building astrology software in 1975 — the year before he co-founded Apple.</p>
+    <p class="body-text">The man who built devices that feel divinatory in their ability to anticipate user desire literally began his programming career building a divination system. The first software Jobs worked on was a horoscope. His last major project was Apple Park — a building whose circular design, reflecting pools, and precise orientation suggest cosmological intent. The arc from Astrochart to Apple Park is, at minimum, symbolically coherent.</p>
+
+    <p class="sub-feature-kicker" style="margin-top:40px">Numerology</p>
+    <h3 class="sub-feature-heading">The Number <em>28</em></h3>
+    <p class="body-text">Jobs' life path number is 28 — the sum 2+4+2+1+9+5+5 equals 28, a perfect number in mathematics, equal to the sum of its divisors (1+2+4+7+14 = 28). Apple was founded on April 1, 1976: 4+1+1+9+7+6 also equals 28. Whether deliberate or synchronistic, the recurrence of 28 as a root number across Jobs' birth date and Apple's founding date is part of the cosmic signature of the Jobs-Apple phenomenon. The number 28 corresponds to one lunar cycle — the moon returns to its starting position every 28 days.</p>
+  </div>
+</section>
+
 <!-- ═══════ THE PRODUCT RITUALS ═══════ -->
 <section id="product-rituals">
   <div class="section-band">
-    <span class="section-band-num">03</span>
+    <span class="section-band-num">05</span>
     <span class="section-band-title">Feature</span>
     <div class="section-band-rule"></div>
     <span class="section-band-tag">The Product Rituals</span>
@@ -931,72 +1164,86 @@
   <div class="rituals-timeline">
     <div class="ritual-item">
       <div class="ritual-date-col">
-        <p class="ritual-date">January 24, 1984</p>
+        <p class="ritual-date">Jan 22–24, 1984</p>
         <p class="ritual-sign-line">☉ Aquarius</p>
       </div>
       <div class="ritual-line"></div>
       <div class="ritual-content">
         <h3 class="ritual-product">The <em>Macintosh</em></h3>
-        <p class="ritual-tagline">Aquarius · The Machine That Speaks to the People</p>
-        <p class="ritual-body">
-          "Hello." The Mac introduced itself. No product had done that before, and Aquarius — the sign of the future, the collective, the democratisation of intelligence — is exactly the right sky for a machine that claimed to put the power of a computer into the hands of everyone. The 1984 ad aired once during the Super Bowl and changed advertising permanently. That is an Aquarius move: the single gesture that rewrites the rules.
-        </p>
+        <p class="ritual-tagline">Aquarius · Rebellion Against the Machine</p>
+        <p class="ritual-body">The "1984" ad airs January 22nd, two days before the launch — staging Apple as liberator: a lone runner, a hypnotized mass audience, a hammer thrown at centralized control. The Mac arrives under Aquarius and says the machine does not have to belong to the institution. It can belong to the person. Forty years later, that promise still drives Apple's marketing language.</p>
       </div>
     </div>
     <div class="ritual-item">
       <div class="ritual-date-col">
-        <p class="ritual-date">October 23, 2001</p>
+        <p class="ritual-date">Nov 10, 1997</p>
+        <p class="ritual-sign-line">☉ Scorpio</p>
+      </div>
+      <div class="ritual-line"></div>
+      <div class="ritual-content">
+        <h3 class="ritual-product">The Online <em>Apple Store</em></h3>
+        <p class="ritual-tagline">Scorpio · Revenge Through Direct Commerce</p>
+        <p class="ritual-body">Two months after Jobs returned as interim CEO, Apple launched its online store under Scorpio — the sign of control, hidden systems, and the return of power from those who took it. No more middlemen. This move predates the retail stores by four years. It is the first act of a Scorpio strategy that would become the App Store, Apple Music, Apple TV+, and Apple Pay — a services empire built on the principle that Apple owns the relationship end to end.</p>
+      </div>
+    </div>
+    <div class="ritual-item">
+      <div class="ritual-date-col">
+        <p class="ritual-date">Oct 23, 2001</p>
         <p class="ritual-sign-line">☉ Scorpio</p>
       </div>
       <div class="ritual-line"></div>
       <div class="ritual-content">
         <h3 class="ritual-product">The <em>iPod</em></h3>
-        <p class="ritual-tagline">Scorpio · 1,000 Songs in Your Pocket</p>
-        <p class="ritual-body">
-          Scorpio governs depth, obsession, and the intimate. The iPod arrived six weeks after 9/11, in a culture suddenly desperate for private experience, for the ability to disappear inside music. "One thousand songs in your pocket" is a Scorpio promise: not a feature list, an interior world. The device that made Apple cool again launched under the sign of interiority.
-        </p>
+        <p class="ritual-tagline">Scorpio · The Private Music Vault</p>
+        <p class="ritual-body">A thousand songs in your pocket. What Jobs was actually describing was a private emotional vault: memory, longing, taste, identity, and the entire soundtrack of a self compressed into a small white object. The white earbuds signaled precisely Scorpionic: <em>I am connected to my own interior world. Do not interrupt.</em> The iPod turned music from a shared, public experience into a private, portable one. It made the inner life portable.</p>
       </div>
     </div>
     <div class="ritual-item">
       <div class="ritual-date-col">
-        <p class="ritual-date">June 29, 2007</p>
-        <p class="ritual-sign-line">☉ Cancer</p>
+        <p class="ritual-date">Apr 28, 2003</p>
+        <p class="ritual-sign-line">☉ Taurus</p>
+      </div>
+      <div class="ritual-line"></div>
+      <div class="ritual-content">
+        <h3 class="ritual-product">The <em>iTunes</em> Store</h3>
+        <p class="ritual-tagline">Taurus · Music Becomes an Object Again</p>
+        <p class="ritual-body">The iTunes Music Store arrives under Taurus — the sign of material value, ownership, and the tangible. In the era of Napster, music had become unstable: free, invisible, uncontained, impossible to own. Apple's answer was to restore materiality. Ninety-nine cents. One song. Yours. Taurus restores object status to something that had dissolved into pure digital ether. Apple did not merely sell songs. It rebuilt the relationship between music and possession.</p>
+      </div>
+    </div>
+    <div class="ritual-item">
+      <div class="ritual-date-col">
+        <p class="ritual-date">Jan 9 / Jun 29, 2007</p>
+        <p class="ritual-sign-line">♑ then ♋</p>
       </div>
       <div class="ritual-line"></div>
       <div class="ritual-content">
         <h3 class="ritual-product">The <em>iPhone</em></h3>
-        <p class="ritual-tagline">Cancer · The Phone That Became Home</p>
-        <p class="ritual-body">
-          Cancer rules home, belonging, the body as a nest. The iPhone launched under Cancer and became, within five years, the place where most people lived their emotional lives: their photos, their relationships, their memories. Jobs' own Jupiter and Uranus sit in Cancer in the 10th house — public career, world-changing work. The iPhone is the most literal expression of his natal chart's promise.
-        </p>
+        <p class="ritual-tagline">Capricorn then Cancer · Authority, Then Intimacy</p>
+        <p class="ritual-body">The iPhone has two births. The announcement on January 9 falls under Capricorn — the controlled reveal of a definitive object that reorganizes the hierarchy of an entire industry. Jobs introduces it as three devices in one, then says: Apple is introducing <em>one</em> device. The room erupts. But the iPhone releases five months later on June 29, under Cancer. And Cancer is home, attachment, emotional memory, intimacy, the container we live inside. <strong>Capricorn made it authoritative. Cancer made it indispensable.</strong></p>
       </div>
     </div>
     <div class="ritual-item">
       <div class="ritual-date-col">
-        <p class="ritual-date">April 3, 2010</p>
+        <p class="ritual-date">Apr 3, 2010</p>
         <p class="ritual-sign-line">☉ Aries</p>
       </div>
       <div class="ritual-line"></div>
       <div class="ritual-content">
         <h3 class="ritual-product">The <em>iPad</em></h3>
-        <p class="ritual-tagline">Aries · The Post-PC Beginning</p>
-        <p class="ritual-body">
-          Jobs called it the most important thing he'd ever done. He launched it under Aries — the founding sign, the sign of first gestures. The iPad arrived as a declaration that the personal computer era was ending and something else was beginning. Aries again, doing what it always does: showing up at the origin point and naming what comes next.
-        </p>
+        <p class="ritual-tagline">Aries · The Cycle Completes</p>
+        <p class="ritual-body">The iPad launches under Aries — closing a circle that opened with Apple's founding in April 1976. Critics called it a large iPhone. They missed the point. The iPad was Apple's declaration that the computer interface itself needed to be rebuilt from first principles — not adapted, not miniaturized, but reimagined. That is Aries: ignition, rupture, the courage to begin before the argument is settled. The iPad also arrives near Jupiter conjunct Jobs' natal Sun — the last major product he introduces while healthy.</p>
       </div>
     </div>
     <div class="ritual-item">
       <div class="ritual-date-col">
-        <p class="ritual-date">February 2, 2024</p>
+        <p class="ritual-date">Feb 2, 2024</p>
         <p class="ritual-sign-line">☉ Aquarius</p>
       </div>
       <div class="ritual-line"></div>
       <div class="ritual-content">
         <h3 class="ritual-product">Apple <em>Vision Pro</em></h3>
-        <p class="ritual-tagline">Aquarius Again · Spatial Computing Arrives</p>
-        <p class="ritual-body">
-          Apple returns to Aquarius for its most radical product since the iPhone. Vision Pro is the company's first spatial computing device — the beginning, Apple says, of a new era. Aquarius appeared at the Mac in 1984. It appears here again, forty years later, for the next paradigm. The sign of the future-that-arrived-early, repeating.
-        </p>
+        <p class="ritual-tagline">Aquarius Again · Reality Becomes Interface</p>
+        <p class="ritual-body">Vision Pro releases under Aquarius — the same sign as the Macintosh, forty years later. The echo is not subtle. Aquarius rules future systems, altered social architecture, and the redesign of perception through invention. The Vision Pro is not a screen. It is an attempt to place the Apple interface into the field of vision itself. Apple's oldest question — where does the tool end and the self begin — arrives here at its most extreme form.</p>
       </div>
     </div>
   </div>
@@ -1017,7 +1264,7 @@
 <!-- ═══════ STORE AS TEMPLE ═══════ -->
 <section id="store-temple">
   <div class="section-band">
-    <span class="section-band-num">04</span>
+    <span class="section-band-num">06</span>
     <span class="section-band-title">Feature</span>
     <div class="section-band-rule"></div>
     <span class="section-band-tag">The Store as Temple</span>
@@ -1049,7 +1296,7 @@
 <!-- ═══════ THE BODY BECOMES INTERFACE ═══════ -->
 <section id="body-interface">
   <div class="section-band">
-    <span class="section-band-num">05</span>
+    <span class="section-band-num">07</span>
     <span class="section-band-title">Feature</span>
     <div class="section-band-rule"></div>
     <span class="section-band-tag">The Body Becomes Interface</span>
@@ -1084,10 +1331,108 @@
   </div>
 </section>
 
+<!-- ═══════ THE JUPITER CYCLE ═══════ -->
+<section id="jupiter-cycle">
+  <div class="section-band">
+    <span class="section-band-num">08</span>
+    <span class="section-band-title">Feature</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">The Jupiter Cycle — 35 Years of Cosmic Evidence</span>
+  </div>
+  <div class="births-intro">
+    <h2 class="feature-heading">Every 12 Years,<br>the Sky <em>Repeats</em></h2>
+    <p class="feature-intro">The most extensively analyzed astrological pattern in Jobs' career: the correlation between his major innovations and Jupiter's 12-year cycle transiting between his natal Midheaven (MC at 21° Gemini) and Imum Coeli (IC at 21° Sagittarius). Products launched near Jupiter on the IC became permanent institutions. Products launched near Jupiter on the MC were eventually discontinued.</p>
+  </div>
+
+  <div style="padding: 0 32px 48px">
+    <table class="jup-table">
+      <thead>
+        <tr><th>Product / Milestone</th><th>Date</th><th>Jupiter Transit</th><th>Type</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Blue Boxes (first business)</td><td>Oct 1971</td><td>Jupiter on IC (Dec 1971)</td><td class="td-highlight">Foundational seed</td></tr>
+        <tr><td>Apple I &amp; company founded</td><td>Apr 1976</td><td>Jupiter on natal Mars (Mar 1976)</td><td class="td-highlight">Foundational seed</td></tr>
+        <tr><td class="td-highlight">Apple II released</td><td>Jun 1977</td><td>Jupiter on MC (Jul 1977)</td><td style="color:var(--muted)">Transitional — discontinued 1993</td></tr>
+        <tr style="background:rgba(208,171,57,.04)"><td class="td-highlight"><strong>Macintosh launched</strong></td><td>Jan 1984</td><td>Jupiter on IC (Dec 1983)</td><td style="color:var(--gold)">FOUNDATIONAL — still sold today</td></tr>
+        <tr><td>Jobs fired from Apple</td><td>May 1985</td><td>Jupiter Rx on natal Mercury</td><td style="color:var(--muted)">Crisis</td></tr>
+        <tr><td class="td-highlight">NeXT Computer announced</td><td>Oct 1988</td><td>Jupiter on MC (Jun 1989)</td><td style="color:var(--muted)">Transitional — hardware discontinued 1990</td></tr>
+        <tr style="background:rgba(208,171,57,.04)"><td class="td-highlight"><strong>Toy Story / Pixar IPO</strong></td><td>Nov 1995</td><td>Jupiter on IC (Dec 1995)</td><td style="color:var(--gold)">FOUNDATIONAL — franchise ongoing</td></tr>
+        <tr><td>Jobs returns to Apple</td><td>Sep 1997</td><td>Jupiter Rx on Mercury (12 yrs later)</td><td class="td-highlight">Return — exact repeat of 1985</td></tr>
+        <tr><td>iMac</td><td>Aug 1998</td><td>Jupiter on Mercury</td><td style="color:var(--muted)">Recovery</td></tr>
+        <tr><td class="td-highlight">iPod</td><td>Oct 2001</td><td>Jupiter on MC (Jun 2001)</td><td style="color:var(--muted)">Transitional — full line retired 2022</td></tr>
+        <tr style="background:rgba(208,171,57,.04)"><td class="td-highlight"><strong>iPhone announced / released</strong></td><td>Jan / Jun 2007</td><td>Jupiter on IC (Nov 2007)</td><td style="color:var(--gold)">FOUNDATIONAL — most profitable product in history</td></tr>
+        <tr><td>iPad</td><td>Apr 2010</td><td>Jupiter conjunct natal Sun (Feb 2010)</td><td class="td-highlight">Foundational — Jupiter touches his core</td></tr>
+        <tr><td>iCloud / Apple Park presented</td><td>Jun 6, 2011</td><td>Jupiter on natal Mars</td><td style="color:var(--muted)">Final act</td></tr>
+        <tr><td>Death</td><td>Oct 5, 2011</td><td>MC primary direction to Mars (Oct 4)</td><td style="color:var(--muted)">—</td></tr>
+      </tbody>
+    </table>
+
+    <p class="body-text" style="margin-top:24px"><strong>The IC plants seeds that grow into permanent foundations. The MC produces climactic achievements that peak and pass.</strong> That distinction, across 35 years and ten major products, is the Jupiter cycle's most striking claim.</p>
+    <p class="body-text">Jobs was fired in May 1985 — Jupiter retrograde, crossing his natal Mercury. He returned in September 1997 — Jupiter retrograde, crossing his natal Mercury again. The gap: exactly twelve years, one Jupiter cycle. Both events were also major communication and narrative pivots: the 1985 departure was about Apple's direction narrative. The 1997 return launched "Think Different." Mercury rules communication. Both events happened on Jupiter's retrograde passage over Jobs' natal Mercury, twelve years apart.</p>
+
+    <p class="sub-feature-kicker" style="margin-top:40px; margin-bottom:12px">The Saturn-Neptune Macro Cycle</p>
+    <table class="sn-table">
+      <thead><tr><th>S-N Alignment</th><th>Year</th><th>Jobs' Career Event</th></tr></thead>
+      <tbody>
+        <tr><td>Opposition</td><td>1971–72</td><td>Blue Boxes — first entrepreneurial act</td></tr>
+        <tr><td>Trine</td><td>1976–77</td><td>Apple I/II — first mass-produced personal computer</td></tr>
+        <tr><td>Sextile</td><td>1982–83</td><td>Macintosh development climax</td></tr>
+        <tr><td>Opposition</td><td>2006–07</td><td>iPhone — the final masterpiece</td></tr>
+      </tbody>
+    </table>
+    <p class="body-text" style="margin-top:16px; font-size:12px">Astrodienst's analysis: "Steve Jobs' career as a visionary innovator can be understood by following the thread of one complete Saturn-Neptune cycle, from the oppositions of 1971–72 until the oppositions of 2006–07" — a precisely 35-year arc from the Blue Box to the iPhone.</p>
+  </div>
+</section>
+
+<!-- ═══════ THE CORPORATE CHART ═══════ -->
+<section id="corporate-chart" style="background:var(--deep); border-top:1px solid var(--border)">
+  <div class="section-band">
+    <span class="section-band-num">09</span>
+    <span class="section-band-title">Feature</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">The Apple Corporate Chart</span>
+  </div>
+  <div class="births-intro">
+    <h2 class="feature-heading">Cosmic <em>Coordinates</em></h2>
+    <p class="feature-intro">The founding chart, the $1 trillion alignment, and the evidence that makes astrological analysts regard Apple as the best corporate case study in the modern record.</p>
+  </div>
+  <div class="sub-feature">
+    <p class="sub-feature-kicker">The Founding Chart · April 1, 1976</p>
+    <h3 class="sub-feature-heading">Jupiter at 1° Taurus,<br>North Node at <em>14° Scorpio</em></h3>
+    <p class="body-text">On the day the Apple Computer Company partnership was signed: <strong>Jupiter at 1° Taurus</strong> — the planet of abundance sitting on the money and business sign at its most foundational degree. <strong>North Node at 14° Scorpio</strong> — the karmic North Node in the sign of high finance, transformation, and corporate power. <strong>South Node at 14° Taurus</strong> — creating a Taurus-Scorpio financial axis across the chart. Ron Wayne typed the partnership document on that date and sold his 10% stake for $800 days later.</p>
+
+    <p class="sub-feature-kicker" style="margin-top:40px">August 2, 2018</p>
+    <h3 class="sub-feature-heading">The $1 Trillion <em>Alignment</em></h3>
+    <p class="body-text">The day Apple became the first publicly traded company worth $1 trillion, two things happened simultaneously in the sky:</p>
+    <p class="body-text"><strong>Transiting Uranus reached 2° Taurus</strong> — landing within one degree of Apple's natal Jupiter at 1° Taurus. Uranus takes 84 years to complete one orbit. This was the first time Uranus had returned to this degree since Apple was founded. The first Uranus return in Apple's history arrived on the day Apple hit $1 trillion.</p>
+    <p class="body-text"><strong>Transiting Jupiter reached 14° Scorpio</strong> — landing exactly on Apple's founding North Node at 14° Scorpio. This was Jupiter's seventh return to Apple's natal North Node. Both outer planets returned simultaneously to within one degree of Apple's founding positions — on the same day, the day of the most significant financial milestone in the company's history.</p>
+    <p class="body-text">Jobs' natal chart interlocks with these coordinates: his natal Mercury sits at 14° Aquarius, squaring Apple's North Node at 14° Scorpio. His natal Chiron sits at 2° Aquarius, squaring Apple's Jupiter at 1° Taurus and the 2018 Uranus transit. The founder's personal chart and the company's founding chart share the same geometric coordinates — and both activated on the same historic day. As Jessica Adams wrote: <em>"How often does this happen? Once in a company's lifetime."</em></p>
+
+    <p class="sub-feature-kicker" style="margin-top:40px">The Tarot of Apple</p>
+    <h3 class="sub-feature-heading">If Apple Were a <em>Spread</em></h3>
+  </div>
+  <div style="padding: 0 32px 48px">
+    <div class="tarot-grid">
+      <div class="tarot-cell"><p class="tarot-card-name">The Fool</p><p class="tarot-card-body">The garage. The leap. The absurdity of believing two young men could change computing.</p></div>
+      <div class="tarot-cell"><p class="tarot-card-name">The Magician</p><p class="tarot-card-body">The keynote. The product reveal. The invisible future made visible. One more thing.</p></div>
+      <div class="tarot-cell"><p class="tarot-card-name">The Emperor</p><p class="tarot-card-body">The will to build a world and define the rules of that world.</p></div>
+      <div class="tarot-cell"><p class="tarot-card-name">The Hierophant</p><p class="tarot-card-body">The Apple Store. The Genius Bar. The initiation into the system of belonging.</p></div>
+      <div class="tarot-cell"><p class="tarot-card-name">The Devil</p><p class="tarot-card-body">The beautiful object that binds us. Desire, dependency, ecosystem, attachment.</p></div>
+      <div class="tarot-cell"><p class="tarot-card-name">Temperance</p><p class="tarot-card-body">The alchemy of art and engineering, beauty and utility, hardware and software.</p></div>
+      <div class="tarot-cell"><p class="tarot-card-name">The Moon</p><p class="tarot-card-body">The dream field, the aura, the distortion, the longing projected onto the machine.</p></div>
+      <div class="tarot-cell"><p class="tarot-card-name">Strength</p><p class="tarot-card-body">Wozniak. The heart-force that made the early machine lovable.</p></div>
+      <div class="tarot-cell"><p class="tarot-card-name">The Hermit</p><p class="tarot-card-body">Apple Health. The inward lantern. The body becoming readable through data.</p></div>
+      <div class="tarot-cell"><p class="tarot-card-name">Death</p><p class="tarot-card-body">The Jobs-to-Cook transition. The dream must survive in another body.</p></div>
+      <div class="tarot-cell"><p class="tarot-card-name">The World</p><p class="tarot-card-body">The ecosystem completed — phone, watch, laptop, cloud, services, store, music, identity.</p></div>
+      <div class="tarot-cell"><p class="tarot-card-name">Apple's Deck</p><p class="tarot-card-body">Apple's story is not one card. It is a deck. The chart shows where it all began.</p></div>
+    </div>
+  </div>
+</section>
+
 <!-- ═══════ THE APPLE SHADOW ═══════ -->
 <section id="apple-shadow">
   <div class="section-band">
-    <span class="section-band-num">06</span>
+    <span class="section-band-num">10</span>
     <span class="section-band-title">Feature</span>
     <div class="section-band-rule"></div>
     <span class="section-band-tag">The Apple Shadow</span>
@@ -1095,28 +1440,31 @@
   <div class="shadow-inner">
     <div class="shadow-left">
       <h2 class="shadow-heading">The Cost of<br><em>Enchantment</em></h2>
-      <p class="body-text">
-        The shadow of every mythology is the thing it cannot look at directly. Apple's mythology is built on beauty, simplicity, the democratisation of creative power. The shadow is the supply chain that manufactures that beauty — and the labour conditions, the locked ecosystems, the environmental cost of the annual upgrade cycle.
-      </p>
-      <p class="body-text">
-        <strong>Foxconn.</strong> The suicides at the Zhengzhou factory in 2010 and 2011. The nets installed outside windows. Apple's response — audits, supplier responsibility reports, incremental improvements — reads like a company trying to discharge a debt it cannot fully acknowledge.
-      </p>
-      <p class="body-text">
-        The Pisces shadow is denial — the refusal to see what disrupts the vision. Jobs' biographers describe a man who could hold two truths simultaneously: that the products were beautiful and that the conditions of their manufacture were not. The Pisces chart allowed him to operate inside that contradiction without apparent discomfort.
-      </p>
+      <p class="body-text">Jung's concept of the Shadow is not about evil. It is about what we cannot see in ourselves because we are too identified with the opposite quality. The Shadow is the cost of the gift. The underside of the strength.</p>
+      <table class="shadow-gift-table">
+        <tbody>
+          <tr><td>Simplicity</td><td>→ Control</td></tr>
+          <tr><td>Beauty</td><td>→ Perfectionism as cruelty</td></tr>
+          <tr><td>Ecosystem</td><td>→ Enclosure</td></tr>
+          <tr><td>Privacy</td><td>→ Opacity</td></tr>
+          <tr><td>Devotion</td><td>→ Dependency</td></tr>
+          <tr><td>Design</td><td>→ Invisible labor</td></tr>
+        </tbody>
+      </table>
+      <p class="body-text" style="margin-top:20px">Apple's Capricorn incorporation chart gave it The Devil — and The Devil has been present in every product Apple has ever made. Not as evil. As attachment. The beautiful object that you desire so completely that it begins to organize your life around itself. The cleaner the object, the more hidden the machinery behind it. The smoother the surface, the less visible the hands that polished it.</p>
     </div>
     <div class="shadow-right">
       <p class="body-text" style="margin-top: 0">
-        <em>The Capricorn shadow is the shadow of ambition that cannot stop.</em> Apple's planned obsolescence — the product cycle that renders last year's device functionally slow within eighteen months — is a Capricorn mechanism: the institution perpetuating itself through engineered scarcity, structured desire.
+        <em>The most powerful form of control is the kind that feels like freedom. You are not trapped. You just don't want to leave.</em> Apple has always understood this. The sealed ecosystem. The locked repair path. The spiritual language of creativity wrapped around a vast machine of supply chain secrecy, labor extraction, and capital.
       </p>
       <p class="body-text">
-        The Sagittarius shadow is the shadow of the myth that outgrows its truth. Think Different. The campaign aired in 1997 and showed Einstein, Gandhi, Picasso — the dissidents, the dreamers, the ones who changed history. Apple used their images to sell computers. The gap between the mythology and the product is where the shadow lives.
+        The invisible labor shadow is perhaps the hardest to sit with, because it requires holding Apple's beautiful objects alongside the conditions of their manufacture — the supply chain that Apple manages with extraordinary Scorpionic control, the factories that produce the devices, the extraction of materials, the working conditions of the people whose hands make what our hands hold. The object is clean. The system behind it is not. That gap is where Apple's deepest shadow lives.
       </p>
       <p class="body-text">
-        None of this makes the products less beautiful. None of it makes the mythology less powerful. <strong>The shadow is not the opposite of the light. It is the shape the light makes when something stands in it.</strong> Apple stands in its own light constantly. The shape it casts is the shadow.
+        Jung's Shadow work is not about condemning the Shadow. It is about seeing it clearly enough that it stops operating unconsciously. The goal is not to stop using Apple products. The goal is to understand what the relationship actually is — what we project onto the devices, what needs they address, what parts of ourselves we have outsourced to them.
       </p>
       <p class="body-text">
-        A zine about corporate astrology is not a takedown. It is an attempt to see all of it — the brilliant, the flawed, the structurally necessary contradictions — through a different kind of lens. The sky doesn't judge. It just records.
+        <strong>The shadow is not the opposite of the light. It is the shape the light makes when something stands in it.</strong> Apple stands in its own light constantly. What part of ourselves did we place inside the device? And do we know how to get it back?
       </p>
     </div>
   </div>
@@ -1137,7 +1485,7 @@
 <!-- ═══════ SYMBOLIC TIMELINE ═══════ -->
 <section id="timeline">
   <div class="section-band">
-    <span class="section-band-num">07</span>
+    <span class="section-band-num">11</span>
     <span class="section-band-title">Reference</span>
     <div class="section-band-rule"></div>
     <span class="section-band-tag">Symbolic Timeline</span>
@@ -1177,42 +1525,67 @@
 <!-- ═══════ REFERENCES ═══════ -->
 <section id="references">
   <div class="section-band" style="margin:0 -32px; padding-left:32px; padding-right:32px">
-    <span class="section-band-num">08</span>
+    <span class="section-band-num">12</span>
     <span class="section-band-title">Sources & References</span>
     <div class="section-band-rule"></div>
     <span class="section-band-tag">Web Edition</span>
   </div>
   <div class="ref-grid">
     <div>
-      <p class="ref-group-title">Astrology Sources</p>
+      <p class="ref-group-title">Steve Jobs — Chart & Biography</p>
       <ul class="ref-list">
-        <li><a href="https://www.astro.com/astro-databank/Jobs,_Steve" target="_blank">Astro-Databank: Steve Jobs natal chart data</a></li>
-        <li><a href="https://www.adafruit.com/product/4406" target="_blank">Adafruit Astrochart: Apple Computer Inc. founding chart</a></li>
-        <li>Karen Christino, <em>Foreseeing the Future: Evangeline Adams and Astrology in America</em></li>
-        <li>Jessica Adams, <a href="https://www.jessicaadams.com" target="_blank">jessicaadams.com</a> — Apple $1 trillion Jupiter analysis</li>
-        <li>W.D. Gann, <em>The Tunnel Thru the Air</em> (1927) — commodity cycle timing</li>
+        <li><a href="https://www.astro.com/astro-databank/Jobs,_Steve" target="_blank">Astrodatabank — Steve Jobs, AA-rated birth data</a></li>
+        <li><a href="https://sevenstarsastrology.com/astrology-profession-calling-3-steve-jobs-bill-gates/" target="_blank">Seven Stars Astrology — Jobs & Gates: Mercury and the Profession</a></li>
+        <li><a href="https://sitharsastrology.com/blog/steve-jobs-horoscope-analysis" target="_blank">Sithar's Astrology — Steve Jobs Horoscope Analysis</a></li>
+        <li><a href="https://tonylouis.wordpress.com/2011/10/07/astrology-primary-directions-and-the-death-of-steve-jobs/" target="_blank">Tony Louis — Primary Directions and the Death of Steve Jobs</a></li>
+        <li><a href="https://blog.adafruit.com/2026/01/06/we-recreated-steve-jobss-1975-atari-horoscope-program-and-you-can-run-it/" target="_blank">Adafruit — We Recreated Steve Jobs's 1975 Atari Horoscope Program</a></li>
+        <li><a href="https://abcnews.com/Health/steve-jobs-buddhism-guided-life-mantra-focus-simplicity/story?id=14682458" target="_blank">ABC News — Steve Jobs' Buddhism guided his life</a></li>
+        <li><a href="https://www.nytimes.com/2011/10/06/business/steve-jobs-of-apple-dies-at-56.html" target="_blank">New York Times — Steve Jobs of Apple Dies at 56</a></li>
       </ul>
     </div>
     <div>
-      <p class="ref-group-title">Apple & Jobs Sources</p>
+      <p class="ref-group-title">Apple — Corporate Charts & Milestones</p>
       <ul class="ref-list">
-        <li>Walter Isaacson, <em>Steve Jobs</em> (Simon & Schuster, 2011)</li>
-        <li>Brent Schlender & Rick Tetzeli, <em>Becoming Steve Jobs</em></li>
-        <li><a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000320193" target="_blank">SEC EDGAR: Apple Inc. (AAPL) public filings</a></li>
-        <li>Apple Newsroom press releases, 1984–2024</li>
-        <li>Stanford Commencement Address, Jobs, 2005 — "connecting the dots"</li>
+        <li><a href="https://www.jessicaadams.com/2018/08/02/blog/the-apple-1-trillion-astrology-chart/" target="_blank">Jessica Adams — The Apple $1 Trillion Astrology Chart</a></li>
+        <li><a href="https://stockastrologer.com/example-charts/" target="_blank">StockAstrologer — Financial Astrology of Apple (IPO Chart)</a></li>
+        <li><a href="https://www.astro.com/astro-databank/Apple,_Shares" target="_blank">Astro.com — Apple Shares, December 12, 1980</a></li>
+        <li><a href="https://www.fastcompany.com/91246252/apple-ipo-44-anniversary-invested-1000-shares-worth-today" target="_blank">Fast Company — Apple IPO 44th Anniversary</a></li>
+        <li><a href="https://www.reuters.com/article/business/timeline-apple-product-introductions-and-milestones-idUSTRE60Q56D/" target="_blank">Reuters — Apple Product Introductions and Milestones</a></li>
+        <li><a href="https://www.astro.com" target="_blank">Astrodienst — Steve Jobs Career and Jupiter Cycles</a></li>
       </ul>
     </div>
     <div>
-      <p class="ref-group-title">Corporate Astrology Context</p>
+      <p class="ref-group-title">Astrology, Power & Capital</p>
       <ul class="ref-list">
-        <li>Reagan White House astrologer: <a href="https://en.wikipedia.org/wiki/Joan_Quigley" target="_blank">Joan Quigley, Wikipedia</a></li>
-        <li>J.P. Morgan quote — various sources; origin disputed; see <a href="https://quoteinvestigator.com" target="_blank">Quote Investigator</a></li>
-        <li><a href="https://link.springer.com/article/10.1007/s10708-022-10696-7" target="_blank">Capitalism and astrology: academic research on belief systems</a> (Springer, 2022)</li>
-        <li>Mitt Romney quote: "Corporations are people, my friend" — Iowa State Fair, August 11, 2011</li>
-        <li>Wolff Olins brand methodology — <a href="https://www.wolffolins.com" target="_blank">wolffolins.com</a></li>
+        <li><a href="https://karenchristino.com/evangeline-adams/j-p-morgan-and-astrology/" target="_blank">Karen Christino — J.P. Morgan and Astrology</a></li>
+        <li><a href="https://www.independent.co.uk/news/people/joan-quigley-astrologer-who-was-said-by-white-house-insiders-to-have-influenced-the-policies-of-president-ronald-reagan-9819573.html" target="_blank">The Independent — Joan Quigley: Reagan's Astrologer</a></li>
+        <li><a href="https://www.hoover.org/news/hoover-makes-available-newly-processed-papers-nancys-reagans-white-house-astrologer" target="_blank">Hoover Institution — Joan Quigley Papers (2025)</a></li>
+        <li><a href="https://www.buffalo.edu/news/releases/2026/02/tirado-bramen-astrological-speculation.html" target="_blank">University at Buffalo — Astrological Speculation and Capitalism (Feb 2026)</a></li>
+        <li><a href="https://www.inc.com/gabrielle-bienasz/how-this-company-uses-astrology-to-make-business-decisions/91254002" target="_blank">Inc. — How CHANI Uses Astrology to Make Business Decisions</a></li>
+        <li><a href="https://www.reddit.com/r/AskHistorians/comments/os63pb/did_jp_morgan_really_say_millionaires_dont_use/" target="_blank">Reddit AskHistorians — Did J.P. Morgan really say this?</a></li>
       </ul>
     </div>
+  </div>
+</section>
+
+<!-- ═══════ CLOSING ═══════ -->
+<section class="pullquote-band" style="background:var(--void)">
+  <div class="pullquote-inner" style="max-width:900px">
+    <div class="pq-rule"></div>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(13px,1.5vw,18px);color:var(--silver);line-height:1.85;margin-bottom:28px">
+      Apple's genius has always been its ability to move inward. First the desk. Then the home. Then the pocket. Then the wrist. Then the body. Now, with spatial computing, the field of perception itself. Each threshold closer to the self. Each product more intimate than the last. The garage becomes an origin story, the keynote becomes a ritual, the store becomes a temple, the product becomes a symbol, and the company becomes something we project our desires, our identities, and our deepest longings onto.
+    </p>
+    <blockquote style="font-size:clamp(18px,2.5vw,28px);margin-bottom:20px">
+      "Apple did not simply sell us computers. It sold us a self-image. Which means it was never just a brand. It was always a chart waiting to be read."
+    </blockquote>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">
+      <span class="data-chip">Aries lights the fire</span>
+      <span class="data-chip">Capricorn seals the object</span>
+      <span class="data-chip">Sagittarius spreads the gospel</span>
+      <span class="data-chip">Taurus builds the temple</span>
+      <span class="data-chip">Virgo measures the body</span>
+    </div>
+    <p style="margin-top:28px;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.12em">Issue 02 coming.</p>
   </div>
 </section>
 
@@ -1515,6 +1888,51 @@ gsap.fromTo('.timeline-table tbody tr',
   { opacity:0, y:12 },
   { opacity:1, y:0, duration:.5, ease:'power2.out', stagger:.04,
     scrollTrigger:{ trigger:'.timeline-table', start:'top 80%' } }
+);
+
+// ── JOBS CHART ──
+gsap.fromTo('#jobs-chart .grand-cross-cell',
+  { opacity:0, y:20 },
+  { opacity:1, y:0, duration:.7, ease:'power3.out', stagger:.1,
+    scrollTrigger:{ trigger:'.grand-cross-grid', start:'top 80%' } }
+);
+gsap.fromTo('.dasha-table td, .vedic-table td',
+  { opacity:0, x:-10 },
+  { opacity:1, x:0, duration:.4, ease:'power2.out', stagger:.03,
+    scrollTrigger:{ trigger:'#jobs-chart', start:'top 30%' } }
+);
+
+// ── SPIRITUAL ARCH ──
+gsap.fromTo('#spiritual-arch .sub-feature-heading, #spiritual-arch .body-text',
+  { opacity:0, y:20 },
+  { opacity:1, y:0, duration:.7, ease:'power3.out', stagger:.08,
+    scrollTrigger:{ trigger:'#spiritual-arch', start:'top 75%' } }
+);
+
+// ── JUPITER CYCLE ──
+gsap.fromTo('.jup-table tbody tr',
+  { opacity:0, y:10 },
+  { opacity:1, y:0, duration:.4, ease:'power2.out', stagger:.04,
+    scrollTrigger:{ trigger:'.jup-table', start:'top 80%' } }
+);
+gsap.fromTo('.sn-table td',
+  { opacity:0 },
+  { opacity:1, duration:.4, ease:'power2.out', stagger:.05,
+    scrollTrigger:{ trigger:'.sn-table', start:'top 85%' } }
+);
+
+// ── CORPORATE CHART ──
+gsap.fromTo('.tarot-cell',
+  { opacity:0, scale:.9, y:20 },
+  { opacity:1, scale:1, y:0, duration:.6, ease:'back.out(1.4)', stagger:.06,
+    scrollTrigger:{ trigger:'.tarot-grid', start:'top 80%' } }
+);
+
+// ── SHADOW TABLE ──
+gsap.fromTo('.shadow-gift-table tr',
+  { opacity:0, x:-20 },
+  { opacity:1, x:0, duration:.5, ease:'power3.out', stagger:.08,
+    scrollTrigger:{ trigger:'.shadow-gift-table', start:'top 80%' } }
 );
 
 // ── REFERENCES ──
