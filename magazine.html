@@ -219,458 +219,336 @@
       border: 1px solid var(--border); padding: 3px 8px; border-radius: 2px;
     }
 
-    /* ═══════════════════════════════════════════════════════════════════
-       THE THREE BIRTHS
-    ═══════════════════════════════════════════════════════════════════ */
-    #three-births { background: var(--void); }
-    .births-intro {
-      padding: 64px 32px 48px;
-      max-width: 760px;
-    }
+    /* ════════════════════ THREE BIRTHS ════════════════════ */
+    #three-births { background: var(--bg); }
+    .births-intro { padding: 72px 48px 56px; max-width: 800px; }
     .feature-heading {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(32px, 5vw, 64px); font-weight: 300;
-      line-height: 1.0; letter-spacing: -0.025em; text-transform: uppercase;
-      color: var(--white); margin-bottom: 20px;
+      font-family: var(--sans);
+      font-size: clamp(28px, 4.5vw, 56px); font-weight: 700;
+      line-height: 1.04; letter-spacing: -0.03em;
+      color: var(--text); margin-bottom: 20px;
     }
-    .feature-heading em { font-style: italic; color: var(--gold); text-transform: none; }
-    .feature-intro {
-      font-size: 15px; color: var(--silver); line-height: 1.85; max-width: 620px;
-    }
+    .feature-heading em { font-style: italic; color: var(--text3); font-weight: 300; }
+    .feature-intro { font-size: 17px; color: var(--text3); line-height: 1.7; max-width: 640px; font-weight: 400; }
     .births-grid {
       display: grid; grid-template-columns: repeat(3, 1fr);
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--border-l);
     }
     .birth-card {
-      padding: 40px 32px;
-      border-right: 1px solid var(--border);
-      position: relative; overflow: hidden;
+      padding: 40px 40px; border-right: 1px solid var(--border-l);
+      position: relative; overflow: hidden; background: var(--bg);
+      transition: background .3s;
     }
     .birth-card:last-child { border-right: none; }
+    .birth-card:hover { background: var(--surface2); }
     .birth-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, var(--gold), transparent);
-      transform: scaleX(0); transform-origin: left;
-      transition: transform .6s cubic-bezier(.2,.8,.2,1);
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--text); transform: scaleX(0); transform-origin: left;
+      transition: transform .5s cubic-bezier(.2,.8,.2,1);
     }
     .birth-card:hover::before { transform: scaleX(1); }
-    .birth-sign {
-      font-size: 2.4rem; display: block; margin-bottom: 12px; opacity: .75;
-    }
+    .birth-sign { font-size: 2rem; display: block; margin-bottom: 16px; opacity: .35; }
     .birth-date {
-      font-family: var(--mono); font-size: 10px; letter-spacing: .15em;
-      color: var(--gold); margin-bottom: 8px;
+      font-family: var(--mono); font-size: 11px; letter-spacing: .04em;
+      color: var(--text4); margin-bottom: 10px;
     }
     .birth-heading {
-      font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400;
-      color: var(--white); line-height: 1.2; margin-bottom: 12px;
+      font-family: var(--sans); font-size: 20px; font-weight: 600;
+      color: var(--text); line-height: 1.2; margin-bottom: 8px; letter-spacing: -.02em;
     }
     .birth-sub {
-      font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
-      color: var(--lavender); margin-bottom: 16px;
+      font-size: 12px; letter-spacing: .04em;
+      color: var(--text4); margin-bottom: 16px; font-weight: 400;
     }
-    .birth-body { font-size: 12px; color: var(--muted); line-height: 1.8; }
+    .birth-body { font-size: 13px; color: var(--text3); line-height: 1.75; }
 
-    /* Chart data panel */
+    /* ─── Chart panel ─── */
     .chart-panel {
-      margin: 0 32px 48px;
-      border: 1px solid var(--border);
-      background: var(--deep);
+      margin: 0 48px 56px; border: 1px solid var(--border-l);
+      background: var(--surface);
     }
     .chart-panel-header {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 12px 20px; border-bottom: 1px solid var(--border);
+      padding: 12px 20px; border-bottom: 1px solid var(--border-l);
+      background: var(--surface);
     }
     .chart-panel-title {
-      font-family: var(--mono); font-size: 10px; letter-spacing: .18em;
-      text-transform: uppercase; color: var(--gold);
+      font-family: var(--mono); font-size: 11px; letter-spacing: .04em;
+      color: var(--text); font-weight: 500;
     }
-    .chart-panel-sub { font-family: var(--mono); font-size: 10px; color: var(--muted); }
+    .chart-panel-sub { font-family: var(--mono); font-size: 10px; color: var(--text4); }
     .chart-rows { display: grid; grid-template-columns: repeat(4, 1fr); }
     .chart-row {
-      padding: 12px 20px; border-right: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+      padding: 12px 16px; border-right: 1px solid var(--border-l);
+      border-bottom: 1px solid var(--border-l); background: var(--bg);
     }
     .chart-row:nth-child(4n) { border-right: none; }
     .chart-planet {
-      font-family: var(--mono); font-size: 9px; letter-spacing: .15em;
-      text-transform: uppercase; color: var(--muted); margin-bottom: 3px;
+      font-family: var(--mono); font-size: 9px; letter-spacing: .06em;
+      color: var(--text4); margin-bottom: 4px;
     }
-    .chart-position { font-family: var(--mono); font-size: 12px; color: var(--cream); }
-    .chart-sign { font-size: 10px; color: var(--gold); margin-left: 4px; }
+    .chart-position { font-family: var(--mono); font-size: 13px; color: var(--text); font-weight: 500; }
+    .chart-sign { font-size: 11px; color: var(--text3); margin-left: 5px; font-weight: 400; }
 
-    /* ═══════════════════════════════════════════════════════════════════
-       PULL QUOTE
-    ═══════════════════════════════════════════════════════════════════ */
+    /* ════════════════════ PULL QUOTE ════════════════════ */
     .pullquote-band {
-      padding: 72px 32px;
-      background: var(--ink);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+      padding: 80px 48px; background: var(--surface);
+      border-top: 1px solid var(--border-l); border-bottom: 1px solid var(--border-l);
       overflow: hidden;
     }
-    .pullquote-inner { max-width: 820px; margin: 0 auto; position: relative; }
-    .pq-rule { width: 0; height: 1px; background: var(--gold); margin-bottom: 28px; }
+    .pullquote-inner { max-width: 800px; margin: 0 auto; position: relative; }
+    .pq-rule { width: 0; height: 2px; background: var(--text); margin-bottom: 32px; }
     blockquote {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(20px, 3vw, 36px); font-style: italic; font-weight: 300;
-      color: var(--cream); line-height: 1.4; margin-bottom: 20px;
+      font-family: var(--sans);
+      font-size: clamp(20px, 2.8vw, 34px); font-style: normal; font-weight: 300;
+      color: var(--text); line-height: 1.35; margin-bottom: 20px; letter-spacing: -.02em;
     }
     .quote-word { display: inline-block; }
     cite {
       font-style: normal; font-family: var(--mono);
-      font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted);
+      font-size: 10px; letter-spacing: .06em; color: var(--text4);
     }
     .pq-bg {
       position: absolute; top: -30px; right: -10px;
-      font-family: 'Cormorant Garamond', serif; font-size: 220px; font-weight: 300;
-      color: var(--white); opacity: .025; line-height: 1; pointer-events: none; user-select: none;
+      font-family: var(--sans); font-size: 220px; font-weight: 700;
+      color: var(--text); opacity: .025; line-height: 1; pointer-events: none; user-select: none;
     }
 
-    /* ═══════════════════════════════════════════════════════════════════
-       FOUNDERS
-    ═══════════════════════════════════════════════════════════════════ */
-    #founders { background: var(--deep); }
-    .founders-intro { padding: 64px 32px 0; max-width: 720px; }
+    /* ════════════════════ FOUNDERS ════════════════════ */
+    #founders { background: var(--surface); }
+    .founders-intro { padding: 72px 48px 0; max-width: 760px; }
     .founders-grid {
       display: grid; grid-template-columns: repeat(2, 1fr);
-      border-top: 1px solid var(--border); margin-top: 48px;
+      border-top: 1px solid var(--border-l); margin-top: 48px;
     }
     .founder-card {
-      padding: 40px 32px;
-      border-right: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      position: relative;
+      padding: 44px 44px; border-right: 1px solid var(--border-l);
+      border-bottom: 1px solid var(--border-l); position: relative;
+      background: var(--bg); transition: background .25s;
     }
     .founder-card:nth-child(2n) { border-right: none; }
+    .founder-card:hover { background: var(--surface2); }
     .founder-arcana {
-      font-family: var(--mono); font-size: 10px; letter-spacing: .18em;
-      text-transform: uppercase; color: var(--gold); margin-bottom: 4px;
+      font-family: var(--mono); font-size: 10px; letter-spacing: .06em;
+      color: var(--text4); margin-bottom: 6px;
     }
     .founder-name {
-      font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300;
-      letter-spacing: -0.02em; text-transform: uppercase; color: var(--white);
+      font-family: var(--sans); font-size: 32px; font-weight: 700;
+      letter-spacing: -0.03em; color: var(--text);
       margin-bottom: 4px; line-height: 1;
     }
     .founder-sign {
-      font-family: var(--mono); font-size: 10px; color: var(--muted);
-      letter-spacing: .12em; margin-bottom: 20px; display: block;
+      font-family: var(--mono); font-size: 11px; color: var(--text4);
+      letter-spacing: .04em; margin-bottom: 20px; display: block;
     }
-    .founder-rule { width: 24px; height: 1px; background: var(--gold); margin-bottom: 16px; }
-    .founder-body { font-size: 13px; color: var(--muted); line-height: 1.85; }
-    .founder-body strong { color: var(--cream); font-weight: 400; }
-    .founder-body em { font-style: italic; color: var(--lavender); }
+    .founder-rule { width: 32px; height: 1px; background: var(--border); margin-bottom: 18px; }
+    .founder-body { font-size: 13px; color: var(--text3); line-height: 1.8; }
+    .founder-body strong { color: var(--text); font-weight: 600; }
+    .founder-body em { font-style: italic; color: var(--text2); }
     .founder-glyph {
       position: absolute; top: 32px; right: 32px;
-      font-size: 3rem; opacity: .06; pointer-events: none;
+      font-size: 2.4rem; opacity: .05; pointer-events: none;
     }
 
-    /* ═══════════════════════════════════════════════════════════════════
-       PRODUCT RITUALS
-    ═══════════════════════════════════════════════════════════════════ */
-    #product-rituals { background: var(--void); }
-    .rituals-intro { padding: 64px 32px 0; max-width: 720px; }
+    /* ════════════════════ PRODUCT RITUALS ════════════════════ */
+    #product-rituals { background: var(--bg); }
+    .rituals-intro { padding: 72px 48px 0; max-width: 760px; }
     .rituals-timeline { margin-top: 48px; }
     .ritual-item {
       display: grid; grid-template-columns: 180px 1px 1fr;
-      gap: 0 32px;
-      border-bottom: 1px solid var(--border);
-      padding: 0 32px;
-      align-items: stretch;
+      gap: 0 40px; border-bottom: 1px solid var(--border-l);
+      padding: 0 48px; align-items: stretch;
     }
     .ritual-date-col {
       padding: 32px 0; display: flex; flex-direction: column; justify-content: flex-start;
     }
     .ritual-date {
-      font-family: var(--mono); font-size: 10px; letter-spacing: .15em;
-      color: var(--gold); margin-bottom: 4px;
+      font-family: var(--mono); font-size: 11px; letter-spacing: .04em;
+      color: var(--text4); margin-bottom: 4px;
     }
-    .ritual-sign-line {
-      font-family: var(--mono); font-size: 11px; color: var(--muted);
-    }
-    .ritual-line {
-      width: 1px; background: var(--border); position: relative;
-    }
+    .ritual-sign-line { font-family: var(--mono); font-size: 12px; color: var(--text3); }
+    .ritual-line { width: 1px; background: var(--border-l); position: relative; }
     .ritual-line::before {
       content: ''; position: absolute; top: 34px; left: 50%;
       transform: translate(-50%, -50%);
       width: 7px; height: 7px; border-radius: 50%;
-      border: 1px solid var(--gold); background: var(--void);
+      border: 1.5px solid var(--text4); background: var(--bg);
     }
     .ritual-content { padding: 32px 0; }
     .ritual-product {
-      font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 400;
-      color: var(--white); margin-bottom: 4px; line-height: 1.1;
+      font-family: var(--sans); font-size: 22px; font-weight: 600;
+      color: var(--text); margin-bottom: 4px; line-height: 1.15; letter-spacing: -.02em;
     }
-    .ritual-product em { font-style: italic; color: var(--gold); }
+    .ritual-product em { font-style: italic; color: var(--text3); font-weight: 300; }
     .ritual-tagline {
-      font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
-      color: var(--lavender); margin-bottom: 12px;
+      font-size: 12px; color: var(--text4); margin-bottom: 12px; font-weight: 400;
     }
-    .ritual-body { font-size: 13px; color: var(--muted); line-height: 1.8; max-width: 560px; }
+    .ritual-body { font-size: 14px; color: var(--text3); line-height: 1.75; max-width: 560px; }
 
-    /* ═══════════════════════════════════════════════════════════════════
-       STORE AS TEMPLE
-    ═══════════════════════════════════════════════════════════════════ */
+    /* ════════════════════ STORE AS TEMPLE ════════════════════ */
     #store-temple {
-      background: var(--deep);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+      background: var(--surface); border-top: 1px solid var(--border-l);
+      border-bottom: 1px solid var(--border-l);
     }
-    .store-inner {
-      display: grid; grid-template-columns: 1fr 1fr;
-    }
+    .store-inner { display: grid; grid-template-columns: 1fr 1fr; }
     .store-img {
-      background: var(--panel);
-      display: flex; align-items: center; justify-content: center;
+      background: var(--panel); display: flex; align-items: center; justify-content: center;
       min-height: 480px; position: relative; overflow: hidden;
-      border-right: 1px solid var(--border);
+      border-right: 1px solid var(--border-l);
     }
-    .store-glyph { font-size: 6rem; opacity: .08; }
+    .store-glyph { font-size: 6rem; opacity: .06; }
     .store-img-label {
       position: absolute; bottom: 20px; left: 20px;
-      font-family: var(--mono); font-size: 10px; letter-spacing: .15em;
-      text-transform: uppercase; color: var(--muted);
-      border: 1px solid var(--border); padding: 5px 10px;
-      background: rgba(7,6,10,.7); backdrop-filter: blur(8px);
+      font-family: var(--mono); font-size: 10px; letter-spacing: .06em;
+      color: var(--text4); border: 1px solid var(--border); padding: 5px 10px;
+      background: rgba(255,255,255,.85); backdrop-filter: blur(8px);
     }
-    .store-text { padding: 56px 48px; display: flex; flex-direction: column; justify-content: center; }
+    .store-text { padding: 56px 56px; display: flex; flex-direction: column; justify-content: center; background: var(--bg); }
     .store-kicker {
-      font-family: var(--mono); font-size: 10px; letter-spacing: .22em;
-      text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
+      font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+      color: var(--text4); margin-bottom: 16px;
     }
     .store-heading {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(26px, 3.5vw, 44px); font-weight: 300;
-      line-height: 1.1; letter-spacing: -0.02em; text-transform: uppercase;
-      color: var(--white); margin-bottom: 20px;
+      font-family: var(--sans); font-size: clamp(24px, 3.2vw, 40px); font-weight: 700;
+      line-height: 1.08; letter-spacing: -0.03em; color: var(--text); margin-bottom: 20px;
     }
-    .store-heading em { font-style: italic; color: var(--gold); text-transform: none; }
+    .store-heading em { font-style: italic; color: var(--text3); font-weight: 300; }
 
-    /* ═══════════════════════════════════════════════════════════════════
-       BODY BECOMES INTERFACE
-    ═══════════════════════════════════════════════════════════════════ */
-    #body-interface { background: var(--void); }
-    .body-interface-inner { padding: 64px 32px; }
+    /* ════════════════════ BODY BECOMES INTERFACE ════════════════════ */
+    #body-interface { background: var(--bg); }
+    .body-interface-inner { padding: 72px 48px; }
     .body-interface-grid {
       display: grid; grid-template-columns: 1fr 1fr;
-      gap: 1px; background: var(--border);
-      border: 1px solid var(--border);
-      margin-top: 40px;
+      gap: 1px; background: var(--border-l);
+      border: 1px solid var(--border-l); margin-top: 40px;
     }
-    .interface-card {
-      background: var(--void); padding: 32px;
-      transition: background .3s;
-    }
-    .interface-card:hover { background: var(--deep); }
-    .interface-icon { font-size: 1.8rem; margin-bottom: 12px; display: block; opacity: .6; }
+    .interface-card { background: var(--bg); padding: 36px; transition: background .25s; }
+    .interface-card:hover { background: var(--surface2); }
+    .interface-icon { font-size: 1.6rem; margin-bottom: 12px; display: block; opacity: .4; }
     .interface-date {
-      font-family: var(--mono); font-size: 10px; letter-spacing: .15em;
-      color: var(--gold); margin-bottom: 8px;
+      font-family: var(--mono); font-size: 11px; letter-spacing: .04em;
+      color: var(--text4); margin-bottom: 8px;
     }
     .interface-heading {
-      font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400;
-      color: var(--white); margin-bottom: 12px;
+      font-family: var(--sans); font-size: 20px; font-weight: 600;
+      color: var(--text); margin-bottom: 12px; letter-spacing: -.02em;
     }
-    .interface-body { font-size: 12px; color: var(--muted); line-height: 1.8; }
+    .interface-body { font-size: 13px; color: var(--text3); line-height: 1.75; }
 
-    /* ═══════════════════════════════════════════════════════════════════
-       THE APPLE SHADOW
-    ═══════════════════════════════════════════════════════════════════ */
-    #apple-shadow {
-      background: var(--ink);
-      border-top: 1px solid var(--border);
-    }
-    .shadow-inner {
-      display: grid; grid-template-columns: 1fr 1fr;
-    }
-    .shadow-left { padding: 64px 48px 64px 32px; border-right: 1px solid var(--border); }
-    .shadow-right { padding: 64px 32px 64px 48px; }
+    /* ════════════════════ APPLE SHADOW ════════════════════ */
+    #apple-shadow { background: var(--surface); border-top: 1px solid var(--border-l); }
+    .shadow-inner { display: grid; grid-template-columns: 1fr 1fr; }
+    .shadow-left { padding: 64px 56px 64px 48px; border-right: 1px solid var(--border-l); background: var(--bg); }
+    .shadow-right { padding: 64px 48px 64px 56px; background: var(--surface); }
     .shadow-heading {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(28px, 4vw, 52px); font-weight: 300;
-      line-height: 1.05; letter-spacing: -0.025em; text-transform: uppercase;
-      color: var(--white); margin-bottom: 24px;
+      font-family: var(--sans); font-size: clamp(26px, 3.5vw, 44px); font-weight: 700;
+      line-height: 1.06; letter-spacing: -0.03em; color: var(--text); margin-bottom: 24px;
     }
-    .shadow-heading em { font-style: italic; color: rgba(208,171,57,.6); text-transform: none; }
+    .shadow-heading em { font-style: italic; color: var(--text3); font-weight: 300; }
 
-    /* ═══════════════════════════════════════════════════════════════════
-       SYMBOLIC TIMELINE
-    ═══════════════════════════════════════════════════════════════════ */
-    #timeline { background: var(--deep); border-top: 1px solid var(--border); }
-    .timeline-intro { padding: 48px 32px 0; }
+    /* ════════════════════ SYMBOLIC TIMELINE ════════════════════ */
+    #timeline { background: var(--bg); border-top: 1px solid var(--border-l); }
+    .timeline-intro { padding: 56px 48px 0; }
     .timeline-table { width: 100%; border-collapse: collapse; margin-top: 32px; }
     .timeline-table th {
-      font-family: var(--mono); font-size: 10px; letter-spacing: .18em;
-      text-transform: uppercase; color: var(--gold);
-      padding: 10px 16px; border-bottom: 1px solid var(--border);
-      text-align: left; background: var(--deep);
+      font-family: var(--mono); font-size: 10px; letter-spacing: .06em;
+      color: var(--text4); padding: 10px 16px;
+      border-bottom: 1px solid var(--border-l); text-align: left; background: var(--surface);
     }
     .timeline-table td {
-      font-size: 12px; padding: 12px 16px;
-      border-bottom: 1px solid var(--border); color: var(--silver);
-      vertical-align: top;
+      font-size: 13px; padding: 12px 16px;
+      border-bottom: 1px solid var(--border-l); color: var(--text2); vertical-align: top;
     }
-    .timeline-table tr:hover td { background: var(--ink); }
-    .td-date { font-family: var(--mono); font-size: 11px; color: var(--gold); white-space: nowrap; }
-    .td-event { color: var(--cream); font-size: 13px; }
-    .td-sign { font-family: var(--mono); font-size: 11px; color: var(--lavender); }
-    .td-note { font-size: 11px; color: var(--muted); }
+    .timeline-table tr:hover td { background: var(--surface2); }
+    .td-date { font-family: var(--mono); font-size: 11px; color: var(--text4); white-space: nowrap; }
+    .td-event { color: var(--text); font-size: 13px; font-weight: 500; }
+    .td-sign { font-family: var(--mono); font-size: 11px; color: var(--text3); }
+    .td-note { font-size: 12px; color: var(--text4); }
 
-    /* ═══════════════════════════════════════════════════════════════════
-       REFERENCES
-    ═══════════════════════════════════════════════════════════════════ */
-    #references { background: var(--void); border-top: 1px solid var(--border); padding: 48px 32px; }
-    .ref-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 32px; }
+    /* ════════════════════ REFERENCES ════════════════════ */
+    #references { background: var(--surface); border-top: 1px solid var(--border-l); padding: 56px 48px; }
+    .ref-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 32px; }
     .ref-group-title {
-      font-family: var(--mono); font-size: 10px; letter-spacing: .2em;
-      text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
-      padding-bottom: 8px; border-bottom: 1px solid var(--border);
+      font-family: var(--mono); font-size: 10px; letter-spacing: .06em;
+      color: var(--text4); margin-bottom: 16px;
+      padding-bottom: 8px; border-bottom: 1px solid var(--border-l);
     }
     .ref-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-    .ref-list li { font-size: 12px; color: var(--muted); line-height: 1.6; }
-    .ref-list a { color: var(--lavender); text-decoration: none; transition: color .2s; }
-    .ref-list a:hover { color: var(--gold); }
+    .ref-list li { font-size: 12px; color: var(--text3); line-height: 1.6; }
+    .ref-list a { color: var(--text2); text-decoration: none; transition: color .2s; }
+    .ref-list a:hover { color: var(--text); }
 
-    /* ═══════════════════════════════════════════════════════════════════
-       NEWSLETTER
-    ═══════════════════════════════════════════════════════════════════ */
-    #newsletter {
-      background: var(--ink); padding: 80px 32px;
-      text-align: center; border-top: 1px solid var(--border);
-    }
+    /* ════════════════════ NEWSLETTER ════════════════════ */
+    #newsletter { background: var(--text); padding: 88px 32px; text-align: center; }
     .nl-inner { max-width: 500px; margin: 0 auto; }
     .nl-kicker {
-      font-family: var(--mono); font-size: 10px; letter-spacing: .28em;
-      text-transform: uppercase; color: var(--gold); margin-bottom: 20px;
+      font-family: var(--mono); font-size: 10px; letter-spacing: .06em;
+      color: rgba(255,255,255,.45); margin-bottom: 20px;
     }
     .nl-heading {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(26px, 4vw, 44px); font-weight: 300;
-      line-height: 1.1; letter-spacing: -0.02em; text-transform: uppercase;
-      color: var(--white); margin-bottom: 12px;
+      font-family: var(--sans); font-size: clamp(24px, 3.5vw, 40px); font-weight: 700;
+      line-height: 1.06; letter-spacing: -.03em; color: #fff; margin-bottom: 12px;
     }
-    .nl-heading em { font-style: italic; color: var(--gold); text-transform: none; }
-    .nl-sub { font-size: 13px; color: var(--muted); margin-bottom: 28px; line-height: 1.8; }
+    .nl-heading em { font-style: italic; color: rgba(255,255,255,.55); font-weight: 300; }
+    .nl-sub { font-size: 15px; color: rgba(255,255,255,.55); margin-bottom: 32px; line-height: 1.7; font-weight: 300; }
     .nl-form { display: flex; }
     .nl-input {
-      flex: 1; background: rgba(255,255,255,.04); border: 1px solid var(--border-w);
-      border-right: none; color: var(--cream); padding: 12px 16px;
-      font-family: 'Inter', sans-serif; font-size: 13px; outline: none;
-      transition: border-color .25s;
+      flex: 1; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+      border-right: none; color: #fff; padding: 13px 18px;
+      font-family: var(--sans); font-size: 14px; outline: none;
+      transition: border-color .2s; border-radius: 980px 0 0 980px;
     }
-    .nl-input:focus { border-color: var(--gold); }
-    .nl-input::placeholder { color: var(--muted); }
+    .nl-input:focus { border-color: rgba(255,255,255,.5); }
+    .nl-input::placeholder { color: rgba(255,255,255,.3); }
     .nl-btn {
-      background: var(--gold); color: var(--void); border: 1px solid var(--gold);
-      padding: 12px 20px; font-family: 'Inter', sans-serif; font-size: 11px;
-      font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
-      cursor: pointer; transition: all .25s; white-space: nowrap;
+      background: #fff; color: var(--text); border: 1px solid #fff;
+      padding: 13px 22px; font-family: var(--sans); font-size: 13px;
+      font-weight: 600; letter-spacing: -.01em;
+      cursor: pointer; transition: all .2s; white-space: nowrap;
+      border-radius: 0 980px 980px 0;
     }
-    .nl-btn:hover { background: transparent; color: var(--gold); }
+    .nl-btn:hover { background: rgba(255,255,255,.85); }
 
-    /* ═══════════════════════════════════════════════════════════════════
-       FOOTER
-    ═══════════════════════════════════════════════════════════════════ */
-    footer {
-      background: var(--deep);
-      border-top: 1px solid var(--border);
-      padding: 40px 32px 24px;
-    }
+    /* ════════════════════ FOOTER ════════════════════ */
+    footer { background: var(--surface); border-top: 1px solid var(--border-l); padding: 48px 48px 28px; }
     .footer-top {
       display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 40px; padding-bottom: 32px; border-bottom: 1px solid var(--border);
+      gap: 40px; padding-bottom: 32px; border-bottom: 1px solid var(--border-l);
     }
     .footer-wordmark {
-      font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 300;
-      letter-spacing: .18em; text-transform: uppercase; color: var(--white);
-      margin-bottom: 8px;
+      font-family: var(--sans); font-size: 16px; font-weight: 700;
+      letter-spacing: -.02em; color: var(--text); margin-bottom: 8px;
     }
-    .footer-wordmark em { color: var(--gold); font-style: normal; }
-    .footer-tagline { font-size: 12px; color: var(--muted); line-height: 1.7; max-width: 260px; }
+    .footer-wordmark em { color: var(--text3); font-style: normal; font-weight: 300; }
+    .footer-tagline { font-size: 12px; color: var(--text4); line-height: 1.7; max-width: 260px; }
     .footer-col-title {
-      font-family: var(--mono); font-size: 10px; letter-spacing: .2em;
-      text-transform: uppercase; color: var(--gold); margin-bottom: 14px;
+      font-family: var(--mono); font-size: 10px; letter-spacing: .06em;
+      color: var(--text4); margin-bottom: 14px;
     }
     .footer-col ul { list-style: none; }
     .footer-col li { margin-bottom: 8px; }
-    .footer-col a { font-size: 12px; color: var(--muted); text-decoration: none; transition: color .2s; }
-    .footer-col a:hover { color: var(--cream); }
+    .footer-col a { font-size: 12px; color: var(--text3); text-decoration: none; transition: color .2s; }
+    .footer-col a:hover { color: var(--text); }
     .footer-bottom {
       display: flex; justify-content: space-between; align-items: center;
       padding-top: 20px; font-size: 11px; color: var(--muted);
       font-family: var(--mono);
     }
 
-    /* ── Image Placeholders ── */
-    .img-placeholder {
+    /* ════════════════════ IMAGES ════════════════════ */
+    .mag-img {
+      width: 100%; display: block; object-fit: cover;
       background: var(--panel);
-      border: 1px dashed rgba(208,171,57,.25);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 10px; position: relative; overflow: hidden;
-      color: var(--muted);
     }
-    .img-placeholder::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 18px,
-        rgba(208,171,57,.03) 18px,
-        rgba(208,171,57,.03) 19px
-      );
-    }
-    .img-placeholder-icon {
-      font-size: 1.6rem; opacity: .25; position: relative;
-    }
-    .img-placeholder-label {
-      font-family: var(--mono); font-size: 10px; letter-spacing: .18em;
-      text-transform: uppercase; color: var(--muted); opacity: .6;
-      position: relative; text-align: center; padding: 0 16px;
-    }
-    .img-placeholder-dim {
-      font-family: var(--mono); font-size: 9px; color: var(--gold);
-      opacity: .45; position: relative;
-    }
-
-    /* Full-bleed hero image strip */
-    .img-hero-strip {
-      width: 100%; height: 320px;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-
-    /* Half-width beside text */
-    .img-half { width: 100%; height: 340px; }
-
-    /* Square card image */
-    .img-square { width: 100%; aspect-ratio: 1 / 1; }
-
-    /* Wide short banner */
-    .img-banner { width: 100%; height: 200px; }
-
-    /* Tall portrait */
-    .img-portrait { width: 100%; height: 420px; }
-
-    /* Inline figure block */
-    .figure-block { margin: 32px 0; }
+    .figure-block { margin: 0; }
     .figure-block figcaption {
-      font-family: var(--mono); font-size: 10px; letter-spacing: .12em;
-      color: var(--muted); padding: 8px 12px;
-      border-left: 2px solid var(--border);
-      margin-top: 0;
+      font-family: var(--mono); font-size: 10px; letter-spacing: .04em;
+      color: var(--text4); padding: 10px 16px;
+      border-top: 1px solid var(--border-l);
+      background: var(--surface);
     }
-
-    /* Two-up image row */
-    .img-two-up { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
-    .img-two-up .img-placeholder { min-height: 260px; }
-
-    /* Three-up image row */
-    .img-three-up { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
-    .img-three-up .img-placeholder { min-height: 200px; }
+    .img-two-up { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border-l); }
+    .img-three-up { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-l); }
 
     @media (max-width: 768px) {
       .img-two-up { grid-template-columns: 1fr; }
@@ -679,94 +557,109 @@
 
     /* ── Births Formula ── */
     .births-formula {
-      padding: 20px 32px; border-top: 1px solid var(--border);
-      background: var(--deep); display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
-      font-family: var(--mono); font-size: 11px; letter-spacing: .16em;
-      text-transform: uppercase; color: var(--muted);
+      padding: 18px 48px; border-top: 1px solid var(--border-l);
+      background: var(--surface); display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+      font-family: var(--mono); font-size: 11px; letter-spacing: .04em; color: var(--text4);
     }
-    .births-formula span:not(.formula-dot) { color: var(--cream); }
-    .formula-dot { color: var(--gold); }
+    .births-formula span:not(.formula-dot) { color: var(--text2); }
+    .formula-dot { color: var(--border); }
 
     /* ── Jobs Chart Extended ── */
-    .chart-panel-wide { margin: 0 32px 48px; border: 1px solid var(--border); background: var(--deep); }
-    .chart-panel-wide .chart-panel-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid var(--border); }
+    .chart-panel-wide { margin: 0 48px 56px; border: 1px solid var(--border-l); background: var(--surface); }
+    .chart-panel-wide .chart-panel-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid var(--border-l); }
     .chart-rows-5 { display: grid; grid-template-columns: repeat(5, 1fr); }
     .chart-rows-5 .chart-row:nth-child(5n) { border-right: none; }
-    .chart-panel-section { padding: 16px 20px; border-top: 1px solid var(--border); }
-    .chart-panel-section-title { font-family: var(--mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
-    .grand-cross-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); }
-    .grand-cross-cell { background: var(--deep); padding: 14px 16px; }
-    .gc-arm { font-family: var(--mono); font-size: 10px; color: var(--gold); margin-bottom: 4px; }
-    .gc-expr { font-size: 12px; color: var(--muted); line-height: 1.6; }
-    .gc-expr strong { color: var(--cream); font-weight: 400; }
+    .chart-panel-section { padding: 16px 20px; border-top: 1px solid var(--border-l); }
+    .chart-panel-section-title { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; color: var(--text4); margin-bottom: 12px; }
+    .grand-cross-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border-l); }
+    .grand-cross-cell { background: var(--bg); padding: 16px 18px; }
+    .gc-arm { font-family: var(--mono); font-size: 10px; color: var(--text4); margin-bottom: 6px; }
+    .gc-expr { font-size: 13px; color: var(--text3); line-height: 1.6; }
+    .gc-expr strong { color: var(--text); font-weight: 600; }
     .dasha-table { width: 100%; border-collapse: collapse; }
-    .dasha-table td { font-size: 12px; padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--silver); }
-    .dasha-table td:first-child { font-family: var(--mono); font-size: 11px; color: var(--gold); white-space: nowrap; }
-    .dasha-table td:last-child { color: var(--muted); font-size: 11px; }
+    .dasha-table td { font-size: 13px; padding: 10px 14px; border-bottom: 1px solid var(--border-l); color: var(--text2); }
+    .dasha-table td:first-child { font-family: var(--mono); font-size: 11px; color: var(--text4); white-space: nowrap; }
+    .dasha-table td:last-child { color: var(--text3); font-size: 12px; }
     .vedic-table { width: 100%; border-collapse: collapse; }
-    .vedic-table td { font-size: 12px; padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--silver); }
-    .vedic-table td:first-child { font-family: var(--mono); font-size: 11px; color: var(--lavender); }
+    .vedic-table td { font-size: 13px; padding: 10px 14px; border-bottom: 1px solid var(--border-l); color: var(--text2); }
+    .vedic-table td:first-child { font-family: var(--mono); font-size: 11px; color: var(--text4); }
 
     /* ── Feature section generic ── */
-    #spiritual-arch, #jupiter-cycle, #corporate-chart { background: var(--void); }
-    #jobs-chart { background: var(--deep); }
-    .sub-feature { padding: 0 32px 48px; }
+    #spiritual-arch, #product-rituals, #corporate-chart { background: var(--bg); }
+    #jupiter-cycle { background: var(--surface); }
+    #jobs-chart { background: var(--surface); }
+    .sub-feature { padding: 0 48px 56px; }
     .sub-feature-heading {
-      font-family: 'Cormorant Garamond', serif; font-size: clamp(20px, 2.5vw, 30px); font-weight: 300;
-      letter-spacing: -0.02em; text-transform: uppercase; color: var(--white);
-      margin: 40px 0 12px; line-height: 1.1;
+      font-family: var(--sans); font-size: clamp(18px, 2.2vw, 26px); font-weight: 700;
+      letter-spacing: -0.025em; color: var(--text);
+      margin: 44px 0 12px; line-height: 1.1;
     }
-    .sub-feature-heading em { font-style: italic; color: var(--gold); text-transform: none; }
-    .sub-feature-kicker { font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .sub-feature-heading em { font-style: italic; color: var(--text3); font-weight: 300; }
+    .sub-feature-kicker { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; color: var(--text4); margin-bottom: 6px; }
     .data-chip {
-      display: inline-block; font-family: var(--mono); font-size: 10px;
-      padding: 3px 9px; border: 1px solid var(--border); color: var(--lavender);
-      margin: 0 4px 4px 0; letter-spacing: .08em;
+      display: inline-block; font-family: var(--mono); font-size: 11px;
+      padding: 4px 10px; border: 1px solid var(--border-l); color: var(--text3);
+      margin: 0 4px 4px 0; border-radius: 2px; background: var(--surface);
     }
     .jup-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    .jup-table th { font-family: var(--mono); font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); padding: 10px 14px; border-bottom: 1px solid var(--border); text-align: left; }
-    .jup-table td { font-size: 12px; padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--silver); vertical-align: top; }
-    .jup-table tr:hover td { background: var(--ink); }
-    .jup-table .td-highlight { color: var(--cream); font-weight: 400; }
-    .tarot-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); margin-top: 20px; }
-    .tarot-cell { background: var(--deep); padding: 16px 14px; }
-    .tarot-card-name { font-family: var(--mono); font-size: 10px; color: var(--gold); margin-bottom: 6px; letter-spacing: .12em; text-transform: uppercase; }
-    .tarot-card-body { font-size: 12px; color: var(--muted); line-height: 1.65; }
+    .jup-table th { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; color: var(--text4); padding: 10px 14px; border-bottom: 1px solid var(--border-l); text-align: left; background: var(--surface); }
+    .jup-table td { font-size: 13px; padding: 10px 14px; border-bottom: 1px solid var(--border-l); color: var(--text2); vertical-align: top; }
+    .jup-table tr:hover td { background: var(--surface2); }
+    .jup-table .td-highlight { color: var(--text); font-weight: 600; }
+    .tarot-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border-l); margin-top: 20px; }
+    .tarot-cell { background: var(--bg); padding: 18px 16px; transition: background .2s; }
+    .tarot-cell:hover { background: var(--surface2); }
+    .tarot-card-name { font-family: var(--mono); font-size: 10px; color: var(--text4); margin-bottom: 7px; letter-spacing: .04em; }
+    .tarot-card-body { font-size: 12px; color: var(--text3); line-height: 1.65; }
     .shadow-gift-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
-    .shadow-gift-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); font-size: 13px; }
-    .shadow-gift-table td:first-child { color: var(--cream); font-family: var(--mono); font-size: 11px; }
-    .shadow-gift-table td:last-child { color: var(--muted); }
+    .shadow-gift-table td { padding: 10px 14px; border-bottom: 1px solid var(--border-l); font-size: 14px; }
+    .shadow-gift-table td:first-child { color: var(--text); font-family: var(--mono); font-size: 12px; font-weight: 500; }
+    .shadow-gift-table td:last-child { color: var(--text3); }
     .sn-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
-    .sn-table th { font-family: var(--mono); font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); padding: 8px 14px; border-bottom: 1px solid var(--border); text-align: left; }
-    .sn-table td { font-size: 12px; padding: 8px 14px; border-bottom: 1px solid var(--border); color: var(--silver); }
-    .sn-table td:first-child { font-family: var(--mono); font-size: 11px; color: var(--lavender); white-space: nowrap; }
+    .sn-table th { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; color: var(--text4); padding: 8px 14px; border-bottom: 1px solid var(--border-l); text-align: left; background: var(--surface); }
+    .sn-table td { font-size: 13px; padding: 8px 14px; border-bottom: 1px solid var(--border-l); color: var(--text2); }
+    .sn-table td:first-child { font-family: var(--mono); font-size: 11px; color: var(--text4); white-space: nowrap; }
 
     /* ── Responsive ── */
     @media (max-width: 1024px) {
       .births-grid { grid-template-columns: 1fr; }
       .birth-card { border-right: none; }
       .chart-rows { grid-template-columns: repeat(2, 1fr); }
+      .chart-rows-5 { grid-template-columns: repeat(3, 1fr); }
       .founders-grid { grid-template-columns: 1fr; }
       .founder-card { border-right: none; }
       .ref-grid { grid-template-columns: 1fr 1fr; }
       .footer-top { grid-template-columns: 1fr 1fr; }
+      .tarot-grid { grid-template-columns: repeat(3, 1fr); }
+      .grand-cross-grid { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 768px) {
-      nav { padding: 14px 18px; }
+      nav { padding: 0 20px; }
       .nav-links { display: none; }
+      .hero-body { padding: 80px 24px 32px; }
+      .hero-bottom { padding: 14px 24px; }
+      .births-intro, .rituals-intro, .founders-intro, .body-interface-inner,
+      .sub-feature, .timeline-intro { padding-left: 24px; padding-right: 24px; }
+      .chart-panel, .chart-panel-wide { margin-left: 24px; margin-right: 24px; }
+      .ritual-item { grid-template-columns: 100px 1px 1fr; padding: 0 24px; }
+      .section-band { padding-left: 24px; padding-right: 24px; }
       .editors-note-inner { grid-template-columns: 1fr; }
-      .editors-note-aside { border-right: none; border-bottom: 1px solid var(--border); }
+      .editors-note-aside { border-right: none; border-bottom: 1px solid var(--border-l); }
+      .editors-note-body { padding: 32px 24px; }
       .body-interface-grid { grid-template-columns: 1fr; }
       .shadow-inner { grid-template-columns: 1fr; }
-      .shadow-left { border-right: none; border-bottom: 1px solid var(--border); }
+      .shadow-left { border-right: none; border-bottom: 1px solid var(--border-l); }
       .store-inner { grid-template-columns: 1fr; }
-      .store-img { min-height: 240px; border-right: none; border-bottom: 1px solid var(--border); }
-      .ritual-item { grid-template-columns: 120px 1px 1fr; }
+      .store-img { min-height: 240px; border-right: none; border-bottom: 1px solid var(--border-l); }
       .ref-grid { grid-template-columns: 1fr; }
       .footer-top { grid-template-columns: 1fr; }
       .footer-bottom { flex-direction: column; gap: 8px; }
       .nl-form { flex-direction: column; }
-      .nl-input { border-right: 1px solid var(--border-w); }
+      .nl-input { border-right: 1px solid rgba(255,255,255,.2); border-radius: 980px; }
+      .nl-btn { border-radius: 980px; margin-top: 8px; }
+      .tarot-grid { grid-template-columns: repeat(2, 1fr); }
+      footer { padding: 40px 24px 24px; }
+      #references { padding: 48px 24px; }
     }
   </style>
 </head>
@@ -820,11 +713,7 @@
 
 <!-- IMG: Hero full-bleed strip -->
 <figure class="figure-block" style="margin:0">
-  <div class="img-placeholder img-hero-strip">
-    <span class="img-placeholder-icon">🌌</span>
-    <span class="img-placeholder-label">Hero Image — Full Bleed<br>Suggested: celestial chart / Apple logo overlay / dark cosmological photograph</span>
-    <span class="img-placeholder-dim">Full width × 320px</span>
-  </div>
+  <img src="https://picsum.photos/seed/ac-hero/1400/340?grayscale" alt="Hero image" class="mag-img" style="height:340px">
 </figure>
 
 <!-- ═══════ EDITOR'S NOTE ═══════ -->
@@ -851,11 +740,7 @@
       </div>
       <!-- IMG: Editor portrait or Wolff Olins archival -->
       <figure class="figure-block" style="margin:0">
-        <div class="img-placeholder img-square" style="max-height:220px">
-          <span class="img-placeholder-icon">📷</span>
-          <span class="img-placeholder-label">Editor portrait or archival brand image</span>
-          <span class="img-placeholder-dim">280 × 220px</span>
-        </div>
+        <img src="https://picsum.photos/seed/ac-edit/560/440?grayscale" alt="Editor" class="mag-img" style="height:220px">
         <figcaption>Image caption — editor / context</figcaption>
       </figure>
     </div>
@@ -940,16 +825,8 @@
   <!-- IMG: Three Births two-up -->
   <figure class="figure-block" style="margin:0">
     <div class="img-two-up">
-      <div class="img-placeholder">
-        <span class="img-placeholder-icon">🏠</span>
-        <span class="img-placeholder-label">The Los Altos Garage, 1976<br>Suggested: archival photo / recreation</span>
-        <span class="img-placeholder-dim">½ width × 260px</span>
-      </div>
-      <div class="img-placeholder">
-        <span class="img-placeholder-icon">📋</span>
-        <span class="img-placeholder-label">Apple partnership document, April 1, 1976<br>Suggested: document scan / historical record</span>
-        <span class="img-placeholder-dim">½ width × 260px</span>
-      </div>
+      <img src="https://picsum.photos/seed/ac-garage/800/280?grayscale" alt="The Los Altos garage, 1976" class="mag-img" style="height:280px">
+      <img src="https://picsum.photos/seed/ac-doc/800/280?grayscale" alt="Apple partnership document" class="mag-img" style="height:280px">
     </div>
     <figcaption style="border-left:none;border-top:1px solid var(--border);padding:8px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted)">Left: The Cupertino garage where Apple was founded. Right: The partnership agreement signed April 1, 1976.</figcaption>
   </figure>
@@ -1045,16 +922,8 @@
   <!-- IMG: Jobs chart section two-up (portrait + natal chart wheel) -->
   <div style="padding:0 32px 40px">
     <div class="img-two-up">
-      <div class="img-placeholder img-portrait" style="min-height:320px">
-        <span class="img-placeholder-icon">☿</span>
-        <span class="img-placeholder-label">Steve Jobs natal chart wheel<br>Suggested: rendered chart diagram (astro.com export)</span>
-        <span class="img-placeholder-dim">½ width × 320px</span>
-      </div>
-      <div class="img-placeholder img-portrait" style="min-height:320px">
-        <span class="img-placeholder-icon">📷</span>
-        <span class="img-placeholder-label">Steve Jobs portrait, c. 1984–2007<br>Suggested: keynote / product launch photograph</span>
-        <span class="img-placeholder-dim">½ width × 320px</span>
-      </div>
+      <img src="https://picsum.photos/seed/ac-chart/800/340?grayscale" alt="Steve Jobs natal chart" class="mag-img" style="height:340px">
+      <img src="https://picsum.photos/seed/ac-jobs/800/340?grayscale" alt="Steve Jobs" class="mag-img" style="height:340px">
     </div>
   </div>
 
@@ -1249,21 +1118,9 @@
   </div>
   <figure class="figure-block" style="margin:0 0 0">
     <div class="img-three-up">
-      <div class="img-placeholder">
-        <span class="img-placeholder-icon">🕌</span>
-        <span class="img-placeholder-label">Kainchi Ashram, Nainital, India<br>Suggested: archival or contemporary photograph</span>
-        <span class="img-placeholder-dim">⅓ width × 200px</span>
-      </div>
-      <div class="img-placeholder">
-        <span class="img-placeholder-icon">🧘</span>
-        <span class="img-placeholder-label">Jobs in India, 1974<br>Suggested: archival photograph (public domain)</span>
-        <span class="img-placeholder-dim">⅓ width × 200px</span>
-      </div>
-      <div class="img-placeholder">
-        <span class="img-placeholder-icon">💻</span>
-        <span class="img-placeholder-label">Atari Astrochart program, 1975<br>Suggested: screenshot / recreation (Adafruit, 2026)</span>
-        <span class="img-placeholder-dim">⅓ width × 200px</span>
-      </div>
+      <img src="https://picsum.photos/seed/ac-india/600/220?grayscale" alt="Kainchi Ashram, Nainital" class="mag-img" style="height:220px">
+      <img src="https://picsum.photos/seed/ac-india2/600/220?grayscale" alt="Jobs in India, 1974" class="mag-img" style="height:220px">
+      <img src="https://picsum.photos/seed/ac-atari/600/220?grayscale" alt="Atari Astrochart, 1975" class="mag-img" style="height:220px">
     </div>
     <figcaption style="border-left:none;border-top:1px solid var(--border);padding:8px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted)">Left: Kainchi Ashram. Center: Jobs in India, 1974. Right: Astrochart, the horoscope program Jobs wrote at Atari in 1975 — the year before Apple.</figcaption>
   </figure>
@@ -1300,11 +1157,7 @@
   </div>
   <!-- IMG: 1984 ad / keynote banner -->
   <figure class="figure-block" style="margin:0">
-    <div class="img-placeholder img-banner">
-      <span class="img-placeholder-icon">📺</span>
-      <span class="img-placeholder-label">The 1984 Super Bowl advertisement, or a product launch keynote still<br>Suggested: film still, press photograph, or promotional image</span>
-      <span class="img-placeholder-dim">Full width × 200px</span>
-    </div>
+    <img src="https://picsum.photos/seed/ac-1984/1400/200?grayscale" alt="1984 advertisement" class="mag-img" style="height:200px">
     <figcaption style="border-left:none;border-top:1px solid var(--border);padding:8px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted)">The "1984" advertisement aired January 22, 1984, two days before the Macintosh launch. Directed by Ridley Scott. Never broadcast again.</figcaption>
   </figure>
 
@@ -1418,11 +1271,7 @@
   </div>
   <div class="store-inner">
     <div class="store-img">
-      <div class="img-placeholder" style="width:100%;height:100%;border:none;background:transparent">
-        <span class="img-placeholder-icon">🏛️</span>
-        <span class="img-placeholder-label">Apple Store Fifth Avenue glass cube<br>Suggested: architectural exterior photograph, night shot preferred</span>
-        <span class="img-placeholder-dim">½ width × 480px</span>
-      </div>
+      <img src="https://picsum.photos/seed/ac-store/900/520?grayscale" alt="Apple Store Fifth Avenue" class="mag-img" style="height:100%;min-height:480px;width:100%">
       <span class="store-img-label">Fifth Avenue · New York · May 19, 2006</span>
     </div>
     <div class="store-text">
@@ -1459,11 +1308,7 @@
     </p>
     <!-- IMG: Body interface banner -->
     <figure class="figure-block" style="margin:16px 0 0">
-      <div class="img-placeholder img-banner" style="height:160px">
-        <span class="img-placeholder-icon">⌚</span>
-        <span class="img-placeholder-label">Apple Watch and Apple Health — product photography or health data visualization<br>Suggested: Apple press kit imagery, wrist shot, Health app screenshot</span>
-        <span class="img-placeholder-dim">Full width × 160px</span>
-      </div>
+      <img src="https://picsum.photos/seed/ac-watch/1400/180?grayscale" alt="Apple Watch" class="mag-img" style="height:180px">
     </figure>
 
     <div class="body-interface-grid">
@@ -1506,11 +1351,7 @@
 
   <!-- IMG: Jupiter cycle visualization -->
   <figure class="figure-block" style="margin:0">
-    <div class="img-placeholder img-hero-strip" style="height:240px">
-      <span class="img-placeholder-icon">♃</span>
-      <span class="img-placeholder-label">Jupiter cycle diagram or career timeline visualization<br>Suggested: custom infographic mapping IC/MC transits against product launches, or astrological chart wheel</span>
-      <span class="img-placeholder-dim">Full width × 240px</span>
-    </div>
+    <img src="https://picsum.photos/seed/ac-jupiter/1400/260?grayscale" alt="Jupiter cycle" class="mag-img" style="height:260px">
     <figcaption style="border-left:none;border-top:1px solid var(--border);padding:8px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted)">Jupiter's 12-year orbit mapped against Jobs' natal MC/IC axis. Products launched near IC (bottom of chart) became permanent. Products launched near MC were discontinued.</figcaption>
   </figure>
 
@@ -1522,18 +1363,18 @@
       <tbody>
         <tr><td>Blue Boxes (first business)</td><td>Oct 1971</td><td>Jupiter on IC (Dec 1971)</td><td class="td-highlight">Foundational seed</td></tr>
         <tr><td>Apple I &amp; company founded</td><td>Apr 1976</td><td>Jupiter on natal Mars (Mar 1976)</td><td class="td-highlight">Foundational seed</td></tr>
-        <tr><td class="td-highlight">Apple II released</td><td>Jun 1977</td><td>Jupiter on MC (Jul 1977)</td><td style="color:var(--muted)">Transitional — discontinued 1993</td></tr>
-        <tr style="background:rgba(208,171,57,.04)"><td class="td-highlight"><strong>Macintosh launched</strong></td><td>Jan 1984</td><td>Jupiter on IC (Dec 1983)</td><td style="color:var(--gold)">FOUNDATIONAL — still sold today</td></tr>
-        <tr><td>Jobs fired from Apple</td><td>May 1985</td><td>Jupiter Rx on natal Mercury</td><td style="color:var(--muted)">Crisis</td></tr>
-        <tr><td class="td-highlight">NeXT Computer announced</td><td>Oct 1988</td><td>Jupiter on MC (Jun 1989)</td><td style="color:var(--muted)">Transitional — hardware discontinued 1990</td></tr>
-        <tr style="background:rgba(208,171,57,.04)"><td class="td-highlight"><strong>Toy Story / Pixar IPO</strong></td><td>Nov 1995</td><td>Jupiter on IC (Dec 1995)</td><td style="color:var(--gold)">FOUNDATIONAL — franchise ongoing</td></tr>
+        <tr><td class="td-highlight">Apple II released</td><td>Jun 1977</td><td>Jupiter on MC (Jul 1977)</td><td style="color:var(--text4)">Transitional — discontinued 1993</td></tr>
+        <tr style="background:var(--surface2)"><td class="td-highlight"><strong>Macintosh launched</strong></td><td>Jan 1984</td><td>Jupiter on IC (Dec 1983)</td><td style="color:var(--text4)">FOUNDATIONAL — still sold today</td></tr>
+        <tr><td>Jobs fired from Apple</td><td>May 1985</td><td>Jupiter Rx on natal Mercury</td><td style="color:var(--text4)">Crisis</td></tr>
+        <tr><td class="td-highlight">NeXT Computer announced</td><td>Oct 1988</td><td>Jupiter on MC (Jun 1989)</td><td style="color:var(--text4)">Transitional — hardware discontinued 1990</td></tr>
+        <tr style="background:var(--surface2)"><td class="td-highlight"><strong>Toy Story / Pixar IPO</strong></td><td>Nov 1995</td><td>Jupiter on IC (Dec 1995)</td><td style="color:var(--text4)">FOUNDATIONAL — franchise ongoing</td></tr>
         <tr><td>Jobs returns to Apple</td><td>Sep 1997</td><td>Jupiter Rx on Mercury (12 yrs later)</td><td class="td-highlight">Return — exact repeat of 1985</td></tr>
-        <tr><td>iMac</td><td>Aug 1998</td><td>Jupiter on Mercury</td><td style="color:var(--muted)">Recovery</td></tr>
-        <tr><td class="td-highlight">iPod</td><td>Oct 2001</td><td>Jupiter on MC (Jun 2001)</td><td style="color:var(--muted)">Transitional — full line retired 2022</td></tr>
-        <tr style="background:rgba(208,171,57,.04)"><td class="td-highlight"><strong>iPhone announced / released</strong></td><td>Jan / Jun 2007</td><td>Jupiter on IC (Nov 2007)</td><td style="color:var(--gold)">FOUNDATIONAL — most profitable product in history</td></tr>
+        <tr><td>iMac</td><td>Aug 1998</td><td>Jupiter on Mercury</td><td style="color:var(--text4)">Recovery</td></tr>
+        <tr><td class="td-highlight">iPod</td><td>Oct 2001</td><td>Jupiter on MC (Jun 2001)</td><td style="color:var(--text4)">Transitional — full line retired 2022</td></tr>
+        <tr style="background:var(--surface2)"><td class="td-highlight"><strong>iPhone announced / released</strong></td><td>Jan / Jun 2007</td><td>Jupiter on IC (Nov 2007)</td><td style="color:var(--text4)">FOUNDATIONAL — most profitable product in history</td></tr>
         <tr><td>iPad</td><td>Apr 2010</td><td>Jupiter conjunct natal Sun (Feb 2010)</td><td class="td-highlight">Foundational — Jupiter touches his core</td></tr>
-        <tr><td>iCloud / Apple Park presented</td><td>Jun 6, 2011</td><td>Jupiter on natal Mars</td><td style="color:var(--muted)">Final act</td></tr>
-        <tr><td>Death</td><td>Oct 5, 2011</td><td>MC primary direction to Mars (Oct 4)</td><td style="color:var(--muted)">—</td></tr>
+        <tr><td>iCloud / Apple Park presented</td><td>Jun 6, 2011</td><td>Jupiter on natal Mars</td><td style="color:var(--text4)">Final act</td></tr>
+        <tr><td>Death</td><td>Oct 5, 2011</td><td>MC primary direction to Mars (Oct 4)</td><td style="color:var(--text4)">—</td></tr>
       </tbody>
     </table>
 
@@ -1555,7 +1396,7 @@
 </section>
 
 <!-- ═══════ THE CORPORATE CHART ═══════ -->
-<section id="corporate-chart" style="background:var(--deep); border-top:1px solid var(--border)">
+<section id="corporate-chart" style="background:var(--surface); border-top:1px solid var(--border-l)">
   <div class="section-band">
     <span class="section-band-num">09</span>
     <span class="section-band-title">Feature</span>
@@ -1638,11 +1479,7 @@
       </p>
       <!-- IMG: Shadow section portrait -->
       <figure class="figure-block" style="margin:24px 0 0">
-        <div class="img-placeholder" style="height:200px">
-          <span class="img-placeholder-icon">🪞</span>
-          <span class="img-placeholder-label">Shadow image — suggested: bitten apple, Foxconn assembly line, or symbolic duality photograph</span>
-          <span class="img-placeholder-dim">½ width × 200px</span>
-        </div>
+        <img src="https://picsum.photos/seed/ac-shadow/800/220?grayscale" alt="Shadow" class="mag-img" style="height:220px">
         <figcaption>Image caption — shadow / contrast</figcaption>
       </figure>
     </div>
@@ -1748,7 +1585,7 @@
 </section>
 
 <!-- ═══════ CLOSING ═══════ -->
-<section class="pullquote-band" style="background:var(--void)">
+<section class="pullquote-band" style="background:var(--bg)">
   <div class="pullquote-inner" style="max-width:900px">
     <div class="pq-rule"></div>
     <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(13px,1.5vw,18px);color:var(--silver);line-height:1.85;margin-bottom:28px">
