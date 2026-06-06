@@ -3,68 +3,1518 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digitone Sequencer</title>
+  <title>CELESTIA — Astrology & Tarot Magazine</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+
+  <!-- GSAP + ScrollTrigger (UMD) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- Lenis smooth scroll (UMD) -->
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:    #08070e;
+      --deep:     #0d0b1a;
+      --void:     #110e20;
+      --ink:      #1a1730;
+      --purple:   #6b3fa0;
+      --violet:   #9b59d0;
+      --lavender: #c9a8f5;
+      --gold:     #c9a84c;
+      --gold-lt:  #e8cc7e;
+      --cream:    #f5f0e8;
+      --white:    #ffffff;
+      --muted:    #8a83a3;
+      --border:   rgba(201,168,76,0.18);
+    }
+
+    html { overflow-x: hidden; }
+
+    body {
+      background: var(--black);
+      color: var(--cream);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── WebGL canvas (Three.js) ── */
+    #webgl {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── Scroll progress ── */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--purple), var(--gold));
+      z-index: 1000;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 3rem;
+      transition: background .5s, backdrop-filter .5s, border-color .5s;
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled {
+      background: rgba(8,7,14,.88);
+      backdrop-filter: blur(20px);
+      border-color: var(--border);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: .18em;
+      color: var(--gold);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .nav-logo span { color: var(--cream); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .78rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      transition: color .25s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-issue {
+      font-size: .72rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: .4rem .9rem;
+      text-decoration: none;
+      transition: all .25s;
+    }
+    .nav-issue:hover { border-color: var(--gold); color: var(--gold); }
+
+    section { position: relative; z-index: 1; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 5rem;
+      overflow: hidden;
+    }
+    .hero-eyebrow {
+      font-size: .7rem;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2rem;
+      opacity: 0;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(4rem, 12vw, 10rem);
+      font-weight: 900;
+      line-height: .92;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+    .hero-title .char { display: inline-block; opacity: 0; }
+    .hero-title em {
+      font-style: italic;
+      background: linear-gradient(135deg, var(--gold) 30%, var(--lavender));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+      font-style: italic;
+      color: var(--lavender);
+      margin-bottom: 3rem;
+      opacity: 0;
+    }
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--purple), var(--violet));
+      color: var(--white);
+      text-decoration: none;
+      padding: .85rem 2.2rem;
+      font-size: .8rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(107,63,160,.55);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--gold);
+      text-decoration: none;
+      padding: .85rem 2.2rem;
+      font-size: .8rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      border: 1px solid var(--gold);
+      cursor: pointer;
+      transition: all .25s;
+    }
+    .btn-outline:hover { background: var(--gold); color: var(--black); }
+
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .5rem;
+      opacity: 0;
+    }
+    .hero-scroll-hint span {
+      font-size: .62rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      transform-origin: top;
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    .hero-bg-glyph {
+      position: absolute;
+      font-size: clamp(18rem, 40vw, 36rem);
+      opacity: .025;
+      pointer-events: none;
+      user-select: none;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* ── Divider ── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 0 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .divider-line { flex: 1; height: 1px; background: var(--border); transform-origin: left; transform: scaleX(0); }
+    .divider-sym { color: var(--gold); font-size: 1.2rem; opacity: 0; }
+
+    /* ── TOC ── */
+    #toc {
+      padding: 5rem 3rem;
+      background: var(--deep);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .toc-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .toc-label {
+      font-size: .62rem;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .toc-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--white);
+    }
+    .toc-heading em { font-style: italic; color: var(--lavender); }
+    .toc-list { list-style: none; }
+    .toc-item {
+      display: flex;
+      align-items: baseline;
+      gap: 1.5rem;
+      padding: 1.1rem 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: inherit;
+      transition: none;
+    }
+    .toc-item:hover .toc-title { color: var(--gold); }
+    .toc-item:hover .toc-arrow { opacity: 1; transform: translateX(5px); }
+    .toc-num { font-size: .62rem; letter-spacing: .15em; color: var(--gold); min-width: 2rem; opacity: .7; }
+    .toc-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      flex: 1;
+      transition: color .2s;
+    }
+    .toc-tag {
+      font-size: .58rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: .2rem .6rem;
+      border: 1px solid rgba(138,131,163,.28);
+    }
+    .toc-arrow { color: var(--gold); opacity: 0; transition: all .2s; }
+
+    /* ── Stats ── */
+    #stats { padding: 4rem 3rem; background: var(--void); }
+    .stats-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+    .stat-item { text-align: center; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--gold), var(--lavender));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block;
+      line-height: 1;
+      margin-bottom: .5rem;
+    }
+    .stat-label { font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+
+    /* ── Features ── */
+    #features { padding: 7rem 3rem; background: var(--black); }
+    .features-inner { max-width: 1200px; margin: 0 auto; }
+    .section-eyebrow { font-size: .62rem; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; }
+    .section-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 4rem;
+      max-width: 700px;
+    }
+    .section-heading em { font-style: italic; color: var(--lavender); }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+      background: var(--border);
+    }
+    .feat-card {
+      background: var(--deep);
+      padding: 2.5rem 2rem;
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+    }
+    .feat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--purple), var(--gold));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .45s;
+    }
+    .feat-card:hover::before { transform: scaleX(1); }
+    .feat-card:hover { background: var(--void); }
+    .feat-glyph { font-size: 2.5rem; margin-bottom: 1.5rem; display: block; opacity: .7; }
+    .feat-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: .75rem;
+      line-height: 1.3;
+    }
+    .feat-body { font-size: .85rem; color: var(--muted); line-height: 1.7; }
+    .feat-tag {
+      display: inline-block;
+      margin-top: 1.2rem;
+      font-size: .58rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: 1px;
+    }
+
+    /* ── Pull quote ── */
+    .pullquote-section {
+      padding: 6rem 3rem;
+      background: var(--ink);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+      overflow: hidden;
+    }
+    .pullquote-inner { max-width: 900px; margin: 0 auto; }
+    .quote-mark {
+      font-family: 'Playfair Display', serif;
+      font-size: 8rem;
+      color: var(--gold);
+      opacity: .18;
+      line-height: .5;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    blockquote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+      font-style: italic;
+      font-weight: 300;
+      color: var(--cream);
+      line-height: 1.45;
+      margin-bottom: 2rem;
+    }
+    .quote-word { display: inline-block; }
+    cite {
+      font-style: normal;
+      font-size: .72rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ── Articles ── */
+    .article-section { padding: 7rem 3rem; overflow: hidden; }
+    .article-section:nth-child(even) { background: var(--deep); }
+    .article-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .article-inner.reverse { direction: rtl; }
+    .article-inner.reverse > * { direction: ltr; }
+    .article-img {
+      aspect-ratio: 4/5;
+      background: var(--void);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .article-img-glyph { font-size: 8rem; opacity: .12; }
+    .article-img-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(107,63,160,.18), rgba(201,168,76,.09));
+    }
+    .article-eyebrow { font-size: .58rem; letter-spacing: .32em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+    .article-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 3rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+    }
+    .article-heading em { font-style: italic; color: var(--lavender); }
+    .article-body { font-size: .9rem; color: var(--muted); line-height: 1.85; margin-bottom: 1.5rem; }
+    .read-more {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      font-size: .72rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      transition: gap .22s;
+    }
+    .read-more:hover { gap: 1rem; }
+
+    /* ── Zodiac ── */
+    #zodiac { padding: 7rem 3rem; background: var(--void); text-align: center; }
+    .zodiac-inner { max-width: 1200px; margin: 0 auto; }
+    .zodiac-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin-top: 4rem;
+    }
+    .zodiac-card {
+      background: var(--deep);
+      padding: 2rem 1rem;
+      text-align: center;
+      transition: background .25s;
+      cursor: default;
+    }
+    .zodiac-card:hover { background: var(--ink); }
+    .zodiac-symbol { font-size: 2rem; display: block; margin-bottom: .6rem; }
+    .zodiac-name { font-family: 'Cormorant Garamond', serif; font-size: .95rem; color: var(--cream); }
+    .zodiac-date { font-size: .62rem; color: var(--muted); margin-top: .2rem; letter-spacing: .05em; }
+
+    /* ── Tarot ── */
+    #tarot { padding: 7rem 3rem; background: var(--black); overflow: hidden; }
+    .tarot-inner { max-width: 1200px; margin: 0 auto; }
+    .tarot-cards {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1.5rem;
+      margin-top: 4rem;
+    }
+    .tarot-card {
+      background: var(--void);
+      border: 1px solid var(--border);
+      padding: 2.5rem 1.5rem 2rem;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: border-color .3s, box-shadow .3s;
+    }
+    .tarot-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 60%, rgba(107,63,160,.3));
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .tarot-card:hover { border-color: var(--gold); box-shadow: 0 20px 50px rgba(107,63,160,.3); }
+    .tarot-card:hover::after { opacity: 1; }
+    .tarot-roman { font-size: .58rem; letter-spacing: .2em; color: var(--gold); margin-bottom: .75rem; }
+    .tarot-face { font-size: 3rem; margin-bottom: 1rem; display: block; }
+    .tarot-name { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 600; color: var(--cream); margin-bottom: .4rem; }
+    .tarot-meaning { font-size: .68rem; color: var(--muted); line-height: 1.5; }
+
+    /* ── Newsletter ── */
+    #newsletter {
+      padding: 7rem 3rem;
+      background: linear-gradient(135deg, var(--void) 0%, var(--ink) 100%);
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .newsletter-inner { max-width: 600px; margin: 0 auto; }
+    .newsletter-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+    .newsletter-heading em { font-style: italic; color: var(--gold); }
+    .newsletter-sub { font-size: .9rem; color: var(--muted); margin-bottom: 2.5rem; }
+    .newsletter-form { display: flex; max-width: 480px; margin: 0 auto; }
+    .newsletter-input {
+      flex: 1;
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--border);
+      border-right: none;
+      color: var(--cream);
+      padding: .9rem 1.2rem;
+      font-family: 'Inter', sans-serif;
+      font-size: .85rem;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .newsletter-input:focus { border-color: var(--gold); }
+    .newsletter-input::placeholder { color: var(--muted); }
+    .newsletter-btn {
+      background: var(--gold);
+      color: var(--black);
+      border: none;
+      padding: .9rem 1.6rem;
+      font-family: 'Inter', sans-serif;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background .2s;
+      white-space: nowrap;
+    }
+    .newsletter-btn:hover { background: var(--gold-lt); }
+
+    /* ── Footer ── */
+    footer { background: var(--deep); border-top: 1px solid var(--border); padding: 4rem 3rem 2rem; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 600; letter-spacing: .15em; color: var(--gold); text-transform: uppercase; margin-bottom: .75rem; }
+    .footer-tagline { font-size: .8rem; color: var(--muted); line-height: 1.6; max-width: 280px; }
+    .footer-col-title { font-size: .62rem; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.25rem; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: .6rem; }
+    .footer-col a { font-size: .82rem; color: var(--muted); text-decoration: none; transition: color .2s; }
+    .footer-col a:hover { color: var(--cream); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 2rem; font-size: .7rem; color: rgba(138,131,163,.45); }
+    .footer-socials { display: flex; gap: 1.2rem; }
+    .footer-socials a { font-size: 1rem; color: var(--muted); text-decoration: none; transition: color .2s; }
+    .footer-socials a:hover { color: var(--gold); }
+
+    @keyframes scrollPulse {
+      0%,100% { opacity: .4; }
+      50% { opacity: 1; }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .toc-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .stats-inner { grid-template-columns: repeat(2,1fr); }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .article-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .article-inner.reverse { direction: ltr; }
+      .zodiac-grid { grid-template-columns: repeat(4,1fr); }
+      .tarot-cards { grid-template-columns: repeat(3,1fr); }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .zodiac-grid { grid-template-columns: repeat(3,1fr); }
+      .tarot-cards { grid-template-columns: repeat(2,1fr); }
+      .newsletter-form { flex-direction: column; }
+      .newsletter-input { border-right: 1px solid var(--border); }
+      .stats-inner { grid-template-columns: repeat(2,1fr); }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
 </head>
 <body>
-<div id="app">
 
-  <!-- Header / Transport -->
-  <header id="header">
-    <div id="logo">Digitone <span>Sequencer</span></div>
+<div id="progress-bar"></div>
+<canvas id="webgl"></canvas>
 
-    <div class="transport">
-      <button id="btn-play"  class="transport-btn" title="Play">▶</button>
-      <button id="btn-stop"  class="transport-btn active" title="Stop">■</button>
-    </div>
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="#hero" class="nav-logo">Celestia <span>Magazine</span></a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#zodiac">Zodiac</a></li>
+    <li><a href="#tarot">Tarot</a></li>
+    <li><a href="#newsletter">Subscribe</a></li>
+  </ul>
+  <a href="#newsletter" class="nav-issue btn-outline">Issue № 01</a>
+</nav>
 
-    <div class="header-group">
-      <span class="header-label">BPM</span>
-      <input id="bpm" type="number" min="20" max="300" value="120">
-    </div>
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-glyph" aria-hidden="true">☽</div>
+  <p class="hero-eyebrow">Issue № 01 · Winter Solstice 2026</p>
+  <h1 class="hero-title" id="hero-title">Cele<em>stia</em></h1>
+  <p class="hero-subtitle">Where the stars tell stories the world forgot to listen to</p>
+  <div class="hero-cta">
+    <a href="#toc" class="btn-primary">Read the Issue</a>
+    <a href="#newsletter" class="btn-outline">Subscribe</a>
+  </div>
+  <div class="hero-scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
 
-    <div class="header-group">
-      <span class="header-label">Steps</span>
-      <select id="pat-len" class="header-sel" style="min-width:80px">
-        <option value="8">8</option>
-        <option value="16" selected>16</option>
-        <option value="32">32</option>
-        <option value="64">64</option>
-      </select>
-    </div>
-
-    <div class="header-group">
-      <span class="header-label">MIDI Out</span>
-      <select id="midi-select" class="header-sel">
-        <option value="-1">-- No Output --</option>
-      </select>
-    </div>
-
-    <div class="header-group">
-      <span class="header-label">FX CH</span>
-      <input id="fx-channel" type="number" min="1" max="16" value="9">
-    </div>
-
-    <span id="midi-status"></span>
-  </header>
-
-  <!-- Track lanes -->
-  <section id="tracks"></section>
-
-  <!-- Bottom panel -->
-  <section id="bottom-panel">
-    <div class="tabs">
-      <button class="tab-btn active" data-tab="params">Params</button>
-      <button class="tab-btn" data-tab="plocks">P-Locks</button>
-      <button class="tab-btn" data-tab="lfos">LFOs</button>
-      <button class="tab-btn" data-tab="fx">FX / Master</button>
-    </div>
-    <div id="panel-content"></div>
-  </section>
-
+<div class="divider">
+  <div class="divider-line" id="divider-l"></div>
+  <span class="divider-sym" id="divider-sym">✦</span>
+  <div class="divider-line" id="divider-r" style="transform-origin:right"></div>
 </div>
-<script type="module" src="js/app.js"></script>
+
+<!-- TABLE OF CONTENTS -->
+<section id="toc">
+  <div class="toc-inner">
+    <div class="toc-left">
+      <p class="toc-label">In This Issue</p>
+      <h2 class="toc-heading">What the <em>cosmos</em> prepared for you</h2>
+    </div>
+    <ul class="toc-list">
+      <li><a href="#features" class="toc-item">
+        <span class="toc-num">01</span>
+        <span class="toc-title">The Grand Conjunction of 2026</span>
+        <span class="toc-tag">Astrology</span>
+        <span class="toc-arrow">→</span>
+      </a></li>
+      <li><a href="#article-2" class="toc-item">
+        <span class="toc-num">02</span>
+        <span class="toc-title">Reading the Major Arcana in Modern Life</span>
+        <span class="toc-tag">Tarot</span>
+        <span class="toc-arrow">→</span>
+      </a></li>
+      <li><a href="#zodiac" class="toc-item">
+        <span class="toc-num">03</span>
+        <span class="toc-title">All 12 Signs: Your Winter Forecast</span>
+        <span class="toc-tag">Zodiac</span>
+        <span class="toc-arrow">→</span>
+      </a></li>
+      <li><a href="#article-3" class="toc-item">
+        <span class="toc-num">04</span>
+        <span class="toc-title">Moon Phases & Your Ritual Calendar</span>
+        <span class="toc-tag">Lunar</span>
+        <span class="toc-arrow">→</span>
+      </a></li>
+      <li><a href="#tarot" class="toc-item">
+        <span class="toc-num">05</span>
+        <span class="toc-title">The Five Cards That Define This Season</span>
+        <span class="toc-tag">Tarot</span>
+        <span class="toc-arrow">→</span>
+      </a></li>
+    </ul>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <span class="stat-num" data-target="12">0</span>
+      <p class="stat-label">Zodiac Signs Covered</p>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num" data-target="78">0</span>
+      <p class="stat-label">Tarot Cards Explored</p>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num" data-target="13">0</span>
+      <p class="stat-label">Moon Cycles This Year</p>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num" data-target="8">0</span>
+      <p class="stat-label">Planetary Alignments</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="features-inner">
+    <p class="section-eyebrow">Feature Stories</p>
+    <h2 class="section-heading">The <em>celestial forces</em> shaping our world right now</h2>
+    <div class="features-grid">
+      <div class="feat-card">
+        <span class="feat-glyph">♄</span>
+        <h3 class="feat-heading">Saturn Returns at 29</h3>
+        <p class="feat-body">The great teacher planet completes its cycle, forcing every soul into a reckoning with time, structure, and destiny unfulfilled.</p>
+        <span class="feat-tag">Astrology</span>
+      </div>
+      <div class="feat-card">
+        <span class="feat-glyph">🌙</span>
+        <h3 class="feat-heading">New Moon Manifestation</h3>
+        <p class="feat-body">How to harness the darkest night of the lunar cycle as the most powerful threshold for intention-setting and deep transformation.</p>
+        <span class="feat-tag">Lunar</span>
+      </div>
+      <div class="feat-card">
+        <span class="feat-glyph">🃏</span>
+        <h3 class="feat-heading">The Tower Reversed</h3>
+        <p class="feat-body">When the most feared card in the deck appears inverted, it offers an unexpected gift: the chance to rebuild before the collapse.</p>
+        <span class="feat-tag">Tarot</span>
+      </div>
+      <div class="feat-card">
+        <span class="feat-glyph">♇</span>
+        <h3 class="feat-heading">Pluto in Aquarius</h3>
+        <p class="feat-body">For the first time in 248 years, Pluto crosses into Aquarius — dissolving old power structures and rewriting the social contract.</p>
+        <span class="feat-tag">Transit</span>
+      </div>
+      <div class="feat-card">
+        <span class="feat-glyph">⭐</span>
+        <h3 class="feat-heading">Fixed Stars & Fate</h3>
+        <p class="feat-body">Ancient astrologers mapped the royal stars — Regulus, Aldebaran, Antares, Fomalhaut. Their whispers still echo in your natal chart.</p>
+        <span class="feat-tag">Ancient</span>
+      </div>
+      <div class="feat-card">
+        <span class="feat-glyph">🔮</span>
+        <h3 class="feat-heading">Synastry & Soul Contracts</h3>
+        <p class="feat-body">Your relationships are written in the sky before you meet. Composite charts reveal the purpose hidden inside every meaningful bond.</p>
+        <span class="feat-tag">Relationships</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PULL QUOTE 1 -->
+<section class="pullquote-section" id="quote-1">
+  <div class="pullquote-inner">
+    <span class="quote-mark" aria-hidden="true">"</span>
+    <blockquote id="quote-text-1">
+      "The cosmos is neither cruel nor kind. It is a mirror — and what you see depends entirely on the courage you bring to the looking."
+    </blockquote>
+    <cite>— Celestia Magazine, Editorial Foreword</cite>
+  </div>
+</section>
+
+<!-- ARTICLE 1 -->
+<section class="article-section" id="article-1">
+  <div class="article-inner">
+    <div class="article-img" id="article-img-1">
+      <span class="article-img-glyph" aria-hidden="true">♃</span>
+      <div class="article-img-overlay"></div>
+    </div>
+    <div class="article-text" id="article-text-1">
+      <p class="article-eyebrow">Feature · Astrology</p>
+      <h2 class="article-heading">The Grand <em>Conjunction</em> of 2026</h2>
+      <p class="article-body">Once every twenty years, Jupiter and Saturn meet in the sky — but the 2026 conjunction carries a charge unlike any in living memory. Both giants align at zero degrees Aries, the absolute origin point of the zodiac, signaling not just a reset but a complete dissolution of the old cycle.</p>
+      <p class="article-body">This is an era of collective initiation. Nations, institutions, and individuals who have been deferring transformation will find that delay is no longer an option. The universe charges forward, and you are invited — or compelled — to move with it.</p>
+      <a href="#" class="read-more">Read the Full Feature <span>→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ARTICLE 2 -->
+<section class="article-section" id="article-2">
+  <div class="article-inner reverse">
+    <div class="article-img" id="article-img-2">
+      <span class="article-img-glyph" aria-hidden="true">🌟</span>
+      <div class="article-img-overlay"></div>
+    </div>
+    <div class="article-text" id="article-text-2">
+      <p class="article-eyebrow">Feature · Tarot</p>
+      <h2 class="article-heading">Reading the <em>Major Arcana</em> in Modern Life</h2>
+      <p class="article-body">The 22 cards of the Major Arcana are not relics of superstition. They are a compressed mythology of the human experience — from the Fool's wild leap of faith at 0, to the World's triumphant integration at 21. Every crisis, every love, every identity collapse lives somewhere on this spectrum.</p>
+      <p class="article-body">In this feature, three master readers share how they use the Arcana not as prophecy but as a language of reflection — a tool for naming what is already known in the body but not yet said aloud.</p>
+      <a href="#" class="read-more">Read the Full Feature <span>→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ARTICLE 3 -->
+<section class="article-section" id="article-3">
+  <div class="article-inner">
+    <div class="article-img" id="article-img-3">
+      <span class="article-img-glyph" aria-hidden="true">🌒</span>
+      <div class="article-img-overlay"></div>
+    </div>
+    <div class="article-text" id="article-text-3">
+      <p class="article-eyebrow">Practice · Lunar</p>
+      <h2 class="article-heading">Moon Phases & Your <em>Ritual Calendar</em></h2>
+      <p class="article-body">Living in alignment with lunar cycles is one of the oldest forms of intelligence. Before electricity fragmented our nights, entire civilizations structured planting, healing, ceremony, and grief around the moon's rhythm. The cycle is still there — we simply stopped watching.</p>
+      <p class="article-body">This guide maps the eight moon phases to eight modes of inner work. From the quiet of the new moon to the raw release of the waning crescent, every phase asks something different of you.</p>
+      <a href="#" class="read-more">Read the Full Guide <span>→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ZODIAC -->
+<section id="zodiac">
+  <div class="zodiac-inner">
+    <p class="section-eyebrow">Winter Forecast</p>
+    <h2 class="section-heading" style="margin:0 auto 0;text-align:center;max-width:100%;">All <em>12 Signs</em> — What This Season Holds</h2>
+    <div class="zodiac-grid">
+      <div class="zodiac-card"><span class="zodiac-symbol">♈</span><div class="zodiac-name">Aries</div><div class="zodiac-date">Mar 21 – Apr 19</div></div>
+      <div class="zodiac-card"><span class="zodiac-symbol">♉</span><div class="zodiac-name">Taurus</div><div class="zodiac-date">Apr 20 – May 20</div></div>
+      <div class="zodiac-card"><span class="zodiac-symbol">♊</span><div class="zodiac-name">Gemini</div><div class="zodiac-date">May 21 – Jun 20</div></div>
+      <div class="zodiac-card"><span class="zodiac-symbol">♋</span><div class="zodiac-name">Cancer</div><div class="zodiac-date">Jun 21 – Jul 22</div></div>
+      <div class="zodiac-card"><span class="zodiac-symbol">♌</span><div class="zodiac-name">Leo</div><div class="zodiac-date">Jul 23 – Aug 22</div></div>
+      <div class="zodiac-card"><span class="zodiac-symbol">♍</span><div class="zodiac-name">Virgo</div><div class="zodiac-date">Aug 23 – Sep 22</div></div>
+      <div class="zodiac-card"><span class="zodiac-symbol">♎</span><div class="zodiac-name">Libra</div><div class="zodiac-date">Sep 23 – Oct 22</div></div>
+      <div class="zodiac-card"><span class="zodiac-symbol">♏</span><div class="zodiac-name">Scorpio</div><div class="zodiac-date">Oct 23 – Nov 21</div></div>
+      <div class="zodiac-card"><span class="zodiac-symbol">♐</span><div class="zodiac-name">Sagittarius</div><div class="zodiac-date">Nov 22 – Dec 21</div></div>
+      <div class="zodiac-card"><span class="zodiac-symbol">♑</span><div class="zodiac-name">Capricorn</div><div class="zodiac-date">Dec 22 – Jan 19</div></div>
+      <div class="zodiac-card"><span class="zodiac-symbol">♒</span><div class="zodiac-name">Aquarius</div><div class="zodiac-date">Jan 20 – Feb 18</div></div>
+      <div class="zodiac-card"><span class="zodiac-symbol">♓</span><div class="zodiac-name">Pisces</div><div class="zodiac-date">Feb 19 – Mar 20</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PULL QUOTE 2 -->
+<section class="pullquote-section" id="quote-2">
+  <div class="pullquote-inner">
+    <span class="quote-mark" aria-hidden="true">"</span>
+    <blockquote id="quote-text-2">
+      "Tarot does not predict the future. It illuminates the present with such clarity that the future becomes obvious."
+    </blockquote>
+    <cite>— From our interview with master reader Selene Voss</cite>
+  </div>
+</section>
+
+<!-- TAROT -->
+<section id="tarot">
+  <div class="tarot-inner">
+    <p class="section-eyebrow">Tarot · Season Reading</p>
+    <h2 class="section-heading">Five Cards That Define <em>This Season</em></h2>
+    <div class="tarot-cards">
+      <div class="tarot-card">
+        <div class="tarot-roman">I</div>
+        <span class="tarot-face">🎩</span>
+        <div class="tarot-name">The Magician</div>
+        <div class="tarot-meaning">Willpower, skill, the power to manifest your reality</div>
+      </div>
+      <div class="tarot-card">
+        <div class="tarot-roman">XII</div>
+        <span class="tarot-face">🙃</span>
+        <div class="tarot-name">The Hanged Man</div>
+        <div class="tarot-meaning">Surrender, new perspective, the gift of voluntary pause</div>
+      </div>
+      <div class="tarot-card">
+        <div class="tarot-roman">XVII</div>
+        <span class="tarot-face">⭐</span>
+        <div class="tarot-name">The Star</div>
+        <div class="tarot-meaning">Hope, renewal, cosmic trust after the storm has passed</div>
+      </div>
+      <div class="tarot-card">
+        <div class="tarot-roman">X</div>
+        <span class="tarot-face">☸️</span>
+        <div class="tarot-name">Wheel of Fortune</div>
+        <div class="tarot-meaning">Fate in motion, cycles turning, the pivot point of destiny</div>
+      </div>
+      <div class="tarot-card">
+        <div class="tarot-roman">XXI</div>
+        <span class="tarot-face">🌍</span>
+        <div class="tarot-name">The World</div>
+        <div class="tarot-meaning">Completion, integration, the triumphant end of a great cycle</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section id="newsletter">
+  <div class="newsletter-inner">
+    <p class="section-eyebrow" style="text-align:center">Stay Aligned</p>
+    <h2 class="newsletter-heading">Read the <em>stars</em> with us every month</h2>
+    <p class="newsletter-sub">Monthly forecasts, tarot pulls, lunar calendars, and deep dives into the cosmic forces shaping your world. No spam. Just starlight.</p>
+    <form class="newsletter-form" onsubmit="handleSubscribe(event)">
+      <input class="newsletter-input" type="email" placeholder="your@email.com" required>
+      <button class="newsletter-btn" type="submit">Subscribe</button>
+    </form>
+    <p id="newsletter-confirm" style="display:none;margin-top:1.2rem;font-size:.8rem;color:var(--gold);letter-spacing:.1em;">✦ You're on the list. The stars await.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Celestia</div>
+        <p class="footer-tagline">An independent magazine for those who look up at the night sky and feel something ancient stir within them.</p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Magazine</p>
+        <ul>
+          <li><a href="#">Current Issue</a></li>
+          <li><a href="#">Archive</a></li>
+          <li><a href="#">Subscribe</a></li>
+          <li><a href="#">About</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Topics</p>
+        <ul>
+          <li><a href="#">Astrology</a></li>
+          <li><a href="#">Tarot</a></li>
+          <li><a href="#">Lunar Cycles</a></li>
+          <li><a href="#">Birth Charts</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Community</p>
+        <ul>
+          <li><a href="#">Newsletter</a></li>
+          <li><a href="#">Podcast</a></li>
+          <li><a href="#">Events</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Celestia Magazine. All rights reserved.</span>
+      <div class="footer-socials">
+        <a href="#" title="Instagram">◈</a>
+        <a href="#" title="Twitter">◉</a>
+        <a href="#" title="TikTok">◆</a>
+        <a href="#" title="YouTube">▷</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Three.js via importmap -->
+<script type="importmap">
+  { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+
+// ── Scene setup ──────────────────────────────────────────────────────────────
+const canvas  = document.getElementById('webgl');
+const scene   = new THREE.Scene();
+scene.fog     = new THREE.FogExp2(0x08070e, 0.022);
+
+const camera  = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 200);
+camera.position.set(0, 0, 14);
+
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setClearColor(0x000000, 0);
+
+// ── Lights ───────────────────────────────────────────────────────────────────
+scene.add(new THREE.AmbientLight(0x1a0a2e, 1.2));
+
+const goldLight = new THREE.PointLight(0xc9a84c, 3, 40);
+goldLight.position.set(3, 4, 6);
+scene.add(goldLight);
+
+const purpleLight = new THREE.PointLight(0x6b3fa0, 4, 30);
+purpleLight.position.set(-5, -2, 5);
+scene.add(purpleLight);
+
+const blueLight = new THREE.PointLight(0x3d1a6e, 2, 25);
+blueLight.position.set(6, -4, 4);
+scene.add(blueLight);
+
+// ── Star field ───────────────────────────────────────────────────────────────
+function makeStarField(count, spread, size, opacity) {
+  const geo  = new THREE.BufferGeometry();
+  const pos  = new Float32Array(count * 3);
+  for (let i = 0; i < count * 3; i++) pos[i] = (Math.random() - 0.5) * spread;
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const mat  = new THREE.PointsMaterial({
+    color: 0xffffff,
+    size,
+    transparent: true,
+    opacity,
+    sizeAttenuation: true,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+  });
+  return new THREE.Points(geo, mat);
+}
+const stars1 = makeStarField(1800, 120, 0.08, 0.9);
+const stars2 = makeStarField(600,  80,  0.18, 0.5);
+scene.add(stars1, stars2);
+
+// ── Moon orb (large glowing sphere, top-left) ────────────────────────────────
+const moonGeo  = new THREE.SphereGeometry(2.6, 64, 64);
+const moonMat  = new THREE.MeshStandardMaterial({
+  color: 0x1a0a3a,
+  emissive: 0x4a1f80,
+  emissiveIntensity: 0.55,
+  roughness: 0.6,
+  metalness: 0.1,
+  transparent: true,
+  opacity: 0.82,
+});
+const moon = new THREE.Mesh(moonGeo, moonMat);
+moon.position.set(-5.5, 2.5, -4);
+scene.add(moon);
+
+// Moon halo (additive larger sphere for bloom-like glow)
+const haloMat = new THREE.MeshBasicMaterial({
+  color: 0x6b3fa0,
+  transparent: true,
+  opacity: 0.07,
+  blending: THREE.AdditiveBlending,
+  depthWrite: false,
+  side: THREE.BackSide,
+});
+const halo = new THREE.Mesh(new THREE.SphereGeometry(3.5, 32, 32), haloMat);
+halo.position.copy(moon.position);
+scene.add(halo);
+
+// ── Saturn-like planet (right side) ──────────────────────────────────────────
+const saturnGeo = new THREE.SphereGeometry(1.1, 48, 48);
+const saturnMat = new THREE.MeshStandardMaterial({
+  color: 0x2a1840,
+  emissive: 0xc9a84c,
+  emissiveIntensity: 0.12,
+  roughness: 0.4,
+  metalness: 0.2,
+});
+const saturn = new THREE.Mesh(saturnGeo, saturnMat);
+saturn.position.set(6, -2.5, -2);
+scene.add(saturn);
+
+const ringGeo = new THREE.TorusGeometry(1.9, 0.065, 5, 120);
+const ringMat = new THREE.MeshBasicMaterial({
+  color: 0xc9a84c,
+  transparent: true,
+  opacity: 0.28,
+  blending: THREE.AdditiveBlending,
+  depthWrite: false,
+});
+const ring = new THREE.Mesh(ringGeo, ringMat);
+ring.position.copy(saturn.position);
+ring.rotation.x = Math.PI * 0.38;
+scene.add(ring);
+
+// Second thinner ring
+const ring2Mat = new THREE.MeshBasicMaterial({
+  color: 0x9b59d0,
+  transparent: true,
+  opacity: 0.12,
+  blending: THREE.AdditiveBlending,
+  depthWrite: false,
+});
+const ring2 = new THREE.Mesh(new THREE.TorusGeometry(2.3, 0.03, 4, 100), ring2Mat);
+ring2.position.copy(saturn.position);
+ring2.rotation.x = Math.PI * 0.38;
+scene.add(ring2);
+
+// ── Crystal shards (wireframe polyhedra) ─────────────────────────────────────
+function makeCrystal(geo, x, y, z, color, opacity) {
+  const mat  = new THREE.MeshBasicMaterial({ color, wireframe: true, transparent: true, opacity });
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.position.set(x, y, z);
+  scene.add(mesh);
+  return mesh;
+}
+const crystal1 = makeCrystal(new THREE.OctahedronGeometry(0.7, 0),   3.5,  3.5, -6, 0xc9a8f5, 0.18);
+const crystal2 = makeCrystal(new THREE.IcosahedronGeometry(0.5, 0), -3,   -3.5, -5, 0x9b59d0, 0.14);
+const crystal3 = makeCrystal(new THREE.TetrahedronGeometry(0.55, 0),  1.5, -4.5, -8, 0xc9a84c, 0.12);
+const crystal4 = makeCrystal(new THREE.OctahedronGeometry(0.35, 0), -6.5,  1.0, -3, 0xc9a8f5, 0.10);
+
+// Small dust orbs (for depth atmosphere)
+const dustGeo = new THREE.SphereGeometry(0.06, 8, 8);
+const dustMat = new THREE.MeshBasicMaterial({
+  color: 0xc9a84c,
+  transparent: true,
+  opacity: 0.4,
+  blending: THREE.AdditiveBlending,
+});
+const dustGroup = new THREE.Group();
+for (let i = 0; i < 35; i++) {
+  const d = new THREE.Mesh(dustGeo, dustMat.clone());
+  d.position.set(
+    (Math.random() - 0.5) * 22,
+    (Math.random() - 0.5) * 14,
+    (Math.random() - 0.5) * 10 - 2
+  );
+  d.material.opacity = Math.random() * 0.35 + 0.05;
+  dustGroup.add(d);
+}
+scene.add(dustGroup);
+
+// ── Scroll-driven camera drift ────────────────────────────────────────────────
+let scrollY = 0;
+window.addEventListener('scroll', () => { scrollY = window.scrollY; });
+
+// ── Mouse parallax ────────────────────────────────────────────────────────────
+const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
+window.addEventListener('mousemove', e => {
+  mouse.tx = (e.clientX / window.innerWidth  - 0.5) * 2;
+  mouse.ty = (e.clientY / window.innerHeight - 0.5) * 2;
+});
+
+// ── Render loop ───────────────────────────────────────────────────────────────
+const clock = new THREE.Clock();
+function animate() {
+  requestAnimationFrame(animate);
+  const t  = clock.getElapsedTime();
+  const dt = clock.getDelta ? 0 : 0; // unused but declared for clarity
+
+  // Smooth mouse
+  mouse.x += (mouse.tx - mouse.x) * 0.04;
+  mouse.y += (mouse.ty - mouse.y) * 0.04;
+
+  // Camera drift (scroll + mouse)
+  const scrollProgress = scrollY / (document.body.scrollHeight - window.innerHeight || 1);
+  camera.position.y  += (-scrollProgress * 5 - camera.position.y) * 0.06;
+  camera.position.x  += (mouse.x * 0.6 - camera.position.x) * 0.04;
+  camera.rotation.z  += (-mouse.x * 0.015 - camera.rotation.z) * 0.04;
+
+  // Star slow rotation
+  stars1.rotation.y = t * 0.012;
+  stars2.rotation.y = t * 0.008;
+  stars1.rotation.x = t * 0.004;
+
+  // Moon bob
+  moon.position.y  = 2.5 + Math.sin(t * 0.3) * 0.25;
+  moon.rotation.y  = t * 0.06;
+  halo.position.copy(moon.position);
+
+  // Saturn orbit / spin
+  saturn.rotation.y  = t * 0.18;
+  saturn.position.x  = 6   + Math.sin(t * 0.15) * 0.3;
+  saturn.position.y  = -2.5 + Math.cos(t * 0.22) * 0.2;
+  ring.position.copy(saturn.position);
+  ring2.position.copy(saturn.position);
+  ring.rotation.z   = t * 0.04;
+
+  // Crystal rotations
+  crystal1.rotation.x = t * 0.22; crystal1.rotation.y = t * 0.14;
+  crystal2.rotation.x = t * 0.15; crystal2.rotation.z = t * 0.19;
+  crystal3.rotation.y = t * 0.17; crystal3.rotation.z = t * 0.12;
+  crystal4.rotation.x = t * 0.10; crystal4.rotation.y = t * 0.24;
+
+  // Dust twinkle
+  dustGroup.children.forEach((d, i) => {
+    d.material.opacity = 0.15 + 0.2 * Math.abs(Math.sin(t * 0.8 + i * 0.7));
+  });
+
+  // Gold light pulse
+  goldLight.intensity = 2.8 + Math.sin(t * 1.2) * 0.6;
+  purpleLight.intensity = 3.8 + Math.sin(t * 0.7 + 1) * 0.8;
+
+  renderer.render(scene, camera);
+}
+animate();
+
+// ── Resize ────────────────────────────────────────────────────────────────────
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+
+<script>
+// ── Lenis smooth scroll ──────────────────────────────────────────────────────
+const lenis = new Lenis({
+  duration:  2.0,
+  easing:    t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  smoothWheel: true,
+  wheelMultiplier: 0.85,
+});
+
+// Wire Lenis → GSAP ticker
+gsap.registerPlugin(ScrollTrigger);
+gsap.ticker.add(time => lenis.raf(time * 1000));
+gsap.ticker.lagSmoothing(0);
+
+// ScrollTrigger must use Lenis's scroll position
+lenis.on('scroll', ScrollTrigger.update);
+ScrollTrigger.scrollerProxy(document.body, {
+  scrollTop(v)  { return arguments.length ? lenis.scrollTo(v, { immediate: true }) : lenis.scroll; },
+  getBoundingClientRect() { return { top: 0, left: 0, width: innerWidth, height: innerHeight }; },
+});
+ScrollTrigger.defaults({ scroller: document.body });
+
+// ── Progress bar ─────────────────────────────────────────────────────────────
+lenis.on('scroll', ({ progress }) => {
+  document.getElementById('progress-bar').style.width = (progress * 100) + '%';
+});
+
+// ── Nav scroll class ──────────────────────────────────────────────────────────
+lenis.on('scroll', ({ scroll }) => {
+  document.getElementById('main-nav').classList.toggle('scrolled', scroll > 60);
+});
+
+// ── Char split helper ─────────────────────────────────────────────────────────
+function splitChars(el) {
+  // Walk text nodes, wrap each char in a span, preserve <em>
+  const frags = [];
+  function processNode(node) {
+    if (node.nodeType === 3) {
+      const chars = [...node.textContent];
+      chars.forEach(ch => {
+        const s = document.createElement('span');
+        s.className = 'char';
+        s.style.display = 'inline-block';
+        s.textContent = ch === ' ' ? ' ' : ch;
+        frags.push({ node, s });
+        node.parentNode.insertBefore(s, node);
+      });
+      node.parentNode.removeChild(node);
+    } else if (node.nodeType === 1) {
+      [...node.childNodes].forEach(processNode);
+    }
+  }
+  [...el.childNodes].forEach(processNode);
+  return el.querySelectorAll('.char');
+}
+
+// ── Word split helper ─────────────────────────────────────────────────────────
+function splitWords(el) {
+  const html = el.innerHTML;
+  el.innerHTML = html.replace(/(\S+)/g, '<span class="quote-word" style="display:inline-block">$1</span>');
+  return el.querySelectorAll('.quote-word');
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// ── HERO ENTRANCE ─────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════════════════
+const heroTl = gsap.timeline({ delay: 0.2 });
+
+// Eyebrow
+heroTl.fromTo('.hero-eyebrow',
+  { opacity: 0, y: 18, letterSpacing: '0.6em' },
+  { opacity: 1, y: 0,  letterSpacing: '0.32em', duration: 1.1, ease: 'power3.out' }
+);
+
+// Title chars
+const titleEl    = document.getElementById('hero-title');
+const titleChars = splitChars(titleEl);
+heroTl.fromTo(titleChars,
+  { opacity: 0, y: 60, rotateX: -40 },
+  { opacity: 1, y: 0,  rotateX: 0, duration: 0.9, ease: 'back.out(1.5)', stagger: 0.05 },
+  '-=0.6'
+);
+
+// Subtitle
+heroTl.fromTo('.hero-subtitle',
+  { opacity: 0, y: 20, filter: 'blur(6px)' },
+  { opacity: 1, y: 0,  filter: 'blur(0px)', duration: 1.0, ease: 'power3.out' },
+  '-=0.4'
+);
+
+// CTA
+heroTl.fromTo('.hero-cta',
+  { opacity: 0, y: 16 },
+  { opacity: 1, y: 0,  duration: 0.8, ease: 'power3.out' },
+  '-=0.5'
+);
+
+// Scroll hint
+heroTl.fromTo('.hero-scroll-hint',
+  { opacity: 0 },
+  { opacity: 1, duration: 1.0 },
+  '-=0.2'
+);
+
+// ── Hero parallax on scroll out ───────────────────────────────────────────────
+gsap.to('#hero .hero-title, #hero .hero-subtitle, #hero .hero-cta', {
+  y: -80,
+  opacity: 0,
+  ease: 'none',
+  scrollTrigger: {
+    trigger: '#hero',
+    start:  'center center',
+    end:    'bottom top',
+    scrub:  1.5,
+  },
+});
+
+// ── Divider ────────────────────────────────────────────────────────────────────
+gsap.timeline({
+  scrollTrigger: { trigger: '.divider', start: 'top 85%', toggleActions: 'play none none reverse' }
+})
+.to('#divider-l',   { scaleX: 1,  duration: 1.0, ease: 'power3.inOut' })
+.to('#divider-sym', { opacity: 0.6, scale: 1, duration: 0.5, ease: 'back.out(2)' }, '-=0.4')
+.to('#divider-r',   { scaleX: 1,  duration: 1.0, ease: 'power3.inOut' }, '-=0.8');
+
+// ══════════════════════════════════════════════════════════════════════════════
+// ── TOC ───────────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════════════════
+gsap.timeline({
+  scrollTrigger: { trigger: '#toc', start: 'top 72%', toggleActions: 'play none none reverse' }
+})
+.fromTo('.toc-left',
+  { opacity: 0, x: -50 },
+  { opacity: 1, x: 0, duration: 1.0, ease: 'power3.out' }
+)
+.fromTo('.toc-item',
+  { opacity: 0, x: 40 },
+  { opacity: 1, x: 0, duration: 0.7, ease: 'power3.out', stagger: 0.1 },
+  '-=0.6'
+);
+
+// ══════════════════════════════════════════════════════════════════════════════
+// ── STATS ─────────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════════════════
+gsap.fromTo('.stat-item',
+  { opacity: 0, y: 40, scale: 0.85 },
+  {
+    opacity: 1, y: 0, scale: 1,
+    duration: 0.8, ease: 'back.out(1.4)', stagger: 0.12,
+    scrollTrigger: { trigger: '#stats', start: 'top 78%' }
+  }
+);
+
+// Counter animation
+document.querySelectorAll('.stat-num[data-target]').forEach(el => {
+  const target = +el.dataset.target;
+  ScrollTrigger.create({
+    trigger: el,
+    start: 'top 82%',
+    once: true,
+    onEnter() {
+      gsap.to({ val: 0 }, {
+        val: target,
+        duration: 1.6,
+        ease: 'power2.out',
+        onUpdate() { el.textContent = Math.round(this.targets()[0].val); }
+      });
+    }
+  });
+});
+
+// ══════════════════════════════════════════════════════════════════════════════
+// ── FEATURES ──────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════════════════
+gsap.fromTo('.section-eyebrow',
+  { opacity: 0, y: 15 },
+  { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
+    scrollTrigger: { trigger: '#features', start: 'top 80%' } }
+);
+gsap.fromTo('#features .section-heading',
+  { opacity: 0, y: 30 },
+  { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out',
+    scrollTrigger: { trigger: '#features .section-heading', start: 'top 82%' } }
+);
+gsap.fromTo('.feat-card',
+  { opacity: 0, y: 50, scale: 0.94 },
+  {
+    opacity: 1, y: 0, scale: 1,
+    duration: 0.75, ease: 'power3.out', stagger: { amount: 0.5, from: 'start' },
+    scrollTrigger: { trigger: '.features-grid', start: 'top 78%' }
+  }
+);
+
+// ══════════════════════════════════════════════════════════════════════════════
+// ── PULL QUOTES — word-by-word reveal ─────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════════════════
+['#quote-text-1', '#quote-text-2'].forEach(sel => {
+  const el    = document.querySelector(sel);
+  const words = splitWords(el);
+  gsap.fromTo(words,
+    { opacity: 0, y: 12, filter: 'blur(3px)' },
+    {
+      opacity: 1, y: 0, filter: 'blur(0px)',
+      duration: 0.5, ease: 'power2.out', stagger: 0.04,
+      scrollTrigger: { trigger: el, start: 'top 80%' }
+    }
+  );
+  const parent = el.closest('.pullquote-section');
+  gsap.fromTo(parent.querySelector('.quote-mark'),
+    { opacity: 0, scale: 0.5 },
+    { opacity: 0.18, scale: 1, duration: 1.0, ease: 'back.out(1.8)',
+      scrollTrigger: { trigger: parent, start: 'top 82%' } }
+  );
+  gsap.fromTo(parent.querySelector('cite'),
+    { opacity: 0, y: 8 },
+    { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
+      scrollTrigger: { trigger: parent.querySelector('cite'), start: 'top 88%' } }
+  );
+});
+
+// ══════════════════════════════════════════════════════════════════════════════
+// ── ARTICLES — cinematic split reveal ─────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════════════════
+[
+  { img: '#article-img-1', txt: '#article-text-1', imgFrom: { x: -80 }, txtFrom: { x: 60 } },
+  { img: '#article-img-2', txt: '#article-text-2', imgFrom: { x:  80 }, txtFrom: { x: -60 } },
+  { img: '#article-img-3', txt: '#article-text-3', imgFrom: { x: -80 }, txtFrom: { x: 60 } },
+].forEach(({ img, txt, imgFrom, txtFrom }) => {
+  const trigger = document.querySelector(img).closest('.article-section');
+
+  gsap.fromTo(img,
+    { opacity: 0, ...imgFrom, scale: 0.9 },
+    { opacity: 1, x: 0, scale: 1, duration: 1.2, ease: 'power3.out',
+      scrollTrigger: { trigger, start: 'top 75%' } }
+  );
+  gsap.fromTo(txt,
+    { opacity: 0, ...txtFrom },
+    { opacity: 1, x: 0, duration: 1.1, ease: 'power3.out',
+      scrollTrigger: { trigger, start: 'top 75%' } }
+  );
+
+  // Parallax on image as you scroll through the article
+  gsap.to(img, {
+    y: -40,
+    ease: 'none',
+    scrollTrigger: {
+      trigger,
+      start: 'top bottom',
+      end:   'bottom top',
+      scrub: 1.8,
+    },
+  });
+});
+
+// ══════════════════════════════════════════════════════════════════════════════
+// ── ZODIAC — wave cascade ──────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════════════════
+gsap.fromTo('#zodiac .section-eyebrow, #zodiac .section-heading',
+  { opacity: 0, y: 30 },
+  { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.15,
+    scrollTrigger: { trigger: '#zodiac', start: 'top 78%' } }
+);
+gsap.fromTo('.zodiac-card',
+  { opacity: 0, y: 40, scale: 0.88 },
+  {
+    opacity: 1, y: 0, scale: 1,
+    duration: 0.6, ease: 'back.out(1.3)',
+    stagger: { amount: 0.7, from: 'start', grid: [2, 6] },
+    scrollTrigger: { trigger: '.zodiac-grid', start: 'top 80%' }
+  }
+);
+
+// ══════════════════════════════════════════════════════════════════════════════
+// ── TAROT — fan in from bottom with rotation ───────────────────────────────────
+// ══════════════════════════════════════════════════════════════════════════════
+gsap.fromTo('#tarot .section-eyebrow, #tarot .section-heading',
+  { opacity: 0, y: 30 },
+  { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.15,
+    scrollTrigger: { trigger: '#tarot', start: 'top 78%' } }
+);
+gsap.fromTo('.tarot-card',
+  { opacity: 0, y: 80, rotation: i => (i - 2) * 6, scale: 0.8 },
+  {
+    opacity: 1, y: 0, rotation: 0, scale: 1,
+    duration: 0.9, ease: 'back.out(1.4)',
+    stagger: { amount: 0.5, from: 'center' },
+    scrollTrigger: { trigger: '.tarot-cards', start: 'top 80%' }
+  }
+);
+
+// ══════════════════════════════════════════════════════════════════════════════
+// ── NEWSLETTER ────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════════════════
+gsap.fromTo('.newsletter-inner',
+  { opacity: 0, y: 50, scale: 0.92 },
+  { opacity: 1, y: 0,  scale: 1, duration: 1.1, ease: 'power3.out',
+    scrollTrigger: { trigger: '#newsletter', start: 'top 78%' } }
+);
+
+// ── Newsletter form ────────────────────────────────────────────────────────────
+window.handleSubscribe = function(e) {
+  e.preventDefault();
+  document.getElementById('newsletter-confirm').style.display = 'block';
+  gsap.fromTo('#newsletter-confirm',
+    { opacity: 0, y: 10 },
+    { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }
+  );
+  e.target.style.display = 'none';
+};
+</script>
+
 </body>
 </html>
