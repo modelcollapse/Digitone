@@ -3,47 +3,59 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CELESTIA — Astrology & Tarot Magazine</title>
+  <title>The Botanist — Rare Specimens</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <!-- GSAP + ScrollTrigger (UMD) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <!-- Lenis smooth scroll (UMD) -->
   <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --black:    #08070e;
-      --deep:     #0d0b1a;
-      --void:     #110e20;
-      --ink:      #1a1730;
-      --purple:   #6b3fa0;
-      --violet:   #9b59d0;
-      --lavender: #c9a8f5;
-      --gold:     #c9a84c;
-      --gold-lt:  #e8cc7e;
-      --cream:    #f5f0e8;
-      --white:    #ffffff;
-      --muted:    #8a83a3;
-      --border:   rgba(201,168,76,0.18);
+      --bg:        #E5E1D5;
+      --surface:   #FDFBF7;
+      --gold:      #D0AB39;
+      --lime:      #91D93A;
+      --ink:       #161615;
+      --ink-60:    rgba(22,22,21,.6);
+      --muted:     #5A5A58;
+      --border:    #161615;
+      --border-lt: rgba(22,22,21,.12);
+
+      --shadow-card:
+        rgba(0,0,0,.035) 0px 2.8px 2.2px 0,
+        rgba(0,0,0,.047) 0px 6.7px 5.3px 0,
+        rgba(0,0,0,.06)  0px 12.5px 10px 0,
+        rgba(0,0,0,.07)  0px 22.3px 17.9px 0,
+        rgba(0,0,0,.086) 0px 41.8px 33.4px 0,
+        rgba(0,0,0,.12)  0px 100px 80px 0;
+      --shadow-side:
+        rgba(0,0,0,0) 0px 0px 0px 0,
+        rgba(0,0,0,0) 0px 0px 0px 0,
+        rgba(0,0,0,.05) 5px 0px 10px 0;
+      --shadow-inset:
+        rgba(0,0,0,.06) -5px 0px 20px 0px inset;
+
+      --blur: blur(12px);
+      --r-shell: 2px 6px 6px 2px;
+      --r-inner: 1px 5px 5px 1px;
     }
 
     html { overflow-x: hidden; }
-
     body {
-      background: var(--black);
-      color: var(--cream);
-      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Manrope', sans-serif;
       font-weight: 300;
-      line-height: 1.6;
+      font-size: 12px;
+      line-height: 1.8;
       overflow-x: hidden;
     }
 
-    /* ── WebGL canvas (Three.js) ── */
+    /* ── WebGL canvas ── */
     #webgl {
       position: fixed;
       inset: 0;
@@ -51,17 +63,33 @@
       pointer-events: none;
     }
 
-    /* ── Scroll progress ── */
+    /* ── Progress bar ── */
     #progress-bar {
       position: fixed;
       top: 0; left: 0;
       height: 2px;
       width: 0%;
-      background: linear-gradient(90deg, var(--purple), var(--gold));
+      background: linear-gradient(90deg, var(--gold), var(--lime));
       z-index: 1000;
     }
 
-    /* ── Nav ── */
+    /* ── Glass shell mixin ── */
+    .glass-shell {
+      background: linear-gradient(to right bottom,
+        rgba(255,255,255,.8),
+        rgba(0,0,0,.05),
+        rgba(0,0,0,.15));
+      padding: 1px;
+      border-radius: var(--r-shell);
+    }
+    .glass-inner {
+      background: rgba(253,251,247,.78);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      border-radius: var(--r-inner);
+    }
+
+    /* ── NAV ── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -69,562 +97,747 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1.25rem 3rem;
+      padding: 16px 24px;
       transition: background .5s, backdrop-filter .5s, border-color .5s;
       border-bottom: 1px solid transparent;
     }
     nav.scrolled {
-      background: rgba(8,7,14,.88);
-      backdrop-filter: blur(20px);
-      border-color: var(--border);
+      background: rgba(229,225,213,.9);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      border-color: var(--border-lt);
     }
     .nav-logo {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem;
-      font-weight: 600;
-      letter-spacing: .18em;
-      color: var(--gold);
-      text-decoration: none;
+      font-size: 14px;
+      font-weight: 300;
+      letter-spacing: .25em;
       text-transform: uppercase;
-    }
-    .nav-logo span { color: var(--cream); }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a {
-      color: var(--muted);
+      color: var(--ink);
       text-decoration: none;
-      font-size: .78rem;
+    }
+    .nav-logo em { font-style: normal; color: var(--gold); }
+    .nav-links { display: flex; gap: 24px; list-style: none; }
+    .nav-links a {
+      font-size: 11px;
       letter-spacing: .12em;
       text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
       transition: color .25s;
     }
-    .nav-links a:hover { color: var(--gold); }
+    .nav-links a:hover { color: var(--ink); }
     .nav-issue {
-      font-size: .72rem;
+      font-size: 11px;
       letter-spacing: .12em;
       text-transform: uppercase;
-      color: var(--muted);
-      border: 1px solid var(--border);
-      padding: .4rem .9rem;
+      color: var(--ink);
       text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 5px 12px;
       transition: all .25s;
     }
-    .nav-issue:hover { border-color: var(--gold); color: var(--gold); }
+    .nav-issue:hover { background: var(--ink); color: var(--surface); }
 
     section { position: relative; z-index: 1; }
 
     /* ── HERO ── */
     #hero {
       min-height: 100vh;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      padding: 0;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-body {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 8rem 2rem 5rem;
-      overflow: hidden;
+      justify-content: flex-end;
+      padding: 24px;
+      padding-top: 120px;
     }
-    .hero-eyebrow {
-      font-size: .7rem;
-      letter-spacing: .32em;
+    .hero-kicker {
+      font-size: 11px;
+      letter-spacing: .3em;
       text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 2rem;
+      color: var(--muted);
+      margin-bottom: 16px;
       opacity: 0;
     }
     .hero-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(4rem, 12vw, 10rem);
-      font-weight: 900;
-      line-height: .92;
-      color: var(--white);
-      margin-bottom: 1rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(56px, 10vw, 120px);
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -0.025em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 24px;
     }
     .hero-title .char { display: inline-block; opacity: 0; }
-    .hero-title em {
-      font-style: italic;
-      background: linear-gradient(135deg, var(--gold) 30%, var(--lavender));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    .hero-title .word-gold { color: var(--gold); }
+    .hero-rule {
+      width: 0;
+      height: 1px;
+      background: var(--ink);
+      margin-bottom: 24px;
     }
-    .hero-subtitle {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
-      font-style: italic;
-      color: var(--lavender);
-      margin-bottom: 3rem;
+    .hero-desc {
+      max-width: 520px;
+      font-size: 13px;
+      line-height: 1.9;
+      color: var(--muted);
+      margin-bottom: 32px;
       opacity: 0;
     }
-    .hero-cta {
+    .hero-actions {
       display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
+      gap: 8px;
       opacity: 0;
     }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--purple), var(--violet));
-      color: var(--white);
-      text-decoration: none;
-      padding: .85rem 2.2rem;
-      font-size: .8rem;
+    .btn-solid {
+      background: var(--ink);
+      color: var(--surface);
+      font-family: 'Manrope', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
       letter-spacing: .12em;
       text-transform: uppercase;
-      border: none;
+      text-decoration: none;
+      padding: 10px 20px;
+      border: 1px solid var(--ink);
+      transition: all .3s;
       cursor: pointer;
-      transition: transform .25s, box-shadow .25s;
     }
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(107,63,160,.55);
-    }
-    .btn-outline {
+    .btn-solid:hover { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+    .btn-ghost {
       background: transparent;
-      color: var(--gold);
-      text-decoration: none;
-      padding: .85rem 2.2rem;
-      font-size: .8rem;
+      color: var(--ink);
+      font-family: 'Manrope', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
       letter-spacing: .12em;
       text-transform: uppercase;
-      border: 1px solid var(--gold);
+      text-decoration: none;
+      padding: 10px 20px;
+      border: 1px solid var(--border);
+      transition: all .3s;
       cursor: pointer;
-      transition: all .25s;
     }
-    .btn-outline:hover { background: var(--gold); color: var(--black); }
+    .btn-ghost:hover { background: var(--ink); color: var(--surface); }
 
-    .hero-scroll-hint {
-      position: absolute;
-      bottom: 2.5rem;
-      left: 50%;
-      transform: translateX(-50%);
+    .hero-footer {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: .5rem;
+      justify-content: space-between;
+      padding: 16px 24px;
+      border-top: 1px solid var(--border-lt);
       opacity: 0;
     }
-    .hero-scroll-hint span {
-      font-size: .62rem;
-      letter-spacing: .22em;
+    .hero-footer-label {
+      font-size: 11px;
+      letter-spacing: .2em;
       text-transform: uppercase;
       color: var(--muted);
     }
-    .scroll-line {
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(to bottom, var(--gold), transparent);
-      transform-origin: top;
-      animation: scrollPulse 2s ease-in-out infinite;
+    .hero-scroll {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--muted);
     }
-    .hero-bg-glyph {
+    .hero-scroll-line {
+      width: 32px;
+      height: 1px;
+      background: var(--muted);
+      transform-origin: left;
+      animation: lineBreath 2s ease-in-out infinite;
+    }
+    .hero-specimen-tag {
       position: absolute;
-      font-size: clamp(18rem, 40vw, 36rem);
-      opacity: .025;
-      pointer-events: none;
-      user-select: none;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
+      top: 40%;
+      right: 24px;
+      writing-mode: vertical-rl;
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0;
     }
 
     /* ── Divider ── */
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      padding: 0 3rem;
-      max-width: 1200px;
-      margin: 0 auto;
+    .full-divider {
+      height: 1px;
+      background: var(--border-lt);
+      width: 100%;
     }
-    .divider-line { flex: 1; height: 1px; background: var(--border); transform-origin: left; transform: scaleX(0); }
-    .divider-sym { color: var(--gold); font-size: 1.2rem; opacity: 0; }
+
+    /* ── Section header ── */
+    .section-header {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border-lt);
+    }
+    .section-kicker {
+      font-size: 11px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .section-rule { height: 1px; background: var(--border-lt); }
+    .section-count { font-size: 11px; color: var(--muted); letter-spacing: .08em; }
 
     /* ── TOC ── */
-    #toc {
-      padding: 5rem 3rem;
-      background: var(--deep);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-    .toc-inner {
-      max-width: 1200px;
-      margin: 0 auto;
+    #toc { background: var(--surface); border-bottom: 1px solid var(--border); }
+    .toc-grid {
       display: grid;
       grid-template-columns: 1fr 2fr;
-      gap: 4rem;
-      align-items: start;
     }
-    .toc-label {
-      font-size: .62rem;
-      letter-spacing: .32em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1rem;
+    .toc-left {
+      padding: 34px 24px;
+      border-right: 1px solid var(--border-lt);
     }
+    .toc-label { font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
     .toc-heading {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 4vw, 3.5rem);
-      font-weight: 700;
-      line-height: 1.1;
-      color: var(--white);
-    }
-    .toc-heading em { font-style: italic; color: var(--lavender); }
-    .toc-list { list-style: none; }
-    .toc-item {
-      display: flex;
-      align-items: baseline;
-      gap: 1.5rem;
-      padding: 1.1rem 0;
-      border-bottom: 1px solid var(--border);
-      text-decoration: none;
-      color: inherit;
-      transition: none;
-    }
-    .toc-item:hover .toc-title { color: var(--gold); }
-    .toc-item:hover .toc-arrow { opacity: 1; transform: translateX(5px); }
-    .toc-num { font-size: .62rem; letter-spacing: .15em; color: var(--gold); min-width: 2rem; opacity: .7; }
-    .toc-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.25rem;
-      flex: 1;
-      transition: color .2s;
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
     }
-    .toc-tag {
-      font-size: .58rem;
+    .toc-heading em { font-style: italic; color: var(--gold); text-transform: none; }
+    .toc-issue-tag {
+      display: inline-block;
+      margin-top: 24px;
+      font-size: 11px;
       letter-spacing: .15em;
       text-transform: uppercase;
       color: var(--muted);
-      padding: .2rem .6rem;
-      border: 1px solid rgba(138,131,163,.28);
+      border: 1px solid var(--border-lt);
+      padding: 5px 10px;
     }
-    .toc-arrow { color: var(--gold); opacity: 0; transition: all .2s; }
+    .toc-right { padding: 0; }
+    .toc-item {
+      display: grid;
+      grid-template-columns: 40px 1fr auto;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border-lt);
+      text-decoration: none;
+      color: inherit;
+      transition: background .2s;
+    }
+    .toc-item:hover { background: rgba(208,171,57,.06); }
+    .toc-item:hover .toc-arrow { opacity: 1; transform: translateX(4px); }
+    .toc-num { font-size: 11px; letter-spacing: .1em; color: var(--gold); }
+    .toc-title-wrap {}
+    .toc-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 400;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .toc-sub { font-size: 11px; color: var(--muted); }
+    .toc-meta { display: flex; align-items: center; gap: 8px; }
+    .toc-tag {
+      font-size: 10px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--border-lt);
+      padding: 3px 7px;
+    }
+    .toc-arrow { color: var(--ink); opacity: 0; transition: all .25s; font-size: 14px; }
 
     /* ── Stats ── */
-    #stats { padding: 4rem 3rem; background: var(--void); }
-    .stats-inner {
-      max-width: 1200px;
-      margin: 0 auto;
+    #stats {
+      background: var(--ink);
+      color: var(--surface);
+      border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+    .stats-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2rem;
+      grid-template-columns: repeat(4,1fr);
     }
-    .stat-item { text-align: center; }
+    .stat-item {
+      padding: 40px 24px;
+      border-right: 1px solid rgba(255,255,255,.08);
+    }
+    .stat-item:last-child { border-right: none; }
     .stat-num {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      font-weight: 700;
-      background: linear-gradient(135deg, var(--gold), var(--lavender));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 300;
       line-height: 1;
-      margin-bottom: .5rem;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 8px;
     }
-    .stat-label { font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+    .stat-label { font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: rgba(253,251,247,.5); }
 
     /* ── Features ── */
-    #features { padding: 7rem 3rem; background: var(--black); }
-    .features-inner { max-width: 1200px; margin: 0 auto; }
-    .section-eyebrow { font-size: .62rem; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; }
-    .section-heading {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.2rem, 5vw, 4rem);
-      font-weight: 700;
-      color: var(--white);
-      line-height: 1.1;
-      margin-bottom: 4rem;
-      max-width: 700px;
-    }
-    .section-heading em { font-style: italic; color: var(--lavender); }
+    #features { background: var(--bg); }
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5px;
-      background: var(--border);
+      grid-template-columns: repeat(3,1fr);
+      border-top: 1px solid var(--border-lt);
     }
     .feat-card {
-      background: var(--deep);
-      padding: 2.5rem 2rem;
-      cursor: pointer;
-      overflow: hidden;
+      padding: 24px;
+      border-right: 1px solid var(--border-lt);
+      border-bottom: 1px solid var(--border-lt);
       position: relative;
+      overflow: hidden;
+      transition: background .3s;
+      cursor: pointer;
     }
-    .feat-card::before {
+    .feat-card:nth-child(3n) { border-right: none; }
+    .feat-card:hover { background: rgba(208,171,57,.05); }
+    .feat-card::after {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0;
+      bottom: 0; left: 0; right: 0;
       height: 2px;
-      background: linear-gradient(90deg, var(--purple), var(--gold));
+      background: linear-gradient(90deg, var(--gold), var(--lime));
       transform: scaleX(0);
       transform-origin: left;
-      transition: transform .45s;
+      transition: transform .5s cubic-bezier(.2,.8,.2,1);
     }
-    .feat-card:hover::before { transform: scaleX(1); }
-    .feat-card:hover { background: var(--void); }
-    .feat-glyph { font-size: 2.5rem; margin-bottom: 1.5rem; display: block; opacity: .7; }
-    .feat-heading {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: var(--white);
-      margin-bottom: .75rem;
-      line-height: 1.3;
-    }
-    .feat-body { font-size: .85rem; color: var(--muted); line-height: 1.7; }
-    .feat-tag {
-      display: inline-block;
-      margin-top: 1.2rem;
-      font-size: .58rem;
-      letter-spacing: .15em;
+    .feat-card:hover::after { transform: scaleX(1); }
+    .feat-specimen-id {
+      font-size: 10px;
+      letter-spacing: .2em;
       text-transform: uppercase;
       color: var(--gold);
-      border-bottom: 1px solid var(--gold);
-      padding-bottom: 1px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
+    .feat-specimen-id::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .feat-img {
+      aspect-ratio: 16/9;
+      background: rgba(22,22,21,.06);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid var(--border-lt);
+    }
+    .feat-img-glyph { font-size: 3rem; opacity: .3; }
+    .feat-img-tag {
+      position: absolute;
+      bottom: 8px; left: 8px;
+      font-size: 10px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--surface);
+      background: var(--ink);
+      padding: 3px 7px;
+    }
+    .feat-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .feat-heading em { font-style: italic; color: var(--gold); }
+    .feat-body { font-size: 12px; color: var(--muted); line-height: 1.8; }
 
     /* ── Pull quote ── */
     .pullquote-section {
-      padding: 6rem 3rem;
-      background: var(--ink);
+      padding: 80px 24px;
+      background: var(--surface);
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
-      text-align: center;
       overflow: hidden;
     }
-    .pullquote-inner { max-width: 900px; margin: 0 auto; }
-    .quote-mark {
-      font-family: 'Playfair Display', serif;
-      font-size: 8rem;
-      color: var(--gold);
-      opacity: .18;
-      line-height: .5;
-      margin-bottom: 1rem;
-      display: block;
+    .pullquote-inner { max-width: 860px; margin: 0 auto; position: relative; }
+    .pullquote-rule {
+      width: 40px;
+      height: 2px;
+      background: var(--gold);
+      margin-bottom: 32px;
     }
     blockquote {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+      font-size: clamp(22px, 3.5vw, 40px);
       font-style: italic;
       font-weight: 300;
-      color: var(--cream);
-      line-height: 1.45;
-      margin-bottom: 2rem;
+      line-height: 1.35;
+      color: var(--ink);
+      margin-bottom: 24px;
     }
     .quote-word { display: inline-block; }
     cite {
       font-style: normal;
-      font-size: .72rem;
+      font-size: 11px;
       letter-spacing: .22em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: var(--muted);
+    }
+    .pullquote-bg-num {
+      position: absolute;
+      top: -20px; right: 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 200px;
+      font-weight: 300;
+      color: var(--ink);
+      opacity: .03;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
     }
 
     /* ── Articles ── */
-    .article-section { padding: 7rem 3rem; overflow: hidden; }
-    .article-section:nth-child(even) { background: var(--deep); }
+    .article-section {
+      border-bottom: 1px solid var(--border-lt);
+      overflow: hidden;
+    }
     .article-inner {
-      max-width: 1200px;
-      margin: 0 auto;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: center;
     }
     .article-inner.reverse { direction: rtl; }
     .article-inner.reverse > * { direction: ltr; }
-    .article-img {
-      aspect-ratio: 4/5;
-      background: var(--void);
-      border: 1px solid var(--border);
+    .article-img-col {
+      border-right: 1px solid var(--border-lt);
+      background: rgba(22,22,21,.04);
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
+      min-height: 520px;
       position: relative;
+      overflow: hidden;
     }
-    .article-img-glyph { font-size: 8rem; opacity: .12; }
-    .article-img-overlay {
+    .article-inner.reverse .article-img-col { border-right: none; border-left: 1px solid var(--border-lt); }
+    .article-img-glyph { font-size: 6rem; opacity: .12; }
+    .article-img-label {
       position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(107,63,160,.18), rgba(201,168,76,.09));
+      bottom: 16px; left: 16px;
+      font-size: 10px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--border-lt);
+      padding: 4px 8px;
+      background: rgba(253,251,247,.7);
+      backdrop-filter: var(--blur);
     }
-    .article-eyebrow { font-size: .58rem; letter-spacing: .32em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+    .article-img-number {
+      position: absolute;
+      top: 16px; right: 16px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 80px;
+      font-weight: 300;
+      color: var(--ink);
+      opacity: .05;
+      line-height: 1;
+    }
+    .article-text-col {
+      padding: 48px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .article-kicker {
+      font-size: 10px;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .article-kicker::before {
+      content: '';
+      width: 16px;
+      height: 1px;
+      background: var(--gold);
+    }
     .article-heading {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.8rem, 3.5vw, 3rem);
-      font-weight: 700;
-      color: var(--white);
-      line-height: 1.15;
-      margin-bottom: 1.25rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(24px, 3vw, 42px);
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 20px;
     }
-    .article-heading em { font-style: italic; color: var(--lavender); }
-    .article-body { font-size: .9rem; color: var(--muted); line-height: 1.85; margin-bottom: 1.5rem; }
+    .article-heading em { font-style: italic; color: var(--gold); text-transform: none; }
+    .article-body { font-size: 12px; color: var(--muted); line-height: 1.9; margin-bottom: 16px; }
+    .article-taxonomic {
+      display: inline-block;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 13px;
+      color: var(--muted);
+      border-left: 2px solid var(--gold);
+      padding-left: 12px;
+      margin-bottom: 20px;
+    }
     .read-more {
       display: inline-flex;
       align-items: center;
-      gap: .6rem;
-      font-size: .72rem;
+      gap: 8px;
+      font-size: 11px;
       letter-spacing: .15em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: var(--ink);
       text-decoration: none;
-      transition: gap .22s;
+      transition: gap .25s;
     }
-    .read-more:hover { gap: 1rem; }
+    .read-more::after {
+      content: '→';
+      transition: transform .25s;
+    }
+    .read-more:hover { gap: 12px; }
+    .read-more:hover::after { transform: translateX(4px); }
 
-    /* ── Zodiac ── */
-    #zodiac { padding: 7rem 3rem; background: var(--void); text-align: center; }
-    .zodiac-inner { max-width: 1200px; margin: 0 auto; }
-    .zodiac-grid {
+    /* ── Specimen catalog ── */
+    #catalog { background: var(--surface); }
+    .catalog-grid {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 1px;
-      background: var(--border);
-      margin-top: 4rem;
+      grid-template-columns: repeat(6,1fr);
+      border-top: 1px solid var(--border-lt);
     }
-    .zodiac-card {
-      background: var(--deep);
-      padding: 2rem 1rem;
-      text-align: center;
+    .catalog-card {
+      padding: 20px 16px;
+      border-right: 1px solid var(--border-lt);
+      border-bottom: 1px solid var(--border-lt);
       transition: background .25s;
       cursor: default;
     }
-    .zodiac-card:hover { background: var(--ink); }
-    .zodiac-symbol { font-size: 2rem; display: block; margin-bottom: .6rem; }
-    .zodiac-name { font-family: 'Cormorant Garamond', serif; font-size: .95rem; color: var(--cream); }
-    .zodiac-date { font-size: .62rem; color: var(--muted); margin-top: .2rem; letter-spacing: .05em; }
+    .catalog-card:hover { background: rgba(208,171,57,.06); }
+    .catalog-glyph { font-size: 1.6rem; display: block; margin-bottom: 8px; opacity: .6; }
+    .catalog-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      font-weight: 400;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .catalog-latin { font-size: 10px; color: var(--muted); font-style: italic; }
+    .catalog-status {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 2px 5px;
+      border: 1px solid;
+    }
+    .status-cr { color: #c0392b; border-color: #c0392b; }
+    .status-en { color: #e67e22; border-color: #e67e22; }
+    .status-vu { color: var(--gold); border-color: var(--gold); }
+    .status-lc { color: var(--lime); border-color: #6ab52e; }
 
-    /* ── Tarot ── */
-    #tarot { padding: 7rem 3rem; background: var(--black); overflow: hidden; }
-    .tarot-inner { max-width: 1200px; margin: 0 auto; }
-    .tarot-cards {
+    /* ── Glass cards (cultivation notes) ── */
+    #cultivation { background: var(--bg); padding: 64px 24px; }
+    .cultivation-inner { max-width: 1200px; margin: 0 auto; }
+    .cultivation-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 4vw, 52px);
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+    .cultivation-heading em { font-style: italic; color: var(--gold); text-transform: none; }
+    .cult-grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 1.5rem;
-      margin-top: 4rem;
+      grid-template-columns: repeat(5,1fr);
+      gap: 4px;
     }
-    .tarot-card {
-      background: var(--void);
-      border: 1px solid var(--border);
-      padding: 2.5rem 1.5rem 2rem;
-      text-align: center;
+    .cult-shell {
+      background: linear-gradient(to right bottom,
+        rgba(255,255,255,.8),
+        rgba(0,0,0,.05),
+        rgba(0,0,0,.15));
+      padding: 1px;
+      border-radius: var(--r-shell);
+      box-shadow: var(--shadow-card);
       cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: border-color .3s, box-shadow .3s;
+      transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s;
     }
-    .tarot-card::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, transparent 60%, rgba(107,63,160,.3));
-      opacity: 0;
-      transition: opacity .3s;
+    .cult-shell:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-card), 0 20px 40px rgba(208,171,57,.15);
     }
-    .tarot-card:hover { border-color: var(--gold); box-shadow: 0 20px 50px rgba(107,63,160,.3); }
-    .tarot-card:hover::after { opacity: 1; }
-    .tarot-roman { font-size: .58rem; letter-spacing: .2em; color: var(--gold); margin-bottom: .75rem; }
-    .tarot-face { font-size: 3rem; margin-bottom: 1rem; display: block; }
-    .tarot-name { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 600; color: var(--cream); margin-bottom: .4rem; }
-    .tarot-meaning { font-size: .68rem; color: var(--muted); line-height: 1.5; }
+    .cult-inner {
+      background: rgba(253,251,247,.85);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      border-radius: var(--r-inner);
+      padding: 24px 16px 20px;
+      text-align: center;
+    }
+    .cult-num {
+      font-size: 10px;
+      letter-spacing: .2em;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .cult-glyph { font-size: 2.4rem; display: block; margin-bottom: 12px; }
+    .cult-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      font-weight: 400;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .cult-desc { font-size: 11px; color: var(--muted); line-height: 1.6; }
 
     /* ── Newsletter ── */
     #newsletter {
-      padding: 7rem 3rem;
-      background: linear-gradient(135deg, var(--void) 0%, var(--ink) 100%);
-      border-top: 1px solid var(--border);
+      background: var(--ink);
+      color: var(--surface);
+      padding: 80px 24px;
       text-align: center;
+      border-top: 1px solid rgba(255,255,255,.08);
     }
-    .newsletter-inner { max-width: 600px; margin: 0 auto; }
+    .newsletter-inner { max-width: 560px; margin: 0 auto; }
+    .newsletter-kicker {
+      font-size: 11px;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
     .newsletter-heading {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 1rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
     }
-    .newsletter-heading em { font-style: italic; color: var(--gold); }
-    .newsletter-sub { font-size: .9rem; color: var(--muted); margin-bottom: 2.5rem; }
-    .newsletter-form { display: flex; max-width: 480px; margin: 0 auto; }
+    .newsletter-heading em { font-style: italic; color: var(--gold); text-transform: none; }
+    .newsletter-sub { font-size: 12px; color: rgba(253,251,247,.5); margin-bottom: 32px; line-height: 1.8; }
+    .newsletter-form { display: flex; }
     .newsletter-input {
       flex: 1;
-      background: rgba(255,255,255,.05);
-      border: 1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.15);
       border-right: none;
-      color: var(--cream);
-      padding: .9rem 1.2rem;
-      font-family: 'Inter', sans-serif;
-      font-size: .85rem;
+      color: var(--surface);
+      padding: 12px 16px;
+      font-family: 'Manrope', sans-serif;
+      font-size: 12px;
       outline: none;
-      transition: border-color .2s;
+      transition: border-color .25s;
     }
     .newsletter-input:focus { border-color: var(--gold); }
-    .newsletter-input::placeholder { color: var(--muted); }
+    .newsletter-input::placeholder { color: rgba(253,251,247,.3); }
     .newsletter-btn {
       background: var(--gold);
-      color: var(--black);
-      border: none;
-      padding: .9rem 1.6rem;
-      font-family: 'Inter', sans-serif;
-      font-size: .72rem;
+      color: var(--ink);
+      border: 1px solid var(--gold);
+      padding: 12px 20px;
+      font-family: 'Manrope', sans-serif;
+      font-size: 11px;
       font-weight: 600;
-      letter-spacing: .1em;
+      letter-spacing: .12em;
       text-transform: uppercase;
       cursor: pointer;
-      transition: background .2s;
+      transition: all .25s;
       white-space: nowrap;
     }
-    .newsletter-btn:hover { background: var(--gold-lt); }
+    .newsletter-btn:hover { background: var(--lime); border-color: var(--lime); }
 
     /* ── Footer ── */
-    footer { background: var(--deep); border-top: 1px solid var(--border); padding: 4rem 3rem 2rem; }
-    .footer-inner { max-width: 1200px; margin: 0 auto; }
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 40px 24px 24px;
+    }
     .footer-top {
       display: grid;
       grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 3rem;
-      padding-bottom: 3rem;
-      border-bottom: 1px solid var(--border);
+      gap: 40px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border-lt);
     }
-    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 600; letter-spacing: .15em; color: var(--gold); text-transform: uppercase; margin-bottom: .75rem; }
-    .footer-tagline { font-size: .8rem; color: var(--muted); line-height: 1.6; max-width: 280px; }
-    .footer-col-title { font-size: .62rem; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.25rem; }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 300;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .footer-logo em { font-style: normal; color: var(--gold); }
+    .footer-tagline { font-size: 11px; color: var(--muted); line-height: 1.8; max-width: 260px; }
+    .footer-col-title { font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
     .footer-col ul { list-style: none; }
-    .footer-col li { margin-bottom: .6rem; }
-    .footer-col a { font-size: .82rem; color: var(--muted); text-decoration: none; transition: color .2s; }
-    .footer-col a:hover { color: var(--cream); }
-    .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 2rem; font-size: .7rem; color: rgba(138,131,163,.45); }
-    .footer-socials { display: flex; gap: 1.2rem; }
-    .footer-socials a { font-size: 1rem; color: var(--muted); text-decoration: none; transition: color .2s; }
-    .footer-socials a:hover { color: var(--gold); }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { font-size: 12px; color: var(--muted); text-decoration: none; transition: color .2s; }
+    .footer-col a:hover { color: var(--ink); }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 20px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .footer-socials { display: flex; gap: 16px; }
+    .footer-socials a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color .2s; }
+    .footer-socials a:hover { color: var(--ink); }
 
-    @keyframes scrollPulse {
-      0%,100% { opacity: .4; }
-      50% { opacity: 1; }
+    @keyframes lineBreath {
+      0%,100% { transform: scaleX(1); opacity: .6; }
+      50% { transform: scaleX(1.3); opacity: 1; }
     }
 
-    /* ── Responsive ── */
-    @media (max-width: 900px) {
-      nav { padding: 1rem 1.5rem; }
-      .nav-links { display: none; }
-      .toc-inner { grid-template-columns: 1fr; gap: 2rem; }
-      .stats-inner { grid-template-columns: repeat(2,1fr); }
-      .features-grid { grid-template-columns: 1fr 1fr; }
-      .article-inner { grid-template-columns: 1fr; gap: 2.5rem; }
-      .article-inner.reverse { direction: ltr; }
-      .zodiac-grid { grid-template-columns: repeat(4,1fr); }
-      .tarot-cards { grid-template-columns: repeat(3,1fr); }
+    @media (max-width: 1024px) {
+      .features-grid { grid-template-columns: repeat(2,1fr); }
+      .catalog-grid { grid-template-columns: repeat(4,1fr); }
+      .cult-grid { grid-template-columns: repeat(3,1fr); }
       .footer-top { grid-template-columns: 1fr 1fr; }
     }
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
+      nav { padding: 12px 16px; }
+      .nav-links { display: none; }
+      .toc-grid { grid-template-columns: 1fr; }
+      .toc-left { border-right: none; border-bottom: 1px solid var(--border-lt); }
+      .stats-grid { grid-template-columns: repeat(2,1fr); }
       .features-grid { grid-template-columns: 1fr; }
-      .zodiac-grid { grid-template-columns: repeat(3,1fr); }
-      .tarot-cards { grid-template-columns: repeat(2,1fr); }
-      .newsletter-form { flex-direction: column; }
-      .newsletter-input { border-right: 1px solid var(--border); }
-      .stats-inner { grid-template-columns: repeat(2,1fr); }
+      .article-inner { grid-template-columns: 1fr; }
+      .article-inner.reverse { direction: ltr; }
+      .article-img-col { min-height: 280px; }
+      .catalog-grid { grid-template-columns: repeat(3,1fr); }
+      .cult-grid { grid-template-columns: repeat(2,1fr); }
       .footer-top { grid-template-columns: 1fr; }
-      .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+      .footer-bottom { flex-direction: column; gap: 12px; }
+    }
+    @media (max-width: 480px) {
+      .catalog-grid { grid-template-columns: repeat(2,1fr); }
+      .cult-grid { grid-template-columns: 1fr 1fr; }
+      .newsletter-form { flex-direction: column; }
+      .newsletter-input { border-right: 1px solid rgba(255,255,255,.15); }
     }
   </style>
 </head>
@@ -635,75 +848,91 @@
 
 <!-- NAV -->
 <nav id="main-nav">
-  <a href="#hero" class="nav-logo">Celestia <span>Magazine</span></a>
+  <a href="#hero" class="nav-logo">The Botanist <em>·</em> Rare Specimens</a>
   <ul class="nav-links">
-    <li><a href="#features">Features</a></li>
-    <li><a href="#zodiac">Zodiac</a></li>
-    <li><a href="#tarot">Tarot</a></li>
+    <li><a href="#features">Specimens</a></li>
+    <li><a href="#catalog">Catalog</a></li>
+    <li><a href="#cultivation">Notes</a></li>
     <li><a href="#newsletter">Subscribe</a></li>
   </ul>
-  <a href="#newsletter" class="nav-issue btn-outline">Issue № 01</a>
+  <a href="#newsletter" class="nav-issue">Issue № 01</a>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-bg-glyph" aria-hidden="true">☽</div>
-  <p class="hero-eyebrow">Issue № 01 · Winter Solstice 2026</p>
-  <h1 class="hero-title" id="hero-title">Cele<em>stia</em></h1>
-  <p class="hero-subtitle">Where the stars tell stories the world forgot to listen to</p>
-  <div class="hero-cta">
-    <a href="#toc" class="btn-primary">Read the Issue</a>
-    <a href="#newsletter" class="btn-outline">Subscribe</a>
+  <div class="hero-body">
+    <p class="hero-kicker">Vol. I · Rare Specimens · Winter 2026</p>
+    <h1 class="hero-title" id="hero-title">Rare<br><span class="word-gold">Specimens</span></h1>
+    <div class="hero-rule" id="hero-rule"></div>
+    <p class="hero-desc">A field journal devoted to botanical curiosities at the edge of existence — the ghost orchids, living fossils, and cloud-forest relics that survived when everything else did not.</p>
+    <div class="hero-actions">
+      <a href="#toc" class="btn-solid">Read the Issue</a>
+      <a href="#catalog" class="btn-ghost">Browse Catalog</a>
+    </div>
   </div>
-  <div class="hero-scroll-hint">
-    <span>Scroll</span>
-    <div class="scroll-line"></div>
+  <div class="hero-footer">
+    <span class="hero-footer-label">The Botanist Magazine · Issue 01 · Winter 2026</span>
+    <div class="hero-scroll">
+      <div class="hero-scroll-line"></div>
+      Scroll
+    </div>
   </div>
+  <span class="hero-specimen-tag">Specimen Reference A-001 — A-391</span>
 </section>
 
-<div class="divider">
-  <div class="divider-line" id="divider-l"></div>
-  <span class="divider-sym" id="divider-sym">✦</span>
-  <div class="divider-line" id="divider-r" style="transform-origin:right"></div>
-</div>
-
-<!-- TABLE OF CONTENTS -->
+<!-- TOC -->
 <section id="toc">
-  <div class="toc-inner">
+  <div class="section-header">
+    <span class="section-kicker">Contents</span>
+    <div class="section-rule"></div>
+    <span class="section-count">5 Articles</span>
+  </div>
+  <div class="toc-grid">
     <div class="toc-left">
       <p class="toc-label">In This Issue</p>
-      <h2 class="toc-heading">What the <em>cosmos</em> prepared for you</h2>
+      <h2 class="toc-heading">What the <em>rarest</em> plants on earth can teach us</h2>
+      <span class="toc-issue-tag">Issue № 01 — Winter 2026</span>
     </div>
-    <ul class="toc-list">
+    <ul style="list-style:none">
       <li><a href="#features" class="toc-item">
         <span class="toc-num">01</span>
-        <span class="toc-title">The Grand Conjunction of 2026</span>
-        <span class="toc-tag">Astrology</span>
-        <span class="toc-arrow">→</span>
+        <div class="toc-title-wrap">
+          <span class="toc-title">The Ghost Orchid of Florida's Swamps</span>
+          <span class="toc-sub">Dendrophylax lindenii and the myth of the rootless flower</span>
+        </div>
+        <div class="toc-meta"><span class="toc-tag">Field Report</span><span class="toc-arrow">→</span></div>
+      </a></li>
+      <li><a href="#article-1" class="toc-item">
+        <span class="toc-num">02</span>
+        <div class="toc-title-wrap">
+          <span class="toc-title">Welwitschia: A Plant That Lives 2,000 Years</span>
+          <span class="toc-sub">The Namibian desert's solitary genius</span>
+        </div>
+        <div class="toc-meta"><span class="toc-tag">Specimen Study</span><span class="toc-arrow">→</span></div>
       </a></li>
       <li><a href="#article-2" class="toc-item">
-        <span class="toc-num">02</span>
-        <span class="toc-title">Reading the Major Arcana in Modern Life</span>
-        <span class="toc-tag">Tarot</span>
-        <span class="toc-arrow">→</span>
-      </a></li>
-      <li><a href="#zodiac" class="toc-item">
         <span class="toc-num">03</span>
-        <span class="toc-title">All 12 Signs: Your Winter Forecast</span>
-        <span class="toc-tag">Zodiac</span>
-        <span class="toc-arrow">→</span>
+        <div class="toc-title-wrap">
+          <span class="toc-title">The Corpse Flower & Its Decade of Patience</span>
+          <span class="toc-sub">Amorphophallus titanum and the bloom that waits ten years</span>
+        </div>
+        <div class="toc-meta"><span class="toc-tag">Botany</span><span class="toc-arrow">→</span></div>
       </a></li>
       <li><a href="#article-3" class="toc-item">
         <span class="toc-num">04</span>
-        <span class="toc-title">Moon Phases & Your Ritual Calendar</span>
-        <span class="toc-tag">Lunar</span>
-        <span class="toc-arrow">→</span>
+        <div class="toc-title-wrap">
+          <span class="toc-title">Cloud Forest Expedition: Peru, 3,400 m</span>
+          <span class="toc-sub">28 days searching for species that don't want to be found</span>
+        </div>
+        <div class="toc-meta"><span class="toc-tag">Expedition</span><span class="toc-arrow">→</span></div>
       </a></li>
-      <li><a href="#tarot" class="toc-item">
+      <li><a href="#cultivation" class="toc-item">
         <span class="toc-num">05</span>
-        <span class="toc-title">The Five Cards That Define This Season</span>
-        <span class="toc-tag">Tarot</span>
-        <span class="toc-arrow">→</span>
+        <div class="toc-title-wrap">
+          <span class="toc-title">Cultivation Notes: Growing the Uncultivable</span>
+          <span class="toc-sub">Protocols for five of the world's most demanding specimens</span>
+        </div>
+        <div class="toc-meta"><span class="toc-tag">Practice</span><span class="toc-arrow">→</span></div>
       </a></li>
     </ul>
   </div>
@@ -711,96 +940,123 @@
 
 <!-- STATS -->
 <section id="stats">
-  <div class="stats-inner">
+  <div class="section-header" style="border-color:rgba(255,255,255,.08); color:rgba(253,251,247,.4)">
+    <span class="section-kicker" style="color:rgba(253,251,247,.4)">By the Numbers</span>
+    <div class="section-rule" style="background:rgba(255,255,255,.08)"></div>
+    <span class="section-count" style="color:rgba(253,251,247,.4)">The State of the Plant Kingdom</span>
+  </div>
+  <div class="stats-grid">
     <div class="stat-item">
-      <span class="stat-num" data-target="12">0</span>
-      <p class="stat-label">Zodiac Signs Covered</p>
+      <span class="stat-num" data-target="391">0</span>
+      <p class="stat-label">Thousand known plant species</p>
     </div>
     <div class="stat-item">
-      <span class="stat-num" data-target="78">0</span>
-      <p class="stat-label">Tarot Cards Explored</p>
+      <span class="stat-num" data-target="2">0</span>
+      <p class="stat-label">New species found per week</p>
     </div>
     <div class="stat-item">
-      <span class="stat-num" data-target="13">0</span>
-      <p class="stat-label">Moon Cycles This Year</p>
+      <span class="stat-num" data-target="40">0</span>
+      <p class="stat-label">% facing extinction threat</p>
     </div>
     <div class="stat-item">
-      <span class="stat-num" data-target="8">0</span>
-      <p class="stat-label">Planetary Alignments</p>
+      <span class="stat-num" data-target="17">0</span>
+      <p class="stat-label">Habitats mapped in this issue</p>
     </div>
   </div>
 </section>
 
 <!-- FEATURES -->
 <section id="features">
-  <div class="features-inner">
-    <p class="section-eyebrow">Feature Stories</p>
-    <h2 class="section-heading">The <em>celestial forces</em> shaping our world right now</h2>
-    <div class="features-grid">
-      <div class="feat-card">
-        <span class="feat-glyph">♄</span>
-        <h3 class="feat-heading">Saturn Returns at 29</h3>
-        <p class="feat-body">The great teacher planet completes its cycle, forcing every soul into a reckoning with time, structure, and destiny unfulfilled.</p>
-        <span class="feat-tag">Astrology</span>
+  <div class="section-header">
+    <span class="section-kicker">Featured Specimens</span>
+    <div class="section-rule"></div>
+    <span class="section-count">6 Species</span>
+  </div>
+  <div class="features-grid">
+    <div class="feat-card">
+      <div class="feat-specimen-id">Spec. A-001</div>
+      <div class="feat-img">
+        <span class="feat-img-glyph">🌸</span>
+        <span class="feat-img-tag">Critically Endangered</span>
       </div>
-      <div class="feat-card">
-        <span class="feat-glyph">🌙</span>
-        <h3 class="feat-heading">New Moon Manifestation</h3>
-        <p class="feat-body">How to harness the darkest night of the lunar cycle as the most powerful threshold for intention-setting and deep transformation.</p>
-        <span class="feat-tag">Lunar</span>
+      <h3 class="feat-heading"><em>Dendrophylax lindenii</em></h3>
+      <p class="feat-body">The ghost orchid survives without leaves, drawing sustenance through roots fused to a single host tree. It blooms perhaps once a decade — if conditions are precisely right.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-specimen-id">Spec. A-017</div>
+      <div class="feat-img">
+        <span class="feat-img-glyph">🌿</span>
+        <span class="feat-img-tag">Vulnerable</span>
       </div>
-      <div class="feat-card">
-        <span class="feat-glyph">🃏</span>
-        <h3 class="feat-heading">The Tower Reversed</h3>
-        <p class="feat-body">When the most feared card in the deck appears inverted, it offers an unexpected gift: the chance to rebuild before the collapse.</p>
-        <span class="feat-tag">Tarot</span>
+      <h3 class="feat-heading"><em>Welwitschia mirabilis</em></h3>
+      <p class="feat-body">Two leaves. Only ever two. The Welwitschia grows them for two thousand years, splitting and fraying in the Namib wind into what looks like wreckage but is, in fact, survival perfected.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-specimen-id">Spec. A-044</div>
+      <div class="feat-img">
+        <span class="feat-img-glyph">🌱</span>
+        <span class="feat-img-tag">Endangered</span>
       </div>
-      <div class="feat-card">
-        <span class="feat-glyph">♇</span>
-        <h3 class="feat-heading">Pluto in Aquarius</h3>
-        <p class="feat-body">For the first time in 248 years, Pluto crosses into Aquarius — dissolving old power structures and rewriting the social contract.</p>
-        <span class="feat-tag">Transit</span>
+      <h3 class="feat-heading"><em>Amorphophallus titanum</em></h3>
+      <p class="feat-body">The corpse flower stores energy for up to ten years, then erupts for 48 hours in an inflorescence that can reach three metres — and smells, deliberately, of rotting flesh.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-specimen-id">Spec. A-088</div>
+      <div class="feat-img">
+        <span class="feat-img-glyph">🌲</span>
+        <span class="feat-img-tag">Critically Endangered</span>
       </div>
-      <div class="feat-card">
-        <span class="feat-glyph">⭐</span>
-        <h3 class="feat-heading">Fixed Stars & Fate</h3>
-        <p class="feat-body">Ancient astrologers mapped the royal stars — Regulus, Aldebaran, Antares, Fomalhaut. Their whispers still echo in your natal chart.</p>
-        <span class="feat-tag">Ancient</span>
+      <h3 class="feat-heading"><em>Wollemia nobilis</em></h3>
+      <p class="feat-body">Discovered in 1994 in a canyon west of Sydney. Botanists thought it had been extinct for two million years. Only 100 trees exist in the wild, in a location kept secret by the government.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-specimen-id">Spec. A-112</div>
+      <div class="feat-img">
+        <span class="feat-img-glyph">🌺</span>
+        <span class="feat-img-tag">Near Threatened</span>
       </div>
-      <div class="feat-card">
-        <span class="feat-glyph">🔮</span>
-        <h3 class="feat-heading">Synastry & Soul Contracts</h3>
-        <p class="feat-body">Your relationships are written in the sky before you meet. Composite charts reveal the purpose hidden inside every meaningful bond.</p>
-        <span class="feat-tag">Relationships</span>
+      <h3 class="feat-heading"><em>Tacca chantrieri</em></h3>
+      <p class="feat-body">The black bat flower produces the deepest black pigmentation found in any flowering plant, with whisker-like filaments extending up to 70 cm. It grows in a single narrow band of tropical forest floor.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-specimen-id">Spec. A-203</div>
+      <div class="feat-img">
+        <span class="feat-img-glyph">🪴</span>
+        <span class="feat-img-tag">Vulnerable</span>
       </div>
+      <h3 class="feat-heading"><em>Rafflesia arnoldii</em></h3>
+      <p class="feat-body">The world's largest individual flower, with no roots, stems, or leaves. It lives entirely inside the tissue of a host vine, invisible for years, before manifesting as a single enormous bloom.</p>
     </div>
   </div>
 </section>
 
 <!-- PULL QUOTE 1 -->
-<section class="pullquote-section" id="quote-1">
+<section class="pullquote-section">
   <div class="pullquote-inner">
-    <span class="quote-mark" aria-hidden="true">"</span>
+    <div class="pullquote-rule"></div>
     <blockquote id="quote-text-1">
-      "The cosmos is neither cruel nor kind. It is a mirror — and what you see depends entirely on the courage you bring to the looking."
+      "A plant that blooms once in a decade asks nothing of you — except that you be there."
     </blockquote>
-    <cite>— Celestia Magazine, Editorial Foreword</cite>
+    <cite>— Dr. Maren Solberg, Field Botanist · The Botanist, Vol. I</cite>
+    <div class="pullquote-bg-num">I</div>
   </div>
 </section>
 
 <!-- ARTICLE 1 -->
 <section class="article-section" id="article-1">
   <div class="article-inner">
-    <div class="article-img" id="article-img-1">
-      <span class="article-img-glyph" aria-hidden="true">♃</span>
-      <div class="article-img-overlay"></div>
+    <div class="article-img-col" id="aimg-1">
+      <span class="article-img-glyph">🌿</span>
+      <span class="article-img-label">Welwitschia mirabilis · Namib Desert</span>
+      <span class="article-img-number">02</span>
     </div>
-    <div class="article-text" id="article-text-1">
-      <p class="article-eyebrow">Feature · Astrology</p>
-      <h2 class="article-heading">The Grand <em>Conjunction</em> of 2026</h2>
-      <p class="article-body">Once every twenty years, Jupiter and Saturn meet in the sky — but the 2026 conjunction carries a charge unlike any in living memory. Both giants align at zero degrees Aries, the absolute origin point of the zodiac, signaling not just a reset but a complete dissolution of the old cycle.</p>
-      <p class="article-body">This is an era of collective initiation. Nations, institutions, and individuals who have been deferring transformation will find that delay is no longer an option. The universe charges forward, and you are invited — or compelled — to move with it.</p>
-      <a href="#" class="read-more">Read the Full Feature <span>→</span></a>
+    <div class="article-text-col" id="atxt-1">
+      <p class="article-kicker">Specimen Study</p>
+      <h2 class="article-heading">Welwitschia:<br><em>A Living Fossil</em></h2>
+      <p class="article-taxonomic">Welwitschia mirabilis · Hook.f. · 1863</p>
+      <p class="article-body">In 1859, the botanist Friedrich Welwitsch fell to his knees before a plant he had never seen in any taxonomy. He wept. He later wrote that he could not bring himself to collect a specimen — that disturbing it felt like desecration.</p>
+      <p class="article-body">Welwitschia is the sole living species of its order. It has two leaves. Only ever two. Both grow continuously from the base, the tips weathering and fraying over centuries in the Namib wind. The oldest confirmed specimens are over 1,500 years old.</p>
+      <a href="#" class="read-more">Read the Full Specimen Study</a>
     </div>
   </div>
 </section>
@@ -808,16 +1064,18 @@
 <!-- ARTICLE 2 -->
 <section class="article-section" id="article-2">
   <div class="article-inner reverse">
-    <div class="article-img" id="article-img-2">
-      <span class="article-img-glyph" aria-hidden="true">🌟</span>
-      <div class="article-img-overlay"></div>
+    <div class="article-img-col" id="aimg-2">
+      <span class="article-img-glyph">🌱</span>
+      <span class="article-img-label">Amorphophallus titanum · Sumatra</span>
+      <span class="article-img-number">03</span>
     </div>
-    <div class="article-text" id="article-text-2">
-      <p class="article-eyebrow">Feature · Tarot</p>
-      <h2 class="article-heading">Reading the <em>Major Arcana</em> in Modern Life</h2>
-      <p class="article-body">The 22 cards of the Major Arcana are not relics of superstition. They are a compressed mythology of the human experience — from the Fool's wild leap of faith at 0, to the World's triumphant integration at 21. Every crisis, every love, every identity collapse lives somewhere on this spectrum.</p>
-      <p class="article-body">In this feature, three master readers share how they use the Arcana not as prophecy but as a language of reflection — a tool for naming what is already known in the body but not yet said aloud.</p>
-      <a href="#" class="read-more">Read the Full Feature <span>→</span></a>
+    <div class="article-text-col" id="atxt-2">
+      <p class="article-kicker">Botany</p>
+      <h2 class="article-heading">The Corpse Flower's <em>Decade of Patience</em></h2>
+      <p class="article-taxonomic">Amorphophallus titanum · Becc. · 1878</p>
+      <p class="article-body">The titan arum doesn't flower on a schedule you can plan around. It gathers carbohydrates for up to a decade, building a corm that can weigh 90 kilograms, and when it finally blooms, the event lasts 48 hours. It heats its spathe to 36°C — human body temperature — to volatilise the compounds that smell like a rotting corpse.</p>
+      <p class="article-body">This is not an accident. The heat propels the scent for hundreds of metres, attracting the carrion beetles that will carry pollen to another titan arum, if one happens to be blooming nearby. Timing, across a forest, with no roots connecting them.</p>
+      <a href="#" class="read-more">Read the Full Article</a>
     </div>
   </div>
 </section>
@@ -825,88 +1083,106 @@
 <!-- ARTICLE 3 -->
 <section class="article-section" id="article-3">
   <div class="article-inner">
-    <div class="article-img" id="article-img-3">
-      <span class="article-img-glyph" aria-hidden="true">🌒</span>
-      <div class="article-img-overlay"></div>
+    <div class="article-img-col" id="aimg-3">
+      <span class="article-img-glyph">🌫️</span>
+      <span class="article-img-label">Cloud Forest · Manu, Peru · 3,400 m</span>
+      <span class="article-img-number">04</span>
     </div>
-    <div class="article-text" id="article-text-3">
-      <p class="article-eyebrow">Practice · Lunar</p>
-      <h2 class="article-heading">Moon Phases & Your <em>Ritual Calendar</em></h2>
-      <p class="article-body">Living in alignment with lunar cycles is one of the oldest forms of intelligence. Before electricity fragmented our nights, entire civilizations structured planting, healing, ceremony, and grief around the moon's rhythm. The cycle is still there — we simply stopped watching.</p>
-      <p class="article-body">This guide maps the eight moon phases to eight modes of inner work. From the quiet of the new moon to the raw release of the waning crescent, every phase asks something different of you.</p>
-      <a href="#" class="read-more">Read the Full Guide <span>→</span></a>
+    <div class="article-text-col" id="atxt-3">
+      <p class="article-kicker">Expedition Report</p>
+      <h2 class="article-heading">Cloud Forest:<br><em>28 Days at 3,400 m</em></h2>
+      <p class="article-taxonomic">Manu Biosphere Reserve · Peru · 2025</p>
+      <p class="article-body">The cloud forest exists in a band of perpetual mist. Below, the Amazon basin. Above, the altiplano. Here, in the wet zone between 2,500 and 3,800 metres, plants evolved in isolation long enough to become entirely new forms.</p>
+      <p class="article-body">Our team spent 28 days in a single 4-hectare plot. We documented 14 species new to science — among them a miniature orchid with a petal span of 2.1 mm, visible only under magnification, and a bromeliad that had evolved to eat insects rather than wait for nutrients to arrive through rain.</p>
+      <a href="#" class="read-more">Read the Expedition Report</a>
     </div>
   </div>
 </section>
 
-<!-- ZODIAC -->
-<section id="zodiac">
-  <div class="zodiac-inner">
-    <p class="section-eyebrow">Winter Forecast</p>
-    <h2 class="section-heading" style="margin:0 auto 0;text-align:center;max-width:100%;">All <em>12 Signs</em> — What This Season Holds</h2>
-    <div class="zodiac-grid">
-      <div class="zodiac-card"><span class="zodiac-symbol">♈</span><div class="zodiac-name">Aries</div><div class="zodiac-date">Mar 21 – Apr 19</div></div>
-      <div class="zodiac-card"><span class="zodiac-symbol">♉</span><div class="zodiac-name">Taurus</div><div class="zodiac-date">Apr 20 – May 20</div></div>
-      <div class="zodiac-card"><span class="zodiac-symbol">♊</span><div class="zodiac-name">Gemini</div><div class="zodiac-date">May 21 – Jun 20</div></div>
-      <div class="zodiac-card"><span class="zodiac-symbol">♋</span><div class="zodiac-name">Cancer</div><div class="zodiac-date">Jun 21 – Jul 22</div></div>
-      <div class="zodiac-card"><span class="zodiac-symbol">♌</span><div class="zodiac-name">Leo</div><div class="zodiac-date">Jul 23 – Aug 22</div></div>
-      <div class="zodiac-card"><span class="zodiac-symbol">♍</span><div class="zodiac-name">Virgo</div><div class="zodiac-date">Aug 23 – Sep 22</div></div>
-      <div class="zodiac-card"><span class="zodiac-symbol">♎</span><div class="zodiac-name">Libra</div><div class="zodiac-date">Sep 23 – Oct 22</div></div>
-      <div class="zodiac-card"><span class="zodiac-symbol">♏</span><div class="zodiac-name">Scorpio</div><div class="zodiac-date">Oct 23 – Nov 21</div></div>
-      <div class="zodiac-card"><span class="zodiac-symbol">♐</span><div class="zodiac-name">Sagittarius</div><div class="zodiac-date">Nov 22 – Dec 21</div></div>
-      <div class="zodiac-card"><span class="zodiac-symbol">♑</span><div class="zodiac-name">Capricorn</div><div class="zodiac-date">Dec 22 – Jan 19</div></div>
-      <div class="zodiac-card"><span class="zodiac-symbol">♒</span><div class="zodiac-name">Aquarius</div><div class="zodiac-date">Jan 20 – Feb 18</div></div>
-      <div class="zodiac-card"><span class="zodiac-symbol">♓</span><div class="zodiac-name">Pisces</div><div class="zodiac-date">Feb 19 – Mar 20</div></div>
-    </div>
+<!-- SPECIMEN CATALOG -->
+<section id="catalog">
+  <div class="section-header">
+    <span class="section-kicker">Specimen Catalog</span>
+    <div class="section-rule"></div>
+    <span class="section-count">12 Species · Vol. I Selection</span>
+  </div>
+  <div class="catalog-grid">
+    <div class="catalog-card"><span class="catalog-glyph">🌸</span><span class="catalog-name">Ghost Orchid</span><span class="catalog-latin">Dendrophylax lindenii</span><span class="catalog-status status-cr">CR</span></div>
+    <div class="catalog-card"><span class="catalog-glyph">🌿</span><span class="catalog-name">Welwitschia</span><span class="catalog-latin">Welwitschia mirabilis</span><span class="catalog-status status-vu">VU</span></div>
+    <div class="catalog-card"><span class="catalog-glyph">🌱</span><span class="catalog-name">Titan Arum</span><span class="catalog-latin">Amorphophallus titanum</span><span class="catalog-status status-en">EN</span></div>
+    <div class="catalog-card"><span class="catalog-glyph">🌲</span><span class="catalog-name">Wollemi Pine</span><span class="catalog-latin">Wollemia nobilis</span><span class="catalog-status status-cr">CR</span></div>
+    <div class="catalog-card"><span class="catalog-glyph">🌺</span><span class="catalog-name">Black Bat Flower</span><span class="catalog-latin">Tacca chantrieri</span><span class="catalog-status status-vu">VU</span></div>
+    <div class="catalog-card"><span class="catalog-glyph">🪴</span><span class="catalog-name">Rafflesia</span><span class="catalog-latin">Rafflesia arnoldii</span><span class="catalog-status status-cr">CR</span></div>
+    <div class="catalog-card"><span class="catalog-glyph">🌻</span><span class="catalog-name">Jade Vine</span><span class="catalog-latin">Strongylodon macrobotrys</span><span class="catalog-status status-en">EN</span></div>
+    <div class="catalog-card"><span class="catalog-glyph">🍀</span><span class="catalog-name">Wood's Cycad</span><span class="catalog-latin">Encephalartos woodii</span><span class="catalog-status status-cr">CR</span></div>
+    <div class="catalog-card"><span class="catalog-glyph">🌾</span><span class="catalog-name">Dragon Blood Tree</span><span class="catalog-latin">Dracaena cinnabari</span><span class="catalog-status status-vu">VU</span></div>
+    <div class="catalog-card"><span class="catalog-glyph">🌵</span><span class="catalog-name">Saguaro Cactus</span><span class="catalog-latin">Carnegiea gigantea</span><span class="catalog-status status-lc">LC</span></div>
+    <div class="catalog-card"><span class="catalog-glyph">🌳</span><span class="catalog-name">Baobab</span><span class="catalog-latin">Adansonia grandidieri</span><span class="catalog-status status-en">EN</span></div>
+    <div class="catalog-card"><span class="catalog-glyph">🪷</span><span class="catalog-name">Middlemist Red</span><span class="catalog-latin">Camellia japonica cv.</span><span class="catalog-status status-cr">CR</span></div>
   </div>
 </section>
 
 <!-- PULL QUOTE 2 -->
-<section class="pullquote-section" id="quote-2">
+<section class="pullquote-section">
   <div class="pullquote-inner">
-    <span class="quote-mark" aria-hidden="true">"</span>
+    <div class="pullquote-rule"></div>
     <blockquote id="quote-text-2">
-      "Tarot does not predict the future. It illuminates the present with such clarity that the future becomes obvious."
+      "Every rare plant is a question the earth asked once and almost forgot how to answer."
     </blockquote>
-    <cite>— From our interview with master reader Selene Voss</cite>
+    <cite>— Editorial Foreword · The Botanist, Vol. I</cite>
+    <div class="pullquote-bg-num">II</div>
   </div>
 </section>
 
-<!-- TAROT -->
-<section id="tarot">
-  <div class="tarot-inner">
-    <p class="section-eyebrow">Tarot · Season Reading</p>
-    <h2 class="section-heading">Five Cards That Define <em>This Season</em></h2>
-    <div class="tarot-cards">
-      <div class="tarot-card">
-        <div class="tarot-roman">I</div>
-        <span class="tarot-face">🎩</span>
-        <div class="tarot-name">The Magician</div>
-        <div class="tarot-meaning">Willpower, skill, the power to manifest your reality</div>
+<!-- CULTIVATION NOTES -->
+<section id="cultivation">
+  <div class="cultivation-inner">
+    <div class="section-header" style="padding:0 0 16px 0; margin-bottom:32px; border-color:var(--border-lt)">
+      <span class="section-kicker">Cultivation Notes</span>
+      <div class="section-rule"></div>
+      <span class="section-count">5 Protocols</span>
+    </div>
+    <h2 class="cultivation-heading">Growing the <em>Uncultivable</em></h2>
+    <div class="cult-grid">
+      <div class="cult-shell">
+        <div class="cult-inner">
+          <div class="cult-num">Protocol I</div>
+          <span class="cult-glyph">💧</span>
+          <span class="cult-name">Humidity Control</span>
+          <p class="cult-desc">Maintain 85–95% relative humidity for cloud forest epiphytes. Daily misting at dawn replicates condensation cycles.</p>
+        </div>
       </div>
-      <div class="tarot-card">
-        <div class="tarot-roman">XII</div>
-        <span class="tarot-face">🙃</span>
-        <div class="tarot-name">The Hanged Man</div>
-        <div class="tarot-meaning">Surrender, new perspective, the gift of voluntary pause</div>
+      <div class="cult-shell">
+        <div class="cult-inner">
+          <div class="cult-num">Protocol II</div>
+          <span class="cult-glyph">🌡️</span>
+          <span class="cult-name">Thermal Rhythm</span>
+          <p class="cult-desc">A 10°C night-to-day temperature drop triggers dormancy cycles critical for orchid bloom induction.</p>
+        </div>
       </div>
-      <div class="tarot-card">
-        <div class="tarot-roman">XVII</div>
-        <span class="tarot-face">⭐</span>
-        <div class="tarot-name">The Star</div>
-        <div class="tarot-meaning">Hope, renewal, cosmic trust after the storm has passed</div>
+      <div class="cult-shell">
+        <div class="cult-inner">
+          <div class="cult-num">Protocol III</div>
+          <span class="cult-glyph">🪨</span>
+          <span class="cult-name">Substrate Composition</span>
+          <p class="cult-desc">For desert specimens: 60% coarse pumice, 30% decomposed granite, 10% aged bark. Zero organic matter retained.</p>
+        </div>
       </div>
-      <div class="tarot-card">
-        <div class="tarot-roman">X</div>
-        <span class="tarot-face">☸️</span>
-        <div class="tarot-name">Wheel of Fortune</div>
-        <div class="tarot-meaning">Fate in motion, cycles turning, the pivot point of destiny</div>
+      <div class="cult-shell">
+        <div class="cult-inner">
+          <div class="cult-num">Protocol IV</div>
+          <span class="cult-glyph">🔬</span>
+          <span class="cult-name">Mycorrhizal Inoculation</span>
+          <p class="cult-desc">Ghost orchid seeds require specific fungal partners. Collect substrate from beneath existing specimens and transfer directly.</p>
+        </div>
       </div>
-      <div class="tarot-card">
-        <div class="tarot-roman">XXI</div>
-        <span class="tarot-face">🌍</span>
-        <div class="tarot-name">The World</div>
-        <div class="tarot-meaning">Completion, integration, the triumphant end of a great cycle</div>
+      <div class="cult-shell">
+        <div class="cult-inner">
+          <div class="cult-num">Protocol V</div>
+          <span class="cult-glyph">📅</span>
+          <span class="cult-name">Patience as Method</span>
+          <p class="cult-desc">Titan arum corms require 7–10 years before first bloom. There is no shortcut. Document and wait.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -915,61 +1191,59 @@
 <!-- NEWSLETTER -->
 <section id="newsletter">
   <div class="newsletter-inner">
-    <p class="section-eyebrow" style="text-align:center">Stay Aligned</p>
-    <h2 class="newsletter-heading">Read the <em>stars</em> with us every month</h2>
-    <p class="newsletter-sub">Monthly forecasts, tarot pulls, lunar calendars, and deep dives into the cosmic forces shaping your world. No spam. Just starlight.</p>
+    <p class="newsletter-kicker">Field Notes · Monthly</p>
+    <h2 class="newsletter-heading">Dispatches from the <em>field</em></h2>
+    <p class="newsletter-sub">Monthly specimen reports, cultivation protocols, expedition diaries, and alerts on newly described species. For those who take plants seriously.</p>
     <form class="newsletter-form" onsubmit="handleSubscribe(event)">
       <input class="newsletter-input" type="email" placeholder="your@email.com" required>
       <button class="newsletter-btn" type="submit">Subscribe</button>
     </form>
-    <p id="newsletter-confirm" style="display:none;margin-top:1.2rem;font-size:.8rem;color:var(--gold);letter-spacing:.1em;">✦ You're on the list. The stars await.</p>
+    <p id="newsletter-confirm" style="display:none;margin-top:16px;font-size:12px;color:var(--gold);letter-spacing:.1em;">✦ You are now on the field list.</p>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div>
-        <div class="footer-logo">Celestia</div>
-        <p class="footer-tagline">An independent magazine for those who look up at the night sky and feel something ancient stir within them.</p>
-      </div>
-      <div class="footer-col">
-        <p class="footer-col-title">Magazine</p>
-        <ul>
-          <li><a href="#">Current Issue</a></li>
-          <li><a href="#">Archive</a></li>
-          <li><a href="#">Subscribe</a></li>
-          <li><a href="#">About</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <p class="footer-col-title">Topics</p>
-        <ul>
-          <li><a href="#">Astrology</a></li>
-          <li><a href="#">Tarot</a></li>
-          <li><a href="#">Lunar Cycles</a></li>
-          <li><a href="#">Birth Charts</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <p class="footer-col-title">Community</p>
-        <ul>
-          <li><a href="#">Newsletter</a></li>
-          <li><a href="#">Podcast</a></li>
-          <li><a href="#">Events</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </div>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">The Botanist <em>·</em> Rare Specimens</div>
+      <p class="footer-tagline">An independent journal for field botanists, collectors, and everyone who has ever stopped to look closely at something growing in an unlikely place.</p>
     </div>
-    <div class="footer-bottom">
-      <span>© 2026 Celestia Magazine. All rights reserved.</span>
-      <div class="footer-socials">
-        <a href="#" title="Instagram">◈</a>
-        <a href="#" title="Twitter">◉</a>
-        <a href="#" title="TikTok">◆</a>
-        <a href="#" title="YouTube">▷</a>
-      </div>
+    <div class="footer-col">
+      <p class="footer-col-title">Journal</p>
+      <ul>
+        <li><a href="#">Current Issue</a></li>
+        <li><a href="#">Archive</a></li>
+        <li><a href="#">Subscribe</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <p class="footer-col-title">Topics</p>
+      <ul>
+        <li><a href="#">Field Reports</a></li>
+        <li><a href="#">Specimen Studies</a></li>
+        <li><a href="#">Cultivation Notes</a></li>
+        <li><a href="#">Taxonomy</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <p class="footer-col-title">Community</p>
+      <ul>
+        <li><a href="#">Newsletter</a></li>
+        <li><a href="#">Expeditions</a></li>
+        <li><a href="#">Seed Exchange</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 The Botanist Magazine. All rights reserved.</span>
+    <div class="footer-socials">
+      <a href="#" title="Instagram">◈</a>
+      <a href="#" title="Twitter">◉</a>
+      <a href="#" title="iNaturalist">◆</a>
+      <a href="#" title="YouTube">▷</a>
     </div>
   </div>
 </footer>
@@ -982,266 +1256,203 @@
 <script type="module">
 import * as THREE from 'three';
 
-// ── Scene setup ──────────────────────────────────────────────────────────────
-const canvas  = document.getElementById('webgl');
-const scene   = new THREE.Scene();
-scene.fog     = new THREE.FogExp2(0x08070e, 0.022);
-
-const camera  = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 200);
-camera.position.set(0, 0, 14);
+const canvas   = document.getElementById('webgl');
+const scene    = new THREE.Scene();
+const camera   = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.1, 200);
+camera.position.z = 14;
 
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(innerWidth, innerHeight);
 renderer.setClearColor(0x000000, 0);
 
 // ── Lights ───────────────────────────────────────────────────────────────────
-scene.add(new THREE.AmbientLight(0x1a0a2e, 1.2));
-
-const goldLight = new THREE.PointLight(0xc9a84c, 3, 40);
+scene.add(new THREE.AmbientLight(0xf0e8d0, 1.0));
+const goldLight   = new THREE.PointLight(0xD0AB39, 2.5, 40);
 goldLight.position.set(3, 4, 6);
 scene.add(goldLight);
+const warmLight   = new THREE.PointLight(0xa07820, 2.0, 30);
+warmLight.position.set(-5, -2, 5);
+scene.add(warmLight);
 
-const purpleLight = new THREE.PointLight(0x6b3fa0, 4, 30);
-purpleLight.position.set(-5, -2, 5);
-scene.add(purpleLight);
-
-const blueLight = new THREE.PointLight(0x3d1a6e, 2, 25);
-blueLight.position.set(6, -4, 4);
-scene.add(blueLight);
-
-// ── Star field ───────────────────────────────────────────────────────────────
-function makeStarField(count, spread, size, opacity) {
-  const geo  = new THREE.BufferGeometry();
-  const pos  = new Float32Array(count * 3);
-  for (let i = 0; i < count * 3; i++) pos[i] = (Math.random() - 0.5) * spread;
+// ── Star field — dark/gold points, subtle on light bg ─────────────────────────
+function makeStars(count, spread, size, color, opacity) {
+  const geo = new THREE.BufferGeometry();
+  const pos = new Float32Array(count * 3);
+  for (let i = 0; i < count * 3; i++) pos[i] = (Math.random() - .5) * spread;
   geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-  const mat  = new THREE.PointsMaterial({
-    color: 0xffffff,
-    size,
-    transparent: true,
-    opacity,
-    sizeAttenuation: true,
-    blending: THREE.AdditiveBlending,
-    depthWrite: false,
-  });
-  return new THREE.Points(geo, mat);
+  return new THREE.Points(geo, new THREE.PointsMaterial({
+    color, size, transparent: true, opacity,
+    sizeAttenuation: true, depthWrite: false,
+    blending: THREE.NormalBlending,
+  }));
 }
-const stars1 = makeStarField(1800, 120, 0.08, 0.9);
-const stars2 = makeStarField(600,  80,  0.18, 0.5);
-scene.add(stars1, stars2);
+const starsGold = makeStars(600,  100, 0.07, 0xD0AB39, 0.22);
+const starsDark = makeStars(1000, 120, 0.04, 0x4a3e28, 0.18);
+scene.add(starsGold, starsDark);
 
-// ── Moon orb (large glowing sphere, top-left) ────────────────────────────────
-const moonGeo  = new THREE.SphereGeometry(2.6, 64, 64);
-const moonMat  = new THREE.MeshStandardMaterial({
-  color: 0x1a0a3a,
-  emissive: 0x4a1f80,
-  emissiveIntensity: 0.55,
-  roughness: 0.6,
-  metalness: 0.1,
-  transparent: true,
-  opacity: 0.82,
+// ── Moon orb — warm gold tones, semi-transparent ──────────────────────────────
+const moonGeo = new THREE.SphereGeometry(2.5, 64, 64);
+const moonMat = new THREE.MeshStandardMaterial({
+  color:            0xe8d8a0,
+  emissive:         0xD0AB39,
+  emissiveIntensity:0.08,
+  roughness:        0.75,
+  metalness:        0.1,
+  transparent:      true,
+  opacity:          0.13,
 });
 const moon = new THREE.Mesh(moonGeo, moonMat);
 moon.position.set(-5.5, 2.5, -4);
 scene.add(moon);
 
-// Moon halo (additive larger sphere for bloom-like glow)
-const haloMat = new THREE.MeshBasicMaterial({
-  color: 0x6b3fa0,
-  transparent: true,
-  opacity: 0.07,
-  blending: THREE.AdditiveBlending,
-  depthWrite: false,
-  side: THREE.BackSide,
-});
-const halo = new THREE.Mesh(new THREE.SphereGeometry(3.5, 32, 32), haloMat);
-halo.position.copy(moon.position);
-scene.add(halo);
+// Moon edge ring (thin outline effect)
+const moonEdge = new THREE.Mesh(
+  new THREE.SphereGeometry(2.55, 48, 48),
+  new THREE.MeshBasicMaterial({
+    color: 0xD0AB39, wireframe: true,
+    transparent: true, opacity: 0.06,
+  })
+);
+moonEdge.position.copy(moon.position);
+scene.add(moonEdge);
 
-// ── Saturn-like planet (right side) ──────────────────────────────────────────
-const saturnGeo = new THREE.SphereGeometry(1.1, 48, 48);
+// ── Saturn-like planet ────────────────────────────────────────────────────────
 const saturnMat = new THREE.MeshStandardMaterial({
-  color: 0x2a1840,
-  emissive: 0xc9a84c,
-  emissiveIntensity: 0.12,
-  roughness: 0.4,
-  metalness: 0.2,
+  color:            0xc8b06a,
+  emissive:         0xD0AB39,
+  emissiveIntensity:0.05,
+  roughness:        0.6,
+  metalness:        0.15,
+  transparent:      true,
+  opacity:          0.18,
 });
-const saturn = new THREE.Mesh(saturnGeo, saturnMat);
+const saturn = new THREE.Mesh(new THREE.SphereGeometry(1.0, 48, 48), saturnMat);
 saturn.position.set(6, -2.5, -2);
 scene.add(saturn);
 
-const ringGeo = new THREE.TorusGeometry(1.9, 0.065, 5, 120);
 const ringMat = new THREE.MeshBasicMaterial({
-  color: 0xc9a84c,
-  transparent: true,
-  opacity: 0.28,
-  blending: THREE.AdditiveBlending,
-  depthWrite: false,
+  color: 0xD0AB39, transparent: true, opacity: 0.18, depthWrite: false,
+  side: THREE.DoubleSide,
 });
-const ring = new THREE.Mesh(ringGeo, ringMat);
+const ring = new THREE.Mesh(new THREE.TorusGeometry(1.8, 0.06, 5, 100), ringMat);
 ring.position.copy(saturn.position);
 ring.rotation.x = Math.PI * 0.38;
 scene.add(ring);
 
-// Second thinner ring
-const ring2Mat = new THREE.MeshBasicMaterial({
-  color: 0x9b59d0,
-  transparent: true,
-  opacity: 0.12,
-  blending: THREE.AdditiveBlending,
-  depthWrite: false,
-});
-const ring2 = new THREE.Mesh(new THREE.TorusGeometry(2.3, 0.03, 4, 100), ring2Mat);
+const ring2 = new THREE.Mesh(
+  new THREE.TorusGeometry(2.2, 0.025, 4, 80),
+  new THREE.MeshBasicMaterial({ color: 0x91D93A, transparent: true, opacity: 0.09, depthWrite: false, side: THREE.DoubleSide })
+);
 ring2.position.copy(saturn.position);
 ring2.rotation.x = Math.PI * 0.38;
 scene.add(ring2);
 
-// ── Crystal shards (wireframe polyhedra) ─────────────────────────────────────
-function makeCrystal(geo, x, y, z, color, opacity) {
-  const mat  = new THREE.MeshBasicMaterial({ color, wireframe: true, transparent: true, opacity });
-  const mesh = new THREE.Mesh(geo, mat);
+// ── Crystal polyhedra — wireframe, ink + gold ─────────────────────────────────
+function makeCrystal(GeoClass, args, x, y, z, color, opacity) {
+  const mesh = new THREE.Mesh(
+    new GeoClass(...args),
+    new THREE.MeshBasicMaterial({ color, wireframe: true, transparent: true, opacity })
+  );
   mesh.position.set(x, y, z);
   scene.add(mesh);
   return mesh;
 }
-const crystal1 = makeCrystal(new THREE.OctahedronGeometry(0.7, 0),   3.5,  3.5, -6, 0xc9a8f5, 0.18);
-const crystal2 = makeCrystal(new THREE.IcosahedronGeometry(0.5, 0), -3,   -3.5, -5, 0x9b59d0, 0.14);
-const crystal3 = makeCrystal(new THREE.TetrahedronGeometry(0.55, 0),  1.5, -4.5, -8, 0xc9a84c, 0.12);
-const crystal4 = makeCrystal(new THREE.OctahedronGeometry(0.35, 0), -6.5,  1.0, -3, 0xc9a8f5, 0.10);
+const crystal1 = makeCrystal(THREE.OctahedronGeometry,  [0.7, 0],  3.5,  3.5, -6,  0xD0AB39, 0.18);
+const crystal2 = makeCrystal(THREE.IcosahedronGeometry, [0.5, 0], -3.0, -3.5, -5,  0x91D93A, 0.14);
+const crystal3 = makeCrystal(THREE.TetrahedronGeometry, [0.55, 0], 1.5, -4.5, -8,  0x161615, 0.08);
+const crystal4 = makeCrystal(THREE.OctahedronGeometry,  [0.32, 0],-6.5,  1.0, -3,  0xD0AB39, 0.10);
 
-// Small dust orbs (for depth atmosphere)
-const dustGeo = new THREE.SphereGeometry(0.06, 8, 8);
-const dustMat = new THREE.MeshBasicMaterial({
-  color: 0xc9a84c,
-  transparent: true,
-  opacity: 0.4,
-  blending: THREE.AdditiveBlending,
+// ── Mouse + scroll ────────────────────────────────────────────────────────────
+const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
+window.addEventListener('mousemove', e => {
+  mouse.tx = (e.clientX / innerWidth  - .5) * 2;
+  mouse.ty = (e.clientY / innerHeight - .5) * 2;
 });
-const dustGroup = new THREE.Group();
-for (let i = 0; i < 35; i++) {
-  const d = new THREE.Mesh(dustGeo, dustMat.clone());
-  d.position.set(
-    (Math.random() - 0.5) * 22,
-    (Math.random() - 0.5) * 14,
-    (Math.random() - 0.5) * 10 - 2
-  );
-  d.material.opacity = Math.random() * 0.35 + 0.05;
-  dustGroup.add(d);
-}
-scene.add(dustGroup);
-
-// ── Scroll-driven camera drift ────────────────────────────────────────────────
 let scrollY = 0;
 window.addEventListener('scroll', () => { scrollY = window.scrollY; });
 
-// ── Mouse parallax ────────────────────────────────────────────────────────────
-const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
-window.addEventListener('mousemove', e => {
-  mouse.tx = (e.clientX / window.innerWidth  - 0.5) * 2;
-  mouse.ty = (e.clientY / window.innerHeight - 0.5) * 2;
-});
-
-// ── Render loop ───────────────────────────────────────────────────────────────
+// ── Animate ───────────────────────────────────────────────────────────────────
 const clock = new THREE.Clock();
 function animate() {
   requestAnimationFrame(animate);
-  const t  = clock.getElapsedTime();
-  const dt = clock.getDelta ? 0 : 0; // unused but declared for clarity
+  const t = clock.getElapsedTime();
 
-  // Smooth mouse
-  mouse.x += (mouse.tx - mouse.x) * 0.04;
-  mouse.y += (mouse.ty - mouse.y) * 0.04;
+  mouse.x += (mouse.tx - mouse.x) * .04;
+  mouse.y += (mouse.ty - mouse.y) * .04;
 
-  // Camera drift (scroll + mouse)
-  const scrollProgress = scrollY / (document.body.scrollHeight - window.innerHeight || 1);
-  camera.position.y  += (-scrollProgress * 5 - camera.position.y) * 0.06;
-  camera.position.x  += (mouse.x * 0.6 - camera.position.x) * 0.04;
-  camera.rotation.z  += (-mouse.x * 0.015 - camera.rotation.z) * 0.04;
+  const scrollPct = scrollY / Math.max(document.body.scrollHeight - innerHeight, 1);
+  camera.position.y += (-scrollPct * 5 - camera.position.y) * .05;
+  camera.position.x += (mouse.x * .5 - camera.position.x) * .04;
+  camera.rotation.z += (-mouse.x * .012 - camera.rotation.z) * .04;
 
-  // Star slow rotation
-  stars1.rotation.y = t * 0.012;
-  stars2.rotation.y = t * 0.008;
-  stars1.rotation.x = t * 0.004;
+  // Star rotation
+  starsGold.rotation.y = t * 0.010;
+  starsDark.rotation.y = t * 0.007;
 
   // Moon bob
-  moon.position.y  = 2.5 + Math.sin(t * 0.3) * 0.25;
-  moon.rotation.y  = t * 0.06;
-  halo.position.copy(moon.position);
+  moon.position.y    = 2.5 + Math.sin(t * 0.28) * 0.22;
+  moon.rotation.y    = t * 0.05;
+  moonEdge.position.copy(moon.position);
+  moonEdge.rotation.y = moon.rotation.y;
 
-  // Saturn orbit / spin
-  saturn.rotation.y  = t * 0.18;
-  saturn.position.x  = 6   + Math.sin(t * 0.15) * 0.3;
-  saturn.position.y  = -2.5 + Math.cos(t * 0.22) * 0.2;
+  // Saturn spin + drift
+  saturn.rotation.y  = t * 0.16;
+  saturn.position.x  = 6    + Math.sin(t * 0.14) * 0.25;
+  saturn.position.y  = -2.5 + Math.cos(t * 0.20) * 0.18;
   ring.position.copy(saturn.position);
   ring2.position.copy(saturn.position);
-  ring.rotation.z   = t * 0.04;
+  ring.rotation.z    = t * 0.035;
 
-  // Crystal rotations
-  crystal1.rotation.x = t * 0.22; crystal1.rotation.y = t * 0.14;
-  crystal2.rotation.x = t * 0.15; crystal2.rotation.z = t * 0.19;
-  crystal3.rotation.y = t * 0.17; crystal3.rotation.z = t * 0.12;
-  crystal4.rotation.x = t * 0.10; crystal4.rotation.y = t * 0.24;
+  // Crystals rotate
+  crystal1.rotation.x = t * 0.20; crystal1.rotation.y = t * 0.13;
+  crystal2.rotation.x = t * 0.14; crystal2.rotation.z = t * 0.17;
+  crystal3.rotation.y = t * 0.16; crystal3.rotation.z = t * 0.11;
+  crystal4.rotation.x = t * 0.09; crystal4.rotation.y = t * 0.22;
 
-  // Dust twinkle
-  dustGroup.children.forEach((d, i) => {
-    d.material.opacity = 0.15 + 0.2 * Math.abs(Math.sin(t * 0.8 + i * 0.7));
-  });
-
-  // Gold light pulse
-  goldLight.intensity = 2.8 + Math.sin(t * 1.2) * 0.6;
-  purpleLight.intensity = 3.8 + Math.sin(t * 0.7 + 1) * 0.8;
+  // Light pulse
+  goldLight.intensity = 2.3 + Math.sin(t * 1.1) * 0.5;
+  warmLight.intensity = 1.8 + Math.sin(t * 0.7 + 1) * 0.4;
 
   renderer.render(scene, camera);
 }
 animate();
 
-// ── Resize ────────────────────────────────────────────────────────────────────
 window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.aspect = innerWidth / innerHeight;
   camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(innerWidth, innerHeight);
 });
 </script>
 
 <script>
-// ── Lenis smooth scroll ──────────────────────────────────────────────────────
+// ── Lenis ─────────────────────────────────────────────────────────────────────
 const lenis = new Lenis({
-  duration:  2.0,
-  easing:    t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  duration:    1.8,
+  easing:      t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
   smoothWheel: true,
-  wheelMultiplier: 0.85,
+  wheelMultiplier: 0.9,
 });
 
-// Wire Lenis → GSAP ticker
 gsap.registerPlugin(ScrollTrigger);
 gsap.ticker.add(time => lenis.raf(time * 1000));
 gsap.ticker.lagSmoothing(0);
-
-// ScrollTrigger must use Lenis's scroll position
 lenis.on('scroll', ScrollTrigger.update);
 ScrollTrigger.scrollerProxy(document.body, {
-  scrollTop(v)  { return arguments.length ? lenis.scrollTo(v, { immediate: true }) : lenis.scroll; },
+  scrollTop(v) { return arguments.length ? lenis.scrollTo(v, { immediate: true }) : lenis.scroll; },
   getBoundingClientRect() { return { top: 0, left: 0, width: innerWidth, height: innerHeight }; },
 });
 ScrollTrigger.defaults({ scroller: document.body });
 
-// ── Progress bar ─────────────────────────────────────────────────────────────
-lenis.on('scroll', ({ progress }) => {
+// Progress bar + nav
+lenis.on('scroll', ({ progress, scroll }) => {
   document.getElementById('progress-bar').style.width = (progress * 100) + '%';
-});
-
-// ── Nav scroll class ──────────────────────────────────────────────────────────
-lenis.on('scroll', ({ scroll }) => {
   document.getElementById('main-nav').classList.toggle('scrolled', scroll > 60);
 });
 
-// ── Char split helper ─────────────────────────────────────────────────────────
+// ── Char split ────────────────────────────────────────────────────────────────
 function splitChars(el) {
-  // Walk text nodes, wrap each char in a span, preserve <em>
-  const frags = [];
-  function processNode(node) {
+  function walk(node) {
     if (node.nodeType === 3) {
       const chars = [...node.textContent];
       chars.forEach(ch => {
@@ -1249,127 +1460,88 @@ function splitChars(el) {
         s.className = 'char';
         s.style.display = 'inline-block';
         s.textContent = ch === ' ' ? ' ' : ch;
-        frags.push({ node, s });
         node.parentNode.insertBefore(s, node);
       });
       node.parentNode.removeChild(node);
     } else if (node.nodeType === 1) {
-      [...node.childNodes].forEach(processNode);
+      [...node.childNodes].forEach(walk);
     }
   }
-  [...el.childNodes].forEach(processNode);
+  [...el.childNodes].forEach(walk);
   return el.querySelectorAll('.char');
 }
 
-// ── Word split helper ─────────────────────────────────────────────────────────
 function splitWords(el) {
-  const html = el.innerHTML;
-  el.innerHTML = html.replace(/(\S+)/g, '<span class="quote-word" style="display:inline-block">$1</span>');
+  el.innerHTML = el.innerHTML.replace(/(\S+)/g, '<span class="quote-word" style="display:inline-block">$1</span>');
   return el.querySelectorAll('.quote-word');
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── HERO ENTRANCE ─────────────────────────────────────────────────────────────
+// HERO
 // ══════════════════════════════════════════════════════════════════════════════
-const heroTl = gsap.timeline({ delay: 0.2 });
+const heroTl = gsap.timeline({ delay: 0.15 });
 
-// Eyebrow
-heroTl.fromTo('.hero-eyebrow',
-  { opacity: 0, y: 18, letterSpacing: '0.6em' },
-  { opacity: 1, y: 0,  letterSpacing: '0.32em', duration: 1.1, ease: 'power3.out' }
+heroTl.fromTo('.hero-kicker',
+  { opacity: 0, y: 12, letterSpacing: '0.5em' },
+  { opacity: 1, y: 0,  letterSpacing: '0.3em', duration: 0.9, ease: 'power3.out' }
 );
 
-// Title chars
 const titleEl    = document.getElementById('hero-title');
 const titleChars = splitChars(titleEl);
 heroTl.fromTo(titleChars,
-  { opacity: 0, y: 60, rotateX: -40 },
-  { opacity: 1, y: 0,  rotateX: 0, duration: 0.9, ease: 'back.out(1.5)', stagger: 0.05 },
-  '-=0.6'
-);
-
-// Subtitle
-heroTl.fromTo('.hero-subtitle',
-  { opacity: 0, y: 20, filter: 'blur(6px)' },
-  { opacity: 1, y: 0,  filter: 'blur(0px)', duration: 1.0, ease: 'power3.out' },
-  '-=0.4'
-);
-
-// CTA
-heroTl.fromTo('.hero-cta',
-  { opacity: 0, y: 16 },
-  { opacity: 1, y: 0,  duration: 0.8, ease: 'power3.out' },
+  { opacity: 0, y: 50, rotateX: -25 },
+  { opacity: 1, y: 0,  rotateX: 0, duration: 0.8, ease: 'power3.out', stagger: 0.03 },
   '-=0.5'
 );
 
-// Scroll hint
-heroTl.fromTo('.hero-scroll-hint',
-  { opacity: 0 },
-  { opacity: 1, duration: 1.0 },
-  '-=0.2'
+heroTl.to('#hero-rule', { width: '80px', duration: 0.8, ease: 'power3.inOut' }, '-=0.2');
+
+heroTl.fromTo('.hero-desc',
+  { opacity: 0, y: 16, filter: 'blur(4px)' },
+  { opacity: 1, y: 0,  filter: 'blur(0px)', duration: 0.9, ease: 'power3.out' },
+  '-=0.5'
 );
 
-// ── Hero parallax on scroll out ───────────────────────────────────────────────
-gsap.to('#hero .hero-title, #hero .hero-subtitle, #hero .hero-cta', {
-  y: -80,
-  opacity: 0,
-  ease: 'none',
-  scrollTrigger: {
-    trigger: '#hero',
-    start:  'center center',
-    end:    'bottom top',
-    scrub:  1.5,
-  },
+heroTl.fromTo('.hero-actions',
+  { opacity: 0, y: 12 },
+  { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
+  '-=0.4'
+);
+
+heroTl.fromTo('.hero-footer, .hero-specimen-tag',
+  { opacity: 0 },
+  { opacity: 1, duration: 0.9, stagger: 0.1 },
+  '-=0.3'
+);
+
+// Hero scroll-out parallax
+gsap.to('#hero .hero-body', {
+  y: -60, opacity: 0, ease: 'none',
+  scrollTrigger: { trigger: '#hero', start: 'center center', end: 'bottom top', scrub: 1.8 }
 });
 
-// ── Divider ────────────────────────────────────────────────────────────────────
-gsap.timeline({
-  scrollTrigger: { trigger: '.divider', start: 'top 85%', toggleActions: 'play none none reverse' }
-})
-.to('#divider-l',   { scaleX: 1,  duration: 1.0, ease: 'power3.inOut' })
-.to('#divider-sym', { opacity: 0.6, scale: 1, duration: 0.5, ease: 'back.out(2)' }, '-=0.4')
-.to('#divider-r',   { scaleX: 1,  duration: 1.0, ease: 'power3.inOut' }, '-=0.8');
+// ══════════════════════════════════════════════════════════════════════════════
+// TOC
+// ══════════════════════════════════════════════════════════════════════════════
+gsap.timeline({ scrollTrigger: { trigger: '#toc', start: 'top 75%' } })
+  .fromTo('.toc-left',   { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out' })
+  .fromTo('.toc-item',   { opacity: 0, x: 30  }, { opacity: 1, x: 0, duration: 0.7, ease: 'power3.out', stagger: 0.09 }, '-=0.5');
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── TOC ───────────────────────────────────────────────────────────────────────
-// ══════════════════════════════════════════════════════════════════════════════
-gsap.timeline({
-  scrollTrigger: { trigger: '#toc', start: 'top 72%', toggleActions: 'play none none reverse' }
-})
-.fromTo('.toc-left',
-  { opacity: 0, x: -50 },
-  { opacity: 1, x: 0, duration: 1.0, ease: 'power3.out' }
-)
-.fromTo('.toc-item',
-  { opacity: 0, x: 40 },
-  { opacity: 1, x: 0, duration: 0.7, ease: 'power3.out', stagger: 0.1 },
-  '-=0.6'
-);
-
-// ══════════════════════════════════════════════════════════════════════════════
-// ── STATS ─────────────────────────────────────────────────────────────────────
+// STATS
 // ══════════════════════════════════════════════════════════════════════════════
 gsap.fromTo('.stat-item',
-  { opacity: 0, y: 40, scale: 0.85 },
-  {
-    opacity: 1, y: 0, scale: 1,
-    duration: 0.8, ease: 'back.out(1.4)', stagger: 0.12,
-    scrollTrigger: { trigger: '#stats', start: 'top 78%' }
-  }
+  { opacity: 0, y: 30 },
+  { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.12,
+    scrollTrigger: { trigger: '#stats', start: 'top 80%' } }
 );
-
-// Counter animation
 document.querySelectorAll('.stat-num[data-target]').forEach(el => {
   const target = +el.dataset.target;
   ScrollTrigger.create({
-    trigger: el,
-    start: 'top 82%',
-    once: true,
+    trigger: el, start: 'top 85%', once: true,
     onEnter() {
       gsap.to({ val: 0 }, {
-        val: target,
-        duration: 1.6,
-        ease: 'power2.out',
+        val: target, duration: 1.4, ease: 'power2.out',
         onUpdate() { el.textContent = Math.round(this.targets()[0].val); }
       });
     }
@@ -1377,141 +1549,99 @@ document.querySelectorAll('.stat-num[data-target]').forEach(el => {
 });
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── FEATURES ──────────────────────────────────────────────────────────────────
+// FEATURES
 // ══════════════════════════════════════════════════════════════════════════════
-gsap.fromTo('.section-eyebrow',
-  { opacity: 0, y: 15 },
-  { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
-    scrollTrigger: { trigger: '#features', start: 'top 80%' } }
-);
-gsap.fromTo('#features .section-heading',
-  { opacity: 0, y: 30 },
-  { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out',
-    scrollTrigger: { trigger: '#features .section-heading', start: 'top 82%' } }
-);
 gsap.fromTo('.feat-card',
-  { opacity: 0, y: 50, scale: 0.94 },
-  {
-    opacity: 1, y: 0, scale: 1,
-    duration: 0.75, ease: 'power3.out', stagger: { amount: 0.5, from: 'start' },
-    scrollTrigger: { trigger: '.features-grid', start: 'top 78%' }
-  }
+  { opacity: 0, y: 40, scale: 0.96 },
+  { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'power3.out',
+    stagger: { amount: 0.5 },
+    scrollTrigger: { trigger: '.features-grid', start: 'top 78%' } }
 );
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── PULL QUOTES — word-by-word reveal ─────────────────────────────────────────
+// PULL QUOTES
 // ══════════════════════════════════════════════════════════════════════════════
 ['#quote-text-1', '#quote-text-2'].forEach(sel => {
   const el    = document.querySelector(sel);
   const words = splitWords(el);
-  gsap.fromTo(words,
-    { opacity: 0, y: 12, filter: 'blur(3px)' },
-    {
-      opacity: 1, y: 0, filter: 'blur(0px)',
-      duration: 0.5, ease: 'power2.out', stagger: 0.04,
-      scrollTrigger: { trigger: el, start: 'top 80%' }
-    }
-  );
   const parent = el.closest('.pullquote-section');
-  gsap.fromTo(parent.querySelector('.quote-mark'),
-    { opacity: 0, scale: 0.5 },
-    { opacity: 0.18, scale: 1, duration: 1.0, ease: 'back.out(1.8)',
+  gsap.fromTo(parent.querySelector('.pullquote-rule'),
+    { width: 0 },
+    { width: '40px', duration: 0.8, ease: 'power3.inOut',
       scrollTrigger: { trigger: parent, start: 'top 82%' } }
   );
+  gsap.fromTo(words,
+    { opacity: 0, y: 10 },
+    { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', stagger: 0.04,
+      scrollTrigger: { trigger: el, start: 'top 80%' } }
+  );
   gsap.fromTo(parent.querySelector('cite'),
-    { opacity: 0, y: 8 },
+    { opacity: 0, y: 6 },
     { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
       scrollTrigger: { trigger: parent.querySelector('cite'), start: 'top 88%' } }
   );
 });
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── ARTICLES — cinematic split reveal ─────────────────────────────────────────
+// ARTICLES — cinematic split
 // ══════════════════════════════════════════════════════════════════════════════
 [
-  { img: '#article-img-1', txt: '#article-text-1', imgFrom: { x: -80 }, txtFrom: { x: 60 } },
-  { img: '#article-img-2', txt: '#article-text-2', imgFrom: { x:  80 }, txtFrom: { x: -60 } },
-  { img: '#article-img-3', txt: '#article-text-3', imgFrom: { x: -80 }, txtFrom: { x: 60 } },
-].forEach(({ img, txt, imgFrom, txtFrom }) => {
+  { img: '#aimg-1', txt: '#atxt-1', imgX: -60, txtX: 50 },
+  { img: '#aimg-2', txt: '#atxt-2', imgX: 60,  txtX: -50 },
+  { img: '#aimg-3', txt: '#atxt-3', imgX: -60, txtX: 50 },
+].forEach(({ img, txt, imgX, txtX }) => {
   const trigger = document.querySelector(img).closest('.article-section');
-
   gsap.fromTo(img,
-    { opacity: 0, ...imgFrom, scale: 0.9 },
-    { opacity: 1, x: 0, scale: 1, duration: 1.2, ease: 'power3.out',
-      scrollTrigger: { trigger, start: 'top 75%' } }
+    { opacity: 0, x: imgX, scale: 0.96 },
+    { opacity: 1, x: 0, scale: 1, duration: 1.1, ease: 'power3.out',
+      scrollTrigger: { trigger, start: 'top 78%' } }
   );
   gsap.fromTo(txt,
-    { opacity: 0, ...txtFrom },
-    { opacity: 1, x: 0, duration: 1.1, ease: 'power3.out',
-      scrollTrigger: { trigger, start: 'top 75%' } }
+    { opacity: 0, x: txtX },
+    { opacity: 1, x: 0, duration: 1.0, ease: 'power3.out',
+      scrollTrigger: { trigger, start: 'top 78%' } }
   );
-
-  // Parallax on image as you scroll through the article
   gsap.to(img, {
-    y: -40,
-    ease: 'none',
-    scrollTrigger: {
-      trigger,
-      start: 'top bottom',
-      end:   'bottom top',
-      scrub: 1.8,
-    },
+    y: -30, ease: 'none',
+    scrollTrigger: { trigger, start: 'top bottom', end: 'bottom top', scrub: 2 }
   });
 });
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── ZODIAC — wave cascade ──────────────────────────────────────────────────────
+// CATALOG — wave ripple
 // ══════════════════════════════════════════════════════════════════════════════
-gsap.fromTo('#zodiac .section-eyebrow, #zodiac .section-heading',
-  { opacity: 0, y: 30 },
-  { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.15,
-    scrollTrigger: { trigger: '#zodiac', start: 'top 78%' } }
-);
-gsap.fromTo('.zodiac-card',
-  { opacity: 0, y: 40, scale: 0.88 },
-  {
-    opacity: 1, y: 0, scale: 1,
-    duration: 0.6, ease: 'back.out(1.3)',
-    stagger: { amount: 0.7, from: 'start', grid: [2, 6] },
-    scrollTrigger: { trigger: '.zodiac-grid', start: 'top 80%' }
-  }
+gsap.fromTo('.catalog-card',
+  { opacity: 0, y: 24, scale: 0.92 },
+  { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: 'back.out(1.3)',
+    stagger: { amount: 0.6, from: 'start', grid: [2, 6] },
+    scrollTrigger: { trigger: '.catalog-grid', start: 'top 80%' } }
 );
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── TAROT — fan in from bottom with rotation ───────────────────────────────────
+// CULTIVATION GLASS CARDS — stagger fan in
 // ══════════════════════════════════════════════════════════════════════════════
-gsap.fromTo('#tarot .section-eyebrow, #tarot .section-heading',
-  { opacity: 0, y: 30 },
-  { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.15,
-    scrollTrigger: { trigger: '#tarot', start: 'top 78%' } }
-);
-gsap.fromTo('.tarot-card',
-  { opacity: 0, y: 80, rotation: i => (i - 2) * 6, scale: 0.8 },
-  {
-    opacity: 1, y: 0, rotation: 0, scale: 1,
-    duration: 0.9, ease: 'back.out(1.4)',
-    stagger: { amount: 0.5, from: 'center' },
-    scrollTrigger: { trigger: '.tarot-cards', start: 'top 80%' }
-  }
+gsap.fromTo('.cult-shell',
+  { opacity: 0, y: 50, rotation: i => (i - 2) * 2 },
+  { opacity: 1, y: 0, rotation: 0, duration: 0.9, ease: 'back.out(1.4)',
+    stagger: { amount: 0.4, from: 'center' },
+    scrollTrigger: { trigger: '.cult-grid', start: 'top 80%' } }
 );
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ── NEWSLETTER ────────────────────────────────────────────────────────────────
+// NEWSLETTER
 // ══════════════════════════════════════════════════════════════════════════════
 gsap.fromTo('.newsletter-inner',
-  { opacity: 0, y: 50, scale: 0.92 },
-  { opacity: 1, y: 0,  scale: 1, duration: 1.1, ease: 'power3.out',
-    scrollTrigger: { trigger: '#newsletter', start: 'top 78%' } }
+  { opacity: 0, y: 40, scale: 0.95 },
+  { opacity: 1, y: 0, scale: 1, duration: 1.0, ease: 'power3.out',
+    scrollTrigger: { trigger: '#newsletter', start: 'top 80%' } }
 );
 
-// ── Newsletter form ────────────────────────────────────────────────────────────
+// ── Newsletter submit ─────────────────────────────────────────────────────────
 window.handleSubscribe = function(e) {
   e.preventDefault();
-  document.getElementById('newsletter-confirm').style.display = 'block';
-  gsap.fromTo('#newsletter-confirm',
-    { opacity: 0, y: 10 },
-    { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }
-  );
+  const confirm = document.getElementById('newsletter-confirm');
+  confirm.style.display = 'block';
+  gsap.fromTo(confirm, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' });
   e.target.style.display = 'none';
 };
 </script>
