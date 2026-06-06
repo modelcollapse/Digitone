@@ -3,68 +3,316 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digitone Sequencer</title>
+  <title>Digitone — FM Synthesis & Sequencing</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,600;0,700;0,900;1,300;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div id="app">
 
-  <!-- Header / Transport -->
-  <header id="header">
-    <div id="logo">Digitone <span>Sequencer</span></div>
+<!-- ── Nav ─────────────────────────────────────────────────────────────────── -->
+<nav id="nav">
+  <div class="nav-logo">DT</div>
+  <ul class="nav-links">
+    <li><a href="#story">Story</a></li>
+    <li><a href="#engine">Engine</a></li>
+    <li><a href="#sequencer-section">Sequencer</a></li>
+    <li><a href="#features">Features</a></li>
+  </ul>
+  <a href="#sequencer-section" class="nav-cta">Launch</a>
+</nav>
 
-    <div class="transport">
-      <button id="btn-play"  class="transport-btn" title="Play">▶</button>
-      <button id="btn-stop"  class="transport-btn active" title="Stop">■</button>
+<!-- ── Hero ─────────────────────────────────────────────────────────────────── -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-eyebrow reveal-up">Elektron · FM Synthesis</div>
+    <h1 class="hero-title">
+      <span class="reveal-line">Digi</span><span class="reveal-line accent">tone</span>
+    </h1>
+    <p class="hero-sub reveal-up">Four operators. Infinite texture.<br>A sequencer that thinks like a composer.</p>
+    <div class="hero-actions reveal-up">
+      <a href="#sequencer-section" class="btn-primary">Open Sequencer</a>
+      <a href="#story" class="btn-ghost">Explore</a>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ── Story ─────────────────────────────────────────────────────────────────── -->
+<section id="story" class="section-story">
+  <div class="story-grid">
+    <div class="story-number reveal-fade">01</div>
+    <div class="story-text">
+      <h2 class="section-title reveal-up">Born from<br><em>complex mathematics,</em><br>made to be played.</h2>
+      <div class="story-body reveal-up">
+        <p>The Digitone distills four decades of FM synthesis research into an instrument you can reach out and touch. Eight voices of pure digital tone generation, each built from four sine-wave operators arranged in eight configurable algorithms.</p>
+        <p>Where most synthesizers add layers of complexity, the Digitone subtracts. Every parameter has a purpose. Every knob tells a story.</p>
+      </div>
+    </div>
+    <div class="story-stat-col reveal-fade">
+      <div class="stat-card">
+        <div class="stat-num">8</div>
+        <div class="stat-label">Voices</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">4</div>
+        <div class="stat-label">Operators</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">8</div>
+        <div class="stat-label">Algorithms</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Textures</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Engine ─────────────────────────────────────────────────────────────────── -->
+<section id="engine" class="section-engine">
+  <div class="engine-header">
+    <div class="section-eyebrow reveal-fade">02 — FM Engine</div>
+    <h2 class="section-title reveal-up">Four operators.<br>One voice.</h2>
+  </div>
+
+  <div class="algo-showcase">
+    <div class="algo-selector reveal-up">
+      <button class="algo-btn active" data-algo="0">Alg 1</button>
+      <button class="algo-btn" data-algo="1">Alg 2</button>
+      <button class="algo-btn" data-algo="2">Alg 3</button>
+      <button class="algo-btn" data-algo="3">Alg 4</button>
+      <button class="algo-btn" data-algo="4">Alg 5</button>
+      <button class="algo-btn" data-algo="5">Alg 6</button>
+      <button class="algo-btn" data-algo="6">Alg 7</button>
+      <button class="algo-btn" data-algo="7">Alg 8</button>
+    </div>
+    <div class="algo-diagram reveal-up">
+      <canvas id="algo-canvas" width="500" height="320"></canvas>
+    </div>
+    <div class="algo-info reveal-fade">
+      <div id="algo-desc" class="algo-desc"></div>
+    </div>
+  </div>
+
+  <div class="waveform-strip reveal-up">
+    <canvas id="wave-canvas"></canvas>
+  </div>
+</section>
+
+<!-- ── Sequencer Demo ────────────────────────────────────────────────────────── -->
+<section id="sequencer-section" class="section-sequencer">
+  <div class="seq-header">
+    <div class="section-eyebrow reveal-fade">03 — Step Sequencer</div>
+    <h2 class="section-title reveal-up">Pattern-based<br>composition engine.</h2>
+    <p class="seq-intro reveal-up">Up to 64 steps. Per-step parameter locks. Four independent tracks with individual MIDI channels — all playing simultaneously.</p>
+  </div>
+
+  <!-- Embedded sequencer app -->
+  <div id="seq-app" class="reveal-up">
+    <!-- Transport -->
+    <div id="seq-transport">
+      <div id="seq-logo">DIGITONE <span>SEQ</span></div>
+      <div class="transport-group">
+        <button id="btn-play" class="transport-btn" title="Play">▶</button>
+        <button id="btn-stop" class="transport-btn active" title="Stop">■</button>
+      </div>
+      <div class="transport-field">
+        <span class="field-label">BPM</span>
+        <input id="bpm" type="number" min="20" max="300" value="120">
+      </div>
+      <div class="transport-field">
+        <span class="field-label">Steps</span>
+        <select id="pat-len">
+          <option value="8">8</option>
+          <option value="16" selected>16</option>
+          <option value="32">32</option>
+          <option value="64">64</option>
+        </select>
+      </div>
+      <div class="transport-field">
+        <span class="field-label">MIDI Out</span>
+        <select id="midi-select">
+          <option value="-1">-- No Output --</option>
+        </select>
+      </div>
+      <div class="transport-field">
+        <span class="field-label">FX CH</span>
+        <input id="fx-channel" type="number" min="1" max="16" value="9">
+      </div>
+      <span id="midi-status"></span>
     </div>
 
-    <div class="header-group">
-      <span class="header-label">BPM</span>
-      <input id="bpm" type="number" min="20" max="300" value="120">
+    <!-- Track lanes -->
+    <section id="tracks"></section>
+
+    <!-- Bottom panel -->
+    <div id="seq-bottom">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="params">Params</button>
+        <button class="tab-btn" data-tab="plocks">P-Locks</button>
+        <button class="tab-btn" data-tab="lfos">LFOs</button>
+        <button class="tab-btn" data-tab="fx">FX / Master</button>
+      </div>
+      <div id="panel-content"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Features ──────────────────────────────────────────────────────────────── -->
+<section id="features" class="section-features">
+  <div class="features-header">
+    <div class="section-eyebrow reveal-fade">04 — Capabilities</div>
+    <h2 class="section-title reveal-up">Every detail,<br>deliberately designed.</h2>
+  </div>
+
+  <div class="features-bento">
+    <div class="bento-card bento-large reveal-up" data-delay="0">
+      <div class="bento-icon">
+        <canvas class="lfo-mini-canvas" width="120" height="60"></canvas>
+      </div>
+      <h3>LFO Engine</h3>
+      <p>Sine, triangle, square, sawtooth, random, and custom breakpoint LFOs — each assignable to any parameter with per-step retrigger.</p>
+      <div class="bento-tag">Modulation</div>
     </div>
 
-    <div class="header-group">
-      <span class="header-label">Steps</span>
-      <select id="pat-len" class="header-sel" style="min-width:80px">
-        <option value="8">8</option>
-        <option value="16" selected>16</option>
-        <option value="32">32</option>
-        <option value="64">64</option>
-      </select>
+    <div class="bento-card reveal-up" data-delay="80">
+      <div class="bento-icon bento-icon-grid">
+        <div class="mini-grid" id="mini-grid-1"></div>
+      </div>
+      <h3>P-Locks</h3>
+      <p>Lock any parameter to any step. Melody, rhythm, and timbre evolve within a single pattern.</p>
+      <div class="bento-tag">Sequencing</div>
     </div>
 
-    <div class="header-group">
-      <span class="header-label">MIDI Out</span>
-      <select id="midi-select" class="header-sel">
-        <option value="-1">-- No Output --</option>
-      </select>
+    <div class="bento-card reveal-up" data-delay="160">
+      <div class="bento-icon">
+        <div class="midi-visual">
+          <div class="midi-port"></div>
+          <div class="midi-signal"></div>
+          <div class="midi-port"></div>
+        </div>
+      </div>
+      <h3>Full MIDI</h3>
+      <p>Web MIDI API integration. Send to any connected hardware — connect your Digitone, Moog, or DAW.</p>
+      <div class="bento-tag">Connectivity</div>
     </div>
 
-    <div class="header-group">
-      <span class="header-label">FX CH</span>
-      <input id="fx-channel" type="number" min="1" max="16" value="9">
+    <div class="bento-card bento-wide reveal-up" data-delay="0">
+      <div class="bento-icon">
+        <div class="algo-mini" id="algo-mini"></div>
+      </div>
+      <h3>Eight Algorithms</h3>
+      <p>From stacked carriers to complex feedback networks — each algorithm opens a different sonic territory. Stack voices, layer operators, modulate the modulators.</p>
+      <div class="bento-tag">FM Synthesis</div>
     </div>
 
-    <span id="midi-status"></span>
-  </header>
-
-  <!-- Track lanes -->
-  <section id="tracks"></section>
-
-  <!-- Bottom panel -->
-  <section id="bottom-panel">
-    <div class="tabs">
-      <button class="tab-btn active" data-tab="params">Params</button>
-      <button class="tab-btn" data-tab="plocks">P-Locks</button>
-      <button class="tab-btn" data-tab="lfos">LFOs</button>
-      <button class="tab-btn" data-tab="fx">FX / Master</button>
+    <div class="bento-card reveal-up" data-delay="80">
+      <div class="bento-icon">
+        <div class="env-shape">
+          <svg viewBox="0 0 100 60" preserveAspectRatio="none">
+            <polyline points="0,55 15,5 30,20 80,20 100,55" fill="none" stroke="var(--accent)" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
+      <h3>Per-Op Envelopes</h3>
+      <p>Attack, decay, sustain, release — independent for each operator. Shape the harmonic character over time.</p>
+      <div class="bento-tag">Envelopes</div>
     </div>
-    <div id="panel-content"></div>
-  </section>
 
-</div>
+    <div class="bento-card reveal-up" data-delay="160">
+      <div class="bento-icon">
+        <div class="fx-rings">
+          <div class="ring r1"></div>
+          <div class="ring r2"></div>
+          <div class="ring r3"></div>
+        </div>
+      </div>
+      <h3>FX Chain</h3>
+      <p>Chorus, delay, reverb, and overdrive on a dedicated master channel. Sculpt the room around your sound.</p>
+      <div class="bento-tag">Effects</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Tracks Showcase ───────────────────────────────────────────────────────── -->
+<section id="tracks-showcase" class="section-tracks-showcase">
+  <div class="ts-header">
+    <div class="section-eyebrow reveal-fade">05 — Tracks</div>
+    <h2 class="section-title reveal-up">Four tracks.<br>Four worlds.</h2>
+  </div>
+  <div class="ts-scroll-wrapper">
+    <div class="ts-track-list">
+      <div class="ts-track reveal-left" style="--tc:#e07020">
+        <div class="ts-track-num">T1</div>
+        <div class="ts-track-body">
+          <h3>Carrier One</h3>
+          <p>The melodic voice. Assign to MIDI channel 1, map keys from your controller, and let the FM engine do the rest.</p>
+          <div class="ts-steps">
+            <div class="ts-step active"></div><div class="ts-step"></div><div class="ts-step active"></div><div class="ts-step active"></div>
+            <div class="ts-step"></div><div class="ts-step active"></div><div class="ts-step"></div><div class="ts-step active"></div>
+          </div>
+        </div>
+      </div>
+      <div class="ts-track reveal-left" style="--tc:#20a0e0">
+        <div class="ts-track-num">T2</div>
+        <div class="ts-track-body">
+          <h3>Harmonic Layer</h3>
+          <p>Pad textures, chord stabs, or evolving drones. Detune operator B by a few cents and watch the beating begin.</p>
+          <div class="ts-steps">
+            <div class="ts-step"></div><div class="ts-step"></div><div class="ts-step active"></div><div class="ts-step"></div>
+            <div class="ts-step active"></div><div class="ts-step"></div><div class="ts-step active"></div><div class="ts-step"></div>
+          </div>
+        </div>
+      </div>
+      <div class="ts-track reveal-left" style="--tc:#30c060">
+        <div class="ts-track-num">T3</div>
+        <div class="ts-track-body">
+          <h3>Rhythmic Pulse</h3>
+          <p>High modulation index, short decay — instant percussion. Bass drums, snares, hi-hats, and more from pure FM.</p>
+          <div class="ts-steps">
+            <div class="ts-step active"></div><div class="ts-step"></div><div class="ts-step"></div><div class="ts-step active"></div>
+            <div class="ts-step active"></div><div class="ts-step"></div><div class="ts-step active"></div><div class="ts-step active"></div>
+          </div>
+        </div>
+      </div>
+      <div class="ts-track reveal-left" style="--tc:#c060e0">
+        <div class="ts-track-num">T4</div>
+        <div class="ts-track-body">
+          <h3>Bass Foundation</h3>
+          <p>Detune operator C to ratio 0.5 for sub frequencies. Add feedback for grit. The underpinning of everything.</p>
+          <div class="ts-steps">
+            <div class="ts-step active"></div><div class="ts-step active"></div><div class="ts-step"></div><div class="ts-step"></div>
+            <div class="ts-step active"></div><div class="ts-step"></div><div class="ts-step active"></div><div class="ts-step"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA / Footer ──────────────────────────────────────────────────────────── -->
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-logo reveal-up">DIGITONE</div>
+    <p class="footer-tagline reveal-up">FM Synthesis. Step Sequencing. Pure sound.</p>
+    <a href="#sequencer-section" class="btn-primary btn-large reveal-up">Open the Sequencer →</a>
+    <div class="footer-meta reveal-fade">
+      <span>Built with Web MIDI API</span>
+      <span>·</span>
+      <span>Inspired by Elektron</span>
+      <span>·</span>
+      <span>Open Source</span>
+    </div>
+  </div>
+</footer>
+
 <script type="module" src="js/app.js"></script>
+<script type="module" src="js/magazine.js"></script>
 </body>
 </html>
