@@ -199,7 +199,16 @@
     }
     .body-text em { font-style: italic; color: var(--text); }
     .body-text strong { font-weight: 600; color: var(--text); }
-    .byline {
+    .img-placeholder {
+      width: 100%; background: var(--panel);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .img-placeholder span {
+      font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+      color: var(--text4);
+    }
+        .byline {
       margin-top: 32px; font-family: var(--mono); font-size: 11px;
       letter-spacing: .04em; color: var(--text4);
     }
@@ -716,7 +725,7 @@
 
 <!-- IMG: Hero full-bleed strip -->
 <figure class="figure-block" style="margin:0">
-  <img src="https://picsum.photos/seed/ac-hero/1400/340?grayscale" alt="Hero image" class="mag-img" style="height:340px">
+  <div class="img-placeholder" style="height:340px" data-w="1400" data-h="340"><span>1400 × 340</span></div>
 </figure>
 
 <!-- ═══════ EDITOR'S NOTE ═══════ -->
@@ -743,7 +752,7 @@
       </div>
       <!-- IMG: Editor portrait or Wolff Olins archival -->
       <figure class="figure-block" style="margin:0">
-        <img src="https://picsum.photos/seed/ac-edit/560/440?grayscale" alt="Editor" class="mag-img" style="height:220px">
+        <div class="img-placeholder" style="height:220px" data-w="560" data-h="440"><span>560 × 440</span></div>
         <figcaption>Image caption — editor / context</figcaption>
       </figure>
     </div>
@@ -829,8 +838,8 @@
   <!-- IMG: Three Births two-up -->
   <figure class="figure-block" style="margin:0">
     <div class="img-two-up">
-      <img src="https://picsum.photos/seed/ac-garage/800/280?grayscale" alt="The Los Altos garage, 1976" class="mag-img" style="height:280px">
-      <img src="https://picsum.photos/seed/ac-doc/800/280?grayscale" alt="Apple partnership document" class="mag-img" style="height:280px">
+      <div class="img-placeholder" style="height:280px" data-w="800" data-h="280"><span>800 × 280</span></div>
+      <div class="img-placeholder" style="height:280px" data-w="800" data-h="280"><span>800 × 280</span></div>
     </div>
     <figcaption style="border-left:none;border-top:1px solid var(--border);padding:8px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted)">Left: The Cupertino garage where Apple was founded. Right: The partnership agreement signed April 1, 1976.</figcaption>
   </figure>
@@ -926,8 +935,8 @@
   <!-- IMG: Jobs chart section two-up (portrait + natal chart wheel) -->
   <div style="padding:0 32px 40px">
     <div class="img-two-up">
-      <img src="https://picsum.photos/seed/ac-chart/800/340?grayscale" alt="Steve Jobs natal chart" class="mag-img" style="height:340px">
-      <img src="https://picsum.photos/seed/ac-jobs/800/340?grayscale" alt="Steve Jobs" class="mag-img" style="height:340px">
+      <div class="img-placeholder" style="height:340px" data-w="800" data-h="340"><span>800 × 340</span></div>
+      <div class="img-placeholder" style="height:340px" data-w="800" data-h="340"><span>800 × 340</span></div>
     </div>
   </div>
 
@@ -1122,9 +1131,9 @@
   </div>
   <figure class="figure-block" style="margin:0 0 0">
     <div class="img-three-up">
-      <img src="https://picsum.photos/seed/ac-india/600/220?grayscale" alt="Kainchi Ashram, Nainital" class="mag-img" style="height:220px">
-      <img src="https://picsum.photos/seed/ac-india2/600/220?grayscale" alt="Jobs in India, 1974" class="mag-img" style="height:220px">
-      <img src="https://picsum.photos/seed/ac-atari/600/220?grayscale" alt="Atari Astrochart, 1975" class="mag-img" style="height:220px">
+      <div class="img-placeholder" style="height:220px" data-w="600" data-h="220"><span>600 × 220</span></div>
+      <div class="img-placeholder" style="height:220px" data-w="600" data-h="220"><span>600 × 220</span></div>
+      <div class="img-placeholder" style="height:220px" data-w="600" data-h="220"><span>600 × 220</span></div>
     </div>
     <figcaption style="border-left:none;border-top:1px solid var(--border);padding:8px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted)">Left: Kainchi Ashram. Center: Jobs in India, 1974. Right: Astrochart, the horoscope program Jobs wrote at Atari in 1975 — the year before Apple.</figcaption>
   </figure>
@@ -1161,7 +1170,7 @@
   </div>
   <!-- IMG: 1984 ad / keynote banner -->
   <figure class="figure-block" style="margin:0">
-    <img src="https://picsum.photos/seed/ac-1984/1400/200?grayscale" alt="1984 advertisement" class="mag-img" style="height:200px">
+    <div class="img-placeholder" style="height:200px" data-w="1400" data-h="200"><span>1400 × 200</span></div>
     <figcaption style="border-left:none;border-top:1px solid var(--border);padding:8px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted)">The "1984" advertisement aired January 22, 1984, two days before the Macintosh launch. Directed by Ridley Scott. Never broadcast again.</figcaption>
   </figure>
 
@@ -1275,7 +1284,7 @@
   </div>
   <div class="store-inner">
     <div class="store-img">
-      <img src="https://picsum.photos/seed/ac-store/900/520?grayscale" alt="Apple Store Fifth Avenue" class="mag-img" style="height:100%;min-height:480px;width:100%">
+      <div class="img-placeholder" style="height:100%" data-w="900" data-h="520"><span>900 × 520</span></div>
       <span class="store-img-label">Fifth Avenue · New York · May 19, 2006</span>
     </div>
     <div class="store-text">
@@ -1312,7 +1321,7 @@
     </p>
     <!-- IMG: Body interface banner -->
     <figure class="figure-block" style="margin:16px 0 0">
-      <img src="https://picsum.photos/seed/ac-watch/1400/180?grayscale" alt="Apple Watch" class="mag-img" style="height:180px">
+      <div class="img-placeholder" style="height:180px" data-w="1400" data-h="180"><span>1400 × 180</span></div>
     </figure>
 
     <div class="body-interface-grid">
@@ -1355,7 +1364,7 @@
 
   <!-- IMG: Jupiter cycle visualization -->
   <figure class="figure-block" style="margin:0">
-    <img src="https://picsum.photos/seed/ac-jupiter/1400/260?grayscale" alt="Jupiter cycle" class="mag-img" style="height:260px">
+    <div class="img-placeholder" style="height:260px" data-w="1400" data-h="260"><span>1400 × 260</span></div>
     <figcaption style="border-left:none;border-top:1px solid var(--border);padding:8px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted)">Jupiter's 12-year orbit mapped against Jobs' natal MC/IC axis. Products launched near IC (bottom of chart) became permanent. Products launched near MC were discontinued.</figcaption>
   </figure>
 
@@ -1483,7 +1492,7 @@
       </p>
       <!-- IMG: Shadow section portrait -->
       <figure class="figure-block" style="margin:24px 0 0">
-        <img src="https://picsum.photos/seed/ac-shadow/800/220?grayscale" alt="Shadow" class="mag-img" style="height:220px">
+        <div class="img-placeholder" style="height:220px" data-w="800" data-h="220"><span>800 × 220</span></div>
         <figcaption>Image caption — shadow / contrast</figcaption>
       </figure>
     </div>
