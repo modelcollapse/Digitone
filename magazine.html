@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Botanist — Rare Specimens</title>
+  <title>Hipstrology — Issue 01: Apple</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap" rel="stylesheet">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -15,829 +15,656 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:        #E5E1D5;
-      --surface:   #FDFBF7;
-      --gold:      #D0AB39;
-      --lime:      #91D93A;
-      --ink:       #161615;
-      --ink-60:    rgba(22,22,21,.6);
-      --muted:     #5A5A58;
-      --border:    #161615;
-      --border-lt: rgba(22,22,21,.12);
-
-      --shadow-card:
-        rgba(0,0,0,.035) 0px 2.8px 2.2px 0,
-        rgba(0,0,0,.047) 0px 6.7px 5.3px 0,
-        rgba(0,0,0,.06)  0px 12.5px 10px 0,
-        rgba(0,0,0,.07)  0px 22.3px 17.9px 0,
-        rgba(0,0,0,.086) 0px 41.8px 33.4px 0,
-        rgba(0,0,0,.12)  0px 100px 80px 0;
-      --shadow-side:
-        rgba(0,0,0,0) 0px 0px 0px 0,
-        rgba(0,0,0,0) 0px 0px 0px 0,
-        rgba(0,0,0,.05) 5px 0px 10px 0;
-      --shadow-inset:
-        rgba(0,0,0,.06) -5px 0px 20px 0px inset;
-
-      --blur: blur(12px);
-      --r-shell: 2px 6px 6px 2px;
-      --r-inner: 1px 5px 5px 1px;
+      --bg:       #ffffff;
+      --surface:  #f5f5f7;
+      --surface2: #fafafa;
+      --panel:    #f0f0f2;
+      --text:     #1d1d1f;
+      --text2:    #424245;
+      --text3:    #6e6e73;
+      --text4:    #86868b;
+      --border:   #d2d2d7;
+      --border-l: #e8e8ed;
+      --accent:   #1d1d1f;
+      --warm:     #8a6a00;
+      --warm-l:   rgba(138,106,0,.12);
+      --white:    #ffffff;
+      --mono:     'SF Mono','Monaco','Menlo','Consolas',monospace;
+      --sans:     -apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif;
     }
 
     html { overflow-x: hidden; }
     body {
       background: var(--bg);
-      color: var(--ink);
-      font-family: 'Manrope', sans-serif;
-      font-weight: 300;
-      font-size: 12px;
-      line-height: 1.8;
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 1.6;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* ── WebGL canvas ── */
-    #webgl {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-    }
+    /* ── WebGL hidden on light theme ── */
+    #webgl { display: none; }
 
-    /* ── Progress bar ── */
+    /* ── Progress ── */
     #progress-bar {
-      position: fixed;
-      top: 0; left: 0;
-      height: 2px;
-      width: 0%;
-      background: linear-gradient(90deg, var(--gold), var(--lime));
+      position: fixed; top: 0; left: 0; height: 2px; width: 0%;
+      background: var(--text);
       z-index: 1000;
-    }
-
-    /* ── Glass shell mixin ── */
-    .glass-shell {
-      background: linear-gradient(to right bottom,
-        rgba(255,255,255,.8),
-        rgba(0,0,0,.05),
-        rgba(0,0,0,.15));
-      padding: 1px;
-      border-radius: var(--r-shell);
-    }
-    .glass-inner {
-      background: rgba(253,251,247,.78);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      border-radius: var(--r-inner);
     }
 
     /* ── NAV ── */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 900;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 24px;
-      transition: background .5s, backdrop-filter .5s, border-color .5s;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px; height: 48px;
       border-bottom: 1px solid transparent;
+      transition: background .4s, border-color .4s, backdrop-filter .4s;
     }
     nav.scrolled {
-      background: rgba(229,225,213,.9);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      border-color: var(--border-lt);
+      background: rgba(255,255,255,.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-color: var(--border-l);
     }
-    .nav-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 14px;
-      font-weight: 300;
-      letter-spacing: .25em;
-      text-transform: uppercase;
-      color: var(--ink);
+    .nav-wordmark {
+      font-family: var(--sans);
+      font-size: 14px; font-weight: 600;
+      letter-spacing: -.01em;
+      color: var(--text);
       text-decoration: none;
     }
-    .nav-logo em { font-style: normal; color: var(--gold); }
-    .nav-links { display: flex; gap: 24px; list-style: none; }
+    .nav-wordmark em { font-style: normal; color: var(--text3); font-weight: 400; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
     .nav-links a {
-      font-size: 11px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color .25s;
+      font-size: 12px; font-weight: 400; letter-spacing: 0;
+      color: var(--text3); text-decoration: none; transition: color .2s;
     }
-    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover { color: var(--text); }
     .nav-issue {
-      font-size: 11px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--ink);
-      text-decoration: none;
-      border: 1px solid var(--border);
-      padding: 5px 12px;
-      transition: all .25s;
+      font-family: var(--mono); font-size: 10px; letter-spacing: .06em;
+      color: var(--text4); border: 1px solid var(--border); padding: 4px 10px;
+      text-decoration: none; transition: all .2s; border-radius: 2px;
     }
-    .nav-issue:hover { background: var(--ink); color: var(--surface); }
+    .nav-issue:hover { border-color: var(--text); color: var(--text); }
 
-    section { position: relative; z-index: 1; }
+    section { position: relative; z-index: 1; background: var(--bg); }
 
-    /* ── HERO ── */
+    /* ════════════════════ HERO ════════════════════ */
     #hero {
       min-height: 100vh;
-      display: grid;
-      grid-template-rows: 1fr auto;
-      padding: 0;
-      overflow: hidden;
-      border-bottom: 1px solid var(--border);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      overflow: hidden; border-bottom: 1px solid var(--border-l);
+      background: var(--bg);
     }
-    .hero-body {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 24px;
-      padding-top: 120px;
-    }
+    .hero-body { padding: 120px 48px 48px; }
     .hero-kicker {
-      font-size: 11px;
-      letter-spacing: .3em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 16px;
-      opacity: 0;
+      font-family: var(--mono); font-size: 11px; letter-spacing: .08em;
+      color: var(--text4); margin-bottom: 20px; opacity: 0;
+      text-transform: none;
     }
-    .hero-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(56px, 10vw, 120px);
-      font-weight: 300;
-      line-height: 1;
-      letter-spacing: -0.025em;
-      text-transform: uppercase;
-      color: var(--ink);
-      margin-bottom: 24px;
+    .hero-masthead {
+      font-family: var(--sans);
+      font-size: clamp(48px, 8vw, 96px);
+      font-weight: 700; line-height: .96;
+      letter-spacing: -0.04em;
+      color: var(--text); margin-bottom: 10px;
     }
-    .hero-title .char { display: inline-block; opacity: 0; }
-    .hero-title .word-gold { color: var(--gold); }
-    .hero-rule {
-      width: 0;
-      height: 1px;
-      background: var(--ink);
-      margin-bottom: 24px;
+    .hero-masthead .char { display: inline-block; opacity: 0; }
+    .hero-masthead .line-2 { color: var(--text3); display: block; font-weight: 300; }
+    .hero-issue-line {
+      font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+      color: var(--text4); margin-bottom: 32px; opacity: 0;
     }
-    .hero-desc {
-      max-width: 520px;
-      font-size: 13px;
-      line-height: 1.9;
-      color: var(--muted);
-      margin-bottom: 32px;
-      opacity: 0;
+    .hero-deck {
+      max-width: 540px; font-size: 17px; line-height: 1.7; font-weight: 300;
+      color: var(--text2); margin-bottom: 36px; opacity: 0;
     }
-    .hero-actions {
-      display: flex;
-      gap: 8px;
-      opacity: 0;
+    .hero-deck em { font-style: italic; color: var(--text); }
+    .hero-cta { display: flex; gap: 12px; opacity: 0; }
+    .btn-primary {
+      background: var(--text); color: #fff;
+      font-family: var(--sans); font-size: 13px; font-weight: 500;
+      letter-spacing: -.01em; text-decoration: none;
+      padding: 11px 22px; border: 1px solid var(--text);
+      border-radius: 980px; transition: all .25s; cursor: pointer;
     }
-    .btn-solid {
-      background: var(--ink);
-      color: var(--surface);
-      font-family: 'Manrope', sans-serif;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      text-decoration: none;
-      padding: 10px 20px;
-      border: 1px solid var(--ink);
-      transition: all .3s;
-      cursor: pointer;
-    }
-    .btn-solid:hover { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+    .btn-primary:hover { background: var(--text3); border-color: var(--text3); }
     .btn-ghost {
-      background: transparent;
-      color: var(--ink);
-      font-family: 'Manrope', sans-serif;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      text-decoration: none;
-      padding: 10px 20px;
-      border: 1px solid var(--border);
-      transition: all .3s;
-      cursor: pointer;
+      background: transparent; color: var(--text);
+      font-family: var(--sans); font-size: 13px; font-weight: 400;
+      letter-spacing: -.01em; text-decoration: none;
+      padding: 11px 22px; border: 1px solid var(--border);
+      border-radius: 980px; transition: all .25s; cursor: pointer;
     }
-    .btn-ghost:hover { background: var(--ink); color: var(--surface); }
+    .btn-ghost:hover { border-color: var(--text); }
+    .hero-bottom {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 48px; border-top: 1px solid var(--border-l); opacity: 0;
+    }
+    .hero-bottom-label {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .04em;
+      color: var(--text4);
+    }
+    .hero-planets {
+      display: flex; gap: 20px;
+      font-family: var(--mono); font-size: 11px; color: var(--text4);
+    }
+    .hero-planets span { color: var(--text2); }
 
-    .hero-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 24px;
-      border-top: 1px solid var(--border-lt);
-      opacity: 0;
+    /* ════════════════════ EDITOR'S NOTE ════════════════════ */
+    #editors-note { background: var(--surface); border-bottom: 1px solid var(--border-l); }
+    .editors-note-inner { display: grid; grid-template-columns: 280px 1fr; }
+    .editors-note-aside {
+      padding: 48px 32px; border-right: 1px solid var(--border-l);
+      display: flex; flex-direction: column; gap: 32px;
     }
-    .hero-footer-label {
-      font-size: 11px;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--muted);
+    .aside-label {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .08em;
+      color: var(--text4); text-transform: uppercase;
     }
-    .hero-scroll {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 11px;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--muted);
+    .aside-meta { display: flex; flex-direction: column; gap: 4px; }
+    .aside-meta-row {
+      display: flex; justify-content: space-between;
+      font-family: var(--mono); font-size: 11px; color: var(--text4);
+      padding: 7px 0; border-bottom: 1px solid var(--border-l);
     }
-    .hero-scroll-line {
-      width: 32px;
-      height: 1px;
-      background: var(--muted);
-      transform-origin: left;
-      animation: lineBreath 2s ease-in-out infinite;
+    .aside-meta-row span { color: var(--text2); }
+    .aside-quote {
+      font-family: 'Cormorant Garamond', serif; font-size: 16px;
+      font-style: italic; color: var(--text2); line-height: 1.55;
     }
-    .hero-specimen-tag {
-      position: absolute;
-      top: 40%;
-      right: 24px;
-      writing-mode: vertical-rl;
-      font-size: 11px;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--muted);
-      opacity: 0;
+    .aside-quote cite {
+      display: block; margin-top: 10px;
+      font-style: normal; font-family: var(--mono);
+      font-size: 10px; letter-spacing: .06em; color: var(--text4);
+    }
+    .editors-note-body { padding: 48px 56px 48px 48px; background: var(--bg); }
+    .editors-note-heading {
+      font-family: var(--sans);
+      font-size: clamp(24px, 3.5vw, 42px); font-weight: 700;
+      line-height: 1.06; letter-spacing: -.03em;
+      color: var(--text); margin-bottom: 28px;
+    }
+    .editors-note-heading em { font-style: italic; color: var(--text3); font-weight: 300; }
+    .editors-note-subhead {
+      font-size: 13px; font-weight: 400; color: var(--text3);
+      letter-spacing: .02em; margin-bottom: 28px; margin-top: -16px;
+      font-style: italic;
+    }
+    .body-text {
+      font-size: 15px; color: var(--text2); line-height: 1.8; margin-bottom: 18px; font-weight: 400;
+    }
+    .body-text em { font-style: italic; color: var(--text); }
+    .body-text strong { font-weight: 600; color: var(--text); }
+    .byline {
+      margin-top: 32px; font-family: var(--mono); font-size: 11px;
+      letter-spacing: .04em; color: var(--text4);
+    }
+    .byline em { color: var(--text2); font-style: normal; }
+
+    /* ════════════════════ SECTION BAND ════════════════════ */
+    .section-band {
+      display: flex; align-items: center; gap: 16px;
+      padding: 12px 48px; border-bottom: 1px solid var(--border-l);
+      background: var(--surface);
+    }
+    .section-band-num {
+      font-family: var(--mono); font-size: 10px; color: var(--text4); min-width: 28px;
+    }
+    .section-band-title {
+      font-size: 11px; letter-spacing: .04em; color: var(--text4); flex: 1;
+      font-family: var(--mono);
+    }
+    .section-band-rule { flex: 1; height: 1px; background: var(--border-l); }
+    .section-band-tag {
+      font-family: var(--mono); font-size: 10px; color: var(--text4);
+      border: 1px solid var(--border); padding: 3px 8px; border-radius: 2px;
     }
 
-    /* ── Divider ── */
-    .full-divider {
-      height: 1px;
-      background: var(--border-lt);
-      width: 100%;
+    /* ════════════════════ THREE BIRTHS ════════════════════ */
+    #three-births { background: var(--bg); }
+    .births-intro { padding: 72px 48px 56px; max-width: 800px; }
+    .feature-heading {
+      font-family: var(--sans);
+      font-size: clamp(28px, 4.5vw, 56px); font-weight: 700;
+      line-height: 1.04; letter-spacing: -0.03em;
+      color: var(--text); margin-bottom: 20px;
     }
-
-    /* ── Section header ── */
-    .section-header {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      align-items: center;
-      gap: 16px;
-      padding: 16px 24px;
-      border-bottom: 1px solid var(--border-lt);
+    .feature-heading em { font-style: italic; color: var(--text3); font-weight: 300; }
+    .feature-intro { font-size: 17px; color: var(--text3); line-height: 1.7; max-width: 640px; font-weight: 400; }
+    .births-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--border-l);
     }
-    .section-kicker {
-      font-size: 11px;
-      letter-spacing: .25em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .section-rule { height: 1px; background: var(--border-lt); }
-    .section-count { font-size: 11px; color: var(--muted); letter-spacing: .08em; }
-
-    /* ── TOC ── */
-    #toc { background: var(--surface); border-bottom: 1px solid var(--border); }
-    .toc-grid {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-    }
-    .toc-left {
-      padding: 34px 24px;
-      border-right: 1px solid var(--border-lt);
-    }
-    .toc-label { font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
-    .toc-heading {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(28px, 4vw, 48px);
-      font-weight: 300;
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
-    }
-    .toc-heading em { font-style: italic; color: var(--gold); text-transform: none; }
-    .toc-issue-tag {
-      display: inline-block;
-      margin-top: 24px;
-      font-size: 11px;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--muted);
-      border: 1px solid var(--border-lt);
-      padding: 5px 10px;
-    }
-    .toc-right { padding: 0; }
-    .toc-item {
-      display: grid;
-      grid-template-columns: 40px 1fr auto;
-      align-items: center;
-      gap: 16px;
-      padding: 20px 24px;
-      border-bottom: 1px solid var(--border-lt);
-      text-decoration: none;
-      color: inherit;
-      transition: background .2s;
-    }
-    .toc-item:hover { background: rgba(208,171,57,.06); }
-    .toc-item:hover .toc-arrow { opacity: 1; transform: translateX(4px); }
-    .toc-num { font-size: 11px; letter-spacing: .1em; color: var(--gold); }
-    .toc-title-wrap {}
-    .toc-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 18px;
-      font-weight: 400;
-      display: block;
-      margin-bottom: 2px;
-    }
-    .toc-sub { font-size: 11px; color: var(--muted); }
-    .toc-meta { display: flex; align-items: center; gap: 8px; }
-    .toc-tag {
-      font-size: 10px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      border: 1px solid var(--border-lt);
-      padding: 3px 7px;
-    }
-    .toc-arrow { color: var(--ink); opacity: 0; transition: all .25s; font-size: 14px; }
-
-    /* ── Stats ── */
-    #stats {
-      background: var(--ink);
-      color: var(--surface);
-      border-bottom: 1px solid rgba(255,255,255,.1);
-    }
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4,1fr);
-    }
-    .stat-item {
-      padding: 40px 24px;
-      border-right: 1px solid rgba(255,255,255,.08);
-    }
-    .stat-item:last-child { border-right: none; }
-    .stat-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(36px, 5vw, 64px);
-      font-weight: 300;
-      line-height: 1;
-      color: var(--gold);
-      display: block;
-      margin-bottom: 8px;
-    }
-    .stat-label { font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: rgba(253,251,247,.5); }
-
-    /* ── Features ── */
-    #features { background: var(--bg); }
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
-      border-top: 1px solid var(--border-lt);
-    }
-    .feat-card {
-      padding: 24px;
-      border-right: 1px solid var(--border-lt);
-      border-bottom: 1px solid var(--border-lt);
-      position: relative;
-      overflow: hidden;
+    .birth-card {
+      padding: 40px 40px; border-right: 1px solid var(--border-l);
+      position: relative; overflow: hidden; background: var(--bg);
       transition: background .3s;
-      cursor: pointer;
     }
-    .feat-card:nth-child(3n) { border-right: none; }
-    .feat-card:hover { background: rgba(208,171,57,.05); }
-    .feat-card::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--gold), var(--lime));
-      transform: scaleX(0);
-      transform-origin: left;
+    .birth-card:last-child { border-right: none; }
+    .birth-card:hover { background: var(--surface2); }
+    .birth-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--text); transform: scaleX(0); transform-origin: left;
       transition: transform .5s cubic-bezier(.2,.8,.2,1);
     }
-    .feat-card:hover::after { transform: scaleX(1); }
-    .feat-specimen-id {
-      font-size: 10px;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .birth-card:hover::before { transform: scaleX(1); }
+    .birth-sign { font-size: 2rem; display: block; margin-bottom: 16px; opacity: .35; }
+    .birth-date {
+      font-family: var(--mono); font-size: 11px; letter-spacing: .04em;
+      color: var(--text4); margin-bottom: 10px;
     }
-    .feat-specimen-id::before {
-      content: '';
-      display: inline-block;
-      width: 20px;
-      height: 1px;
-      background: var(--gold);
+    .birth-heading {
+      font-family: var(--sans); font-size: 20px; font-weight: 600;
+      color: var(--text); line-height: 1.2; margin-bottom: 8px; letter-spacing: -.02em;
     }
-    .feat-img {
-      aspect-ratio: 16/9;
-      background: rgba(22,22,21,.06);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      position: relative;
-      border: 1px solid var(--border-lt);
+    .birth-sub {
+      font-size: 12px; letter-spacing: .04em;
+      color: var(--text4); margin-bottom: 16px; font-weight: 400;
     }
-    .feat-img-glyph { font-size: 3rem; opacity: .3; }
-    .feat-img-tag {
-      position: absolute;
-      bottom: 8px; left: 8px;
-      font-size: 10px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--surface);
-      background: var(--ink);
-      padding: 3px 7px;
-    }
-    .feat-heading {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 20px;
-      font-weight: 400;
-      line-height: 1.2;
-      margin-bottom: 8px;
-    }
-    .feat-heading em { font-style: italic; color: var(--gold); }
-    .feat-body { font-size: 12px; color: var(--muted); line-height: 1.8; }
+    .birth-body { font-size: 13px; color: var(--text3); line-height: 1.75; }
 
-    /* ── Pull quote ── */
-    .pullquote-section {
-      padding: 80px 24px;
+    /* ─── Chart panel ─── */
+    .chart-panel {
+      margin: 0 48px 56px; border: 1px solid var(--border-l);
       background: var(--surface);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+    }
+    .chart-panel-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 20px; border-bottom: 1px solid var(--border-l);
+      background: var(--surface);
+    }
+    .chart-panel-title {
+      font-family: var(--mono); font-size: 11px; letter-spacing: .04em;
+      color: var(--text); font-weight: 500;
+    }
+    .chart-panel-sub { font-family: var(--mono); font-size: 10px; color: var(--text4); }
+    .chart-rows { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .chart-row {
+      padding: 12px 16px; border-right: 1px solid var(--border-l);
+      border-bottom: 1px solid var(--border-l); background: var(--bg);
+    }
+    .chart-row:nth-child(4n) { border-right: none; }
+    .chart-planet {
+      font-family: var(--mono); font-size: 9px; letter-spacing: .06em;
+      color: var(--text4); margin-bottom: 4px;
+    }
+    .chart-position { font-family: var(--mono); font-size: 13px; color: var(--text); font-weight: 500; }
+    .chart-sign { font-size: 11px; color: var(--text3); margin-left: 5px; font-weight: 400; }
+
+    /* ════════════════════ PULL QUOTE ════════════════════ */
+    .pullquote-band {
+      padding: 80px 48px; background: var(--surface);
+      border-top: 1px solid var(--border-l); border-bottom: 1px solid var(--border-l);
       overflow: hidden;
     }
-    .pullquote-inner { max-width: 860px; margin: 0 auto; position: relative; }
-    .pullquote-rule {
-      width: 40px;
-      height: 2px;
-      background: var(--gold);
-      margin-bottom: 32px;
-    }
+    .pullquote-inner { max-width: 800px; margin: 0 auto; position: relative; }
+    .pq-rule { width: 0; height: 2px; background: var(--text); margin-bottom: 32px; }
     blockquote {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(22px, 3.5vw, 40px);
-      font-style: italic;
-      font-weight: 300;
-      line-height: 1.35;
-      color: var(--ink);
-      margin-bottom: 24px;
+      font-family: var(--sans);
+      font-size: clamp(20px, 2.8vw, 34px); font-style: normal; font-weight: 300;
+      color: var(--text); line-height: 1.35; margin-bottom: 20px; letter-spacing: -.02em;
     }
     .quote-word { display: inline-block; }
     cite {
-      font-style: normal;
-      font-size: 11px;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      color: var(--muted);
+      font-style: normal; font-family: var(--mono);
+      font-size: 10px; letter-spacing: .06em; color: var(--text4);
     }
-    .pullquote-bg-num {
-      position: absolute;
-      top: -20px; right: 0;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 200px;
-      font-weight: 300;
-      color: var(--ink);
-      opacity: .03;
-      line-height: 1;
-      pointer-events: none;
-      user-select: none;
+    .pq-bg {
+      position: absolute; top: -30px; right: -10px;
+      font-family: var(--sans); font-size: 220px; font-weight: 700;
+      color: var(--text); opacity: .025; line-height: 1; pointer-events: none; user-select: none;
     }
 
-    /* ── Articles ── */
-    .article-section {
-      border-bottom: 1px solid var(--border-lt);
-      overflow: hidden;
+    /* ════════════════════ FOUNDERS ════════════════════ */
+    #founders { background: var(--surface); }
+    .founders-intro { padding: 72px 48px 0; max-width: 760px; }
+    .founders-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      border-top: 1px solid var(--border-l); margin-top: 48px;
     }
-    .article-inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+    .founder-card {
+      padding: 44px 44px; border-right: 1px solid var(--border-l);
+      border-bottom: 1px solid var(--border-l); position: relative;
+      background: var(--bg); transition: background .25s;
     }
-    .article-inner.reverse { direction: rtl; }
-    .article-inner.reverse > * { direction: ltr; }
-    .article-img-col {
-      border-right: 1px solid var(--border-lt);
-      background: rgba(22,22,21,.04);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 520px;
-      position: relative;
-      overflow: hidden;
+    .founder-card:nth-child(2n) { border-right: none; }
+    .founder-card:hover { background: var(--surface2); }
+    .founder-arcana {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .06em;
+      color: var(--text4); margin-bottom: 6px;
     }
-    .article-inner.reverse .article-img-col { border-right: none; border-left: 1px solid var(--border-lt); }
-    .article-img-glyph { font-size: 6rem; opacity: .12; }
-    .article-img-label {
-      position: absolute;
-      bottom: 16px; left: 16px;
-      font-size: 10px;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--muted);
-      border: 1px solid var(--border-lt);
-      padding: 4px 8px;
-      background: rgba(253,251,247,.7);
-      backdrop-filter: var(--blur);
+    .founder-name {
+      font-family: var(--sans); font-size: 32px; font-weight: 700;
+      letter-spacing: -0.03em; color: var(--text);
+      margin-bottom: 4px; line-height: 1;
     }
-    .article-img-number {
-      position: absolute;
-      top: 16px; right: 16px;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 80px;
-      font-weight: 300;
-      color: var(--ink);
-      opacity: .05;
-      line-height: 1;
+    .founder-sign {
+      font-family: var(--mono); font-size: 11px; color: var(--text4);
+      letter-spacing: .04em; margin-bottom: 20px; display: block;
     }
-    .article-text-col {
-      padding: 48px 40px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+    .founder-rule { width: 32px; height: 1px; background: var(--border); margin-bottom: 18px; }
+    .founder-body { font-size: 13px; color: var(--text3); line-height: 1.8; }
+    .founder-body strong { color: var(--text); font-weight: 600; }
+    .founder-body em { font-style: italic; color: var(--text2); }
+    .founder-glyph {
+      position: absolute; top: 32px; right: 32px;
+      font-size: 2.4rem; opacity: .05; pointer-events: none;
     }
-    .article-kicker {
-      font-size: 10px;
-      letter-spacing: .28em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .article-kicker::before {
-      content: '';
-      width: 16px;
-      height: 1px;
-      background: var(--gold);
-    }
-    .article-heading {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(24px, 3vw, 42px);
-      font-weight: 300;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
-      color: var(--ink);
-      margin-bottom: 20px;
-    }
-    .article-heading em { font-style: italic; color: var(--gold); text-transform: none; }
-    .article-body { font-size: 12px; color: var(--muted); line-height: 1.9; margin-bottom: 16px; }
-    .article-taxonomic {
-      display: inline-block;
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: 13px;
-      color: var(--muted);
-      border-left: 2px solid var(--gold);
-      padding-left: 12px;
-      margin-bottom: 20px;
-    }
-    .read-more {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 11px;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--ink);
-      text-decoration: none;
-      transition: gap .25s;
-    }
-    .read-more::after {
-      content: '→';
-      transition: transform .25s;
-    }
-    .read-more:hover { gap: 12px; }
-    .read-more:hover::after { transform: translateX(4px); }
 
-    /* ── Specimen catalog ── */
-    #catalog { background: var(--surface); }
-    .catalog-grid {
-      display: grid;
-      grid-template-columns: repeat(6,1fr);
-      border-top: 1px solid var(--border-lt);
+    /* ════════════════════ PRODUCT RITUALS ════════════════════ */
+    #product-rituals { background: var(--bg); }
+    .rituals-intro { padding: 72px 48px 0; max-width: 760px; }
+    .rituals-timeline { margin-top: 48px; }
+    .ritual-item {
+      display: grid; grid-template-columns: 180px 1px 1fr;
+      gap: 0 40px; border-bottom: 1px solid var(--border-l);
+      padding: 0 48px; align-items: stretch;
     }
-    .catalog-card {
-      padding: 20px 16px;
-      border-right: 1px solid var(--border-lt);
-      border-bottom: 1px solid var(--border-lt);
-      transition: background .25s;
-      cursor: default;
+    .ritual-date-col {
+      padding: 32px 0; display: flex; flex-direction: column; justify-content: flex-start;
     }
-    .catalog-card:hover { background: rgba(208,171,57,.06); }
-    .catalog-glyph { font-size: 1.6rem; display: block; margin-bottom: 8px; opacity: .6; }
-    .catalog-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 13px;
-      font-weight: 400;
-      display: block;
-      margin-bottom: 2px;
+    .ritual-date {
+      font-family: var(--mono); font-size: 11px; letter-spacing: .04em;
+      color: var(--text4); margin-bottom: 4px;
     }
-    .catalog-latin { font-size: 10px; color: var(--muted); font-style: italic; }
-    .catalog-status {
-      display: inline-block;
-      margin-top: 6px;
-      font-size: 10px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      padding: 2px 5px;
-      border: 1px solid;
+    .ritual-sign-line { font-family: var(--mono); font-size: 12px; color: var(--text3); }
+    .ritual-line { width: 1px; background: var(--border-l); position: relative; }
+    .ritual-line::before {
+      content: ''; position: absolute; top: 34px; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 7px; height: 7px; border-radius: 50%;
+      border: 1.5px solid var(--text4); background: var(--bg);
     }
-    .status-cr { color: #c0392b; border-color: #c0392b; }
-    .status-en { color: #e67e22; border-color: #e67e22; }
-    .status-vu { color: var(--gold); border-color: var(--gold); }
-    .status-lc { color: var(--lime); border-color: #6ab52e; }
+    .ritual-content { padding: 32px 0; }
+    .ritual-product {
+      font-family: var(--sans); font-size: 22px; font-weight: 600;
+      color: var(--text); margin-bottom: 4px; line-height: 1.15; letter-spacing: -.02em;
+    }
+    .ritual-product em { font-style: italic; color: var(--text3); font-weight: 300; }
+    .ritual-tagline {
+      font-size: 12px; color: var(--text4); margin-bottom: 12px; font-weight: 400;
+    }
+    .ritual-body { font-size: 14px; color: var(--text3); line-height: 1.75; max-width: 560px; }
 
-    /* ── Glass cards (cultivation notes) ── */
-    #cultivation { background: var(--bg); padding: 64px 24px; }
-    .cultivation-inner { max-width: 1200px; margin: 0 auto; }
-    .cultivation-heading {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(28px, 4vw, 52px);
-      font-weight: 300;
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
-      margin-bottom: 40px;
+    /* ════════════════════ STORE AS TEMPLE ════════════════════ */
+    #store-temple {
+      background: var(--surface); border-top: 1px solid var(--border-l);
+      border-bottom: 1px solid var(--border-l);
     }
-    .cultivation-heading em { font-style: italic; color: var(--gold); text-transform: none; }
-    .cult-grid {
-      display: grid;
-      grid-template-columns: repeat(5,1fr);
-      gap: 4px;
+    .store-inner { display: grid; grid-template-columns: 1fr 1fr; }
+    .store-img {
+      background: var(--panel); display: flex; align-items: center; justify-content: center;
+      min-height: 480px; position: relative; overflow: hidden;
+      border-right: 1px solid var(--border-l);
     }
-    .cult-shell {
-      background: linear-gradient(to right bottom,
-        rgba(255,255,255,.8),
-        rgba(0,0,0,.05),
-        rgba(0,0,0,.15));
-      padding: 1px;
-      border-radius: var(--r-shell);
-      box-shadow: var(--shadow-card);
-      cursor: pointer;
-      transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s;
+    .store-glyph { font-size: 6rem; opacity: .06; }
+    .store-img-label {
+      position: absolute; bottom: 20px; left: 20px;
+      font-family: var(--mono); font-size: 10px; letter-spacing: .06em;
+      color: var(--text4); border: 1px solid var(--border); padding: 5px 10px;
+      background: rgba(255,255,255,.85); backdrop-filter: blur(8px);
     }
-    .cult-shell:hover {
-      transform: translateY(-6px);
-      box-shadow: var(--shadow-card), 0 20px 40px rgba(208,171,57,.15);
+    .store-text { padding: 56px 56px; display: flex; flex-direction: column; justify-content: center; background: var(--bg); }
+    .store-kicker {
+      font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+      color: var(--text4); margin-bottom: 16px;
     }
-    .cult-inner {
-      background: rgba(253,251,247,.85);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      border-radius: var(--r-inner);
-      padding: 24px 16px 20px;
-      text-align: center;
+    .store-heading {
+      font-family: var(--sans); font-size: clamp(24px, 3.2vw, 40px); font-weight: 700;
+      line-height: 1.08; letter-spacing: -0.03em; color: var(--text); margin-bottom: 20px;
     }
-    .cult-num {
-      font-size: 10px;
-      letter-spacing: .2em;
-      color: var(--gold);
-      margin-bottom: 12px;
-    }
-    .cult-glyph { font-size: 2.4rem; display: block; margin-bottom: 12px; }
-    .cult-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 15px;
-      font-weight: 400;
-      display: block;
-      margin-bottom: 4px;
-    }
-    .cult-desc { font-size: 11px; color: var(--muted); line-height: 1.6; }
+    .store-heading em { font-style: italic; color: var(--text3); font-weight: 300; }
 
-    /* ── Newsletter ── */
-    #newsletter {
-      background: var(--ink);
-      color: var(--surface);
-      padding: 80px 24px;
-      text-align: center;
-      border-top: 1px solid rgba(255,255,255,.08);
+    /* ════════════════════ BODY BECOMES INTERFACE ════════════════════ */
+    #body-interface { background: var(--bg); }
+    .body-interface-inner { padding: 72px 48px; }
+    .body-interface-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: var(--border-l);
+      border: 1px solid var(--border-l); margin-top: 40px;
     }
-    .newsletter-inner { max-width: 560px; margin: 0 auto; }
-    .newsletter-kicker {
-      font-size: 11px;
-      letter-spacing: .28em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 20px;
+    .interface-card { background: var(--bg); padding: 36px; transition: background .25s; }
+    .interface-card:hover { background: var(--surface2); }
+    .interface-icon { font-size: 1.6rem; margin-bottom: 12px; display: block; opacity: .4; }
+    .interface-date {
+      font-family: var(--mono); font-size: 11px; letter-spacing: .04em;
+      color: var(--text4); margin-bottom: 8px;
     }
-    .newsletter-heading {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(28px, 4vw, 48px);
-      font-weight: 300;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
-      margin-bottom: 12px;
+    .interface-heading {
+      font-family: var(--sans); font-size: 20px; font-weight: 600;
+      color: var(--text); margin-bottom: 12px; letter-spacing: -.02em;
     }
-    .newsletter-heading em { font-style: italic; color: var(--gold); text-transform: none; }
-    .newsletter-sub { font-size: 12px; color: rgba(253,251,247,.5); margin-bottom: 32px; line-height: 1.8; }
-    .newsletter-form { display: flex; }
-    .newsletter-input {
-      flex: 1;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.15);
-      border-right: none;
-      color: var(--surface);
-      padding: 12px 16px;
-      font-family: 'Manrope', sans-serif;
-      font-size: 12px;
-      outline: none;
-      transition: border-color .25s;
-    }
-    .newsletter-input:focus { border-color: var(--gold); }
-    .newsletter-input::placeholder { color: rgba(253,251,247,.3); }
-    .newsletter-btn {
-      background: var(--gold);
-      color: var(--ink);
-      border: 1px solid var(--gold);
-      padding: 12px 20px;
-      font-family: 'Manrope', sans-serif;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all .25s;
-      white-space: nowrap;
-    }
-    .newsletter-btn:hover { background: var(--lime); border-color: var(--lime); }
+    .interface-body { font-size: 13px; color: var(--text3); line-height: 1.75; }
 
-    /* ── Footer ── */
-    footer {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      padding: 40px 24px 24px;
+    /* ════════════════════ APPLE SHADOW ════════════════════ */
+    #apple-shadow { background: var(--surface); border-top: 1px solid var(--border-l); }
+    .shadow-inner { display: grid; grid-template-columns: 1fr 1fr; }
+    .shadow-left { padding: 64px 56px 64px 48px; border-right: 1px solid var(--border-l); background: var(--bg); }
+    .shadow-right { padding: 64px 48px 64px 56px; background: var(--surface); }
+    .shadow-heading {
+      font-family: var(--sans); font-size: clamp(26px, 3.5vw, 44px); font-weight: 700;
+      line-height: 1.06; letter-spacing: -0.03em; color: var(--text); margin-bottom: 24px;
     }
+    .shadow-heading em { font-style: italic; color: var(--text3); font-weight: 300; }
+
+    /* ════════════════════ SYMBOLIC TIMELINE ════════════════════ */
+    #timeline { background: var(--bg); border-top: 1px solid var(--border-l); }
+    .timeline-intro { padding: 56px 48px 0; }
+    .timeline-table { width: 100%; border-collapse: collapse; margin-top: 32px; }
+    .timeline-table th {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .06em;
+      color: var(--text4); padding: 10px 16px;
+      border-bottom: 1px solid var(--border-l); text-align: left; background: var(--surface);
+    }
+    .timeline-table td {
+      font-size: 13px; padding: 12px 16px;
+      border-bottom: 1px solid var(--border-l); color: var(--text2); vertical-align: top;
+    }
+    .timeline-table tr:hover td { background: var(--surface2); }
+    .td-date { font-family: var(--mono); font-size: 11px; color: var(--text4); white-space: nowrap; }
+    .td-event { color: var(--text); font-size: 13px; font-weight: 500; }
+    .td-sign { font-family: var(--mono); font-size: 11px; color: var(--text3); }
+    .td-note { font-size: 12px; color: var(--text4); }
+
+    /* ════════════════════ REFERENCES ════════════════════ */
+    #references { background: var(--surface); border-top: 1px solid var(--border-l); padding: 56px 48px; }
+    .ref-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 32px; }
+    .ref-group-title {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .06em;
+      color: var(--text4); margin-bottom: 16px;
+      padding-bottom: 8px; border-bottom: 1px solid var(--border-l);
+    }
+    .ref-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .ref-list li { font-size: 12px; color: var(--text3); line-height: 1.6; }
+    .ref-list a { color: var(--text2); text-decoration: none; transition: color .2s; }
+    .ref-list a:hover { color: var(--text); }
+
+    /* ════════════════════ NEWSLETTER ════════════════════ */
+    #newsletter { background: var(--text); padding: 88px 32px; text-align: center; }
+    .nl-inner { max-width: 500px; margin: 0 auto; }
+    .nl-kicker {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .06em;
+      color: rgba(255,255,255,.45); margin-bottom: 20px;
+    }
+    .nl-heading {
+      font-family: var(--sans); font-size: clamp(24px, 3.5vw, 40px); font-weight: 700;
+      line-height: 1.06; letter-spacing: -.03em; color: #fff; margin-bottom: 12px;
+    }
+    .nl-heading em { font-style: italic; color: rgba(255,255,255,.55); font-weight: 300; }
+    .nl-sub { font-size: 15px; color: rgba(255,255,255,.55); margin-bottom: 32px; line-height: 1.7; font-weight: 300; }
+    .nl-form { display: flex; }
+    .nl-input {
+      flex: 1; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+      border-right: none; color: #fff; padding: 13px 18px;
+      font-family: var(--sans); font-size: 14px; outline: none;
+      transition: border-color .2s; border-radius: 980px 0 0 980px;
+    }
+    .nl-input:focus { border-color: rgba(255,255,255,.5); }
+    .nl-input::placeholder { color: rgba(255,255,255,.3); }
+    .nl-btn {
+      background: #fff; color: var(--text); border: 1px solid #fff;
+      padding: 13px 22px; font-family: var(--sans); font-size: 13px;
+      font-weight: 600; letter-spacing: -.01em;
+      cursor: pointer; transition: all .2s; white-space: nowrap;
+      border-radius: 0 980px 980px 0;
+    }
+    .nl-btn:hover { background: rgba(255,255,255,.85); }
+
+    /* ════════════════════ FOOTER ════════════════════ */
+    footer { background: var(--surface); border-top: 1px solid var(--border-l); padding: 48px 48px 28px; }
     .footer-top {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 40px;
-      padding-bottom: 32px;
-      border-bottom: 1px solid var(--border-lt);
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px; padding-bottom: 32px; border-bottom: 1px solid var(--border-l);
     }
-    .footer-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 20px;
-      font-weight: 300;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      margin-bottom: 8px;
+    .footer-wordmark {
+      font-family: var(--sans); font-size: 16px; font-weight: 700;
+      letter-spacing: -.02em; color: var(--text); margin-bottom: 8px;
     }
-    .footer-logo em { font-style: normal; color: var(--gold); }
-    .footer-tagline { font-size: 11px; color: var(--muted); line-height: 1.8; max-width: 260px; }
-    .footer-col-title { font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+    .footer-wordmark em { color: var(--text3); font-style: normal; font-weight: 300; }
+    .footer-tagline { font-size: 12px; color: var(--text4); line-height: 1.7; max-width: 260px; }
+    .footer-col-title {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .06em;
+      color: var(--text4); margin-bottom: 14px;
+    }
     .footer-col ul { list-style: none; }
     .footer-col li { margin-bottom: 8px; }
-    .footer-col a { font-size: 12px; color: var(--muted); text-decoration: none; transition: color .2s; }
-    .footer-col a:hover { color: var(--ink); }
+    .footer-col a { font-size: 12px; color: var(--text3); text-decoration: none; transition: color .2s; }
+    .footer-col a:hover { color: var(--text); }
     .footer-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 20px;
-      font-size: 11px;
-      color: var(--muted);
-    }
-    .footer-socials { display: flex; gap: 16px; }
-    .footer-socials a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color .2s; }
-    .footer-socials a:hover { color: var(--ink); }
-
-    @keyframes lineBreath {
-      0%,100% { transform: scaleX(1); opacity: .6; }
-      50% { transform: scaleX(1.3); opacity: 1; }
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 20px; font-size: 11px; color: var(--muted);
+      font-family: var(--mono);
     }
 
+    /* ════════════════════ IMAGES ════════════════════ */
+    .mag-img {
+      width: 100%; display: block; object-fit: cover;
+      background: var(--panel);
+    }
+    .figure-block { margin: 0; }
+    .figure-block figcaption {
+      font-family: var(--mono); font-size: 10px; letter-spacing: .04em;
+      color: var(--text4); padding: 10px 16px;
+      border-top: 1px solid var(--border-l);
+      background: var(--surface);
+    }
+    .img-two-up { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border-l); }
+    .img-three-up { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-l); }
+
+    @media (max-width: 768px) {
+      .img-two-up { grid-template-columns: 1fr; }
+      .img-three-up { grid-template-columns: 1fr; }
+    }
+
+    /* ── Births Formula ── */
+    .births-formula {
+      padding: 18px 48px; border-top: 1px solid var(--border-l);
+      background: var(--surface); display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+      font-family: var(--mono); font-size: 11px; letter-spacing: .04em; color: var(--text4);
+    }
+    .births-formula span:not(.formula-dot) { color: var(--text2); }
+    .formula-dot { color: var(--border); }
+
+    /* ── Jobs Chart Extended ── */
+    .chart-panel-wide { margin: 0 48px 56px; border: 1px solid var(--border-l); background: var(--surface); }
+    .chart-panel-wide .chart-panel-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid var(--border-l); }
+    .chart-rows-5 { display: grid; grid-template-columns: repeat(5, 1fr); }
+    .chart-rows-5 .chart-row:nth-child(5n) { border-right: none; }
+    .chart-panel-section { padding: 16px 20px; border-top: 1px solid var(--border-l); }
+    .chart-panel-section-title { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; color: var(--text4); margin-bottom: 12px; }
+    .grand-cross-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border-l); }
+    .grand-cross-cell { background: var(--bg); padding: 16px 18px; }
+    .gc-arm { font-family: var(--mono); font-size: 10px; color: var(--text4); margin-bottom: 6px; }
+    .gc-expr { font-size: 13px; color: var(--text3); line-height: 1.6; }
+    .gc-expr strong { color: var(--text); font-weight: 600; }
+    .dasha-table { width: 100%; border-collapse: collapse; }
+    .dasha-table td { font-size: 13px; padding: 10px 14px; border-bottom: 1px solid var(--border-l); color: var(--text2); }
+    .dasha-table td:first-child { font-family: var(--mono); font-size: 11px; color: var(--text4); white-space: nowrap; }
+    .dasha-table td:last-child { color: var(--text3); font-size: 12px; }
+    .vedic-table { width: 100%; border-collapse: collapse; }
+    .vedic-table td { font-size: 13px; padding: 10px 14px; border-bottom: 1px solid var(--border-l); color: var(--text2); }
+    .vedic-table td:first-child { font-family: var(--mono); font-size: 11px; color: var(--text4); }
+
+    /* ── Feature section generic ── */
+    #spiritual-arch, #product-rituals, #corporate-chart { background: var(--bg); }
+    #jupiter-cycle { background: var(--surface); }
+    #jobs-chart { background: var(--surface); }
+    .sub-feature { padding: 0 48px 56px; }
+    .sub-feature-heading {
+      font-family: var(--sans); font-size: clamp(18px, 2.2vw, 26px); font-weight: 700;
+      letter-spacing: -0.025em; color: var(--text);
+      margin: 44px 0 12px; line-height: 1.1;
+    }
+    .sub-feature-heading em { font-style: italic; color: var(--text3); font-weight: 300; }
+    .sub-feature-kicker { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; color: var(--text4); margin-bottom: 6px; }
+    .data-chip {
+      display: inline-block; font-family: var(--mono); font-size: 11px;
+      padding: 4px 10px; border: 1px solid var(--border-l); color: var(--text3);
+      margin: 0 4px 4px 0; border-radius: 2px; background: var(--surface);
+    }
+    .jup-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    .jup-table th { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; color: var(--text4); padding: 10px 14px; border-bottom: 1px solid var(--border-l); text-align: left; background: var(--surface); }
+    .jup-table td { font-size: 13px; padding: 10px 14px; border-bottom: 1px solid var(--border-l); color: var(--text2); vertical-align: top; }
+    .jup-table tr:hover td { background: var(--surface2); }
+    .jup-table .td-highlight { color: var(--text); font-weight: 600; }
+    .tarot-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border-l); margin-top: 20px; }
+    .tarot-cell { background: var(--bg); padding: 18px 16px; transition: background .2s; }
+    .tarot-cell:hover { background: var(--surface2); }
+    .tarot-card-name { font-family: var(--mono); font-size: 10px; color: var(--text4); margin-bottom: 7px; letter-spacing: .04em; }
+    .tarot-card-body { font-size: 12px; color: var(--text3); line-height: 1.65; }
+    .shadow-gift-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+    .shadow-gift-table td { padding: 10px 14px; border-bottom: 1px solid var(--border-l); font-size: 14px; }
+    .shadow-gift-table td:first-child { color: var(--text); font-family: var(--mono); font-size: 12px; font-weight: 500; }
+    .shadow-gift-table td:last-child { color: var(--text3); }
+    .sn-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+    .sn-table th { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; color: var(--text4); padding: 8px 14px; border-bottom: 1px solid var(--border-l); text-align: left; background: var(--surface); }
+    .sn-table td { font-size: 13px; padding: 8px 14px; border-bottom: 1px solid var(--border-l); color: var(--text2); }
+    .sn-table td:first-child { font-family: var(--mono); font-size: 11px; color: var(--text4); white-space: nowrap; }
+
+    /* ── Responsive ── */
     @media (max-width: 1024px) {
-      .features-grid { grid-template-columns: repeat(2,1fr); }
-      .catalog-grid { grid-template-columns: repeat(4,1fr); }
-      .cult-grid { grid-template-columns: repeat(3,1fr); }
+      .births-grid { grid-template-columns: 1fr; }
+      .birth-card { border-right: none; }
+      .chart-rows { grid-template-columns: repeat(2, 1fr); }
+      .chart-rows-5 { grid-template-columns: repeat(3, 1fr); }
+      .founders-grid { grid-template-columns: 1fr; }
+      .founder-card { border-right: none; }
+      .ref-grid { grid-template-columns: 1fr 1fr; }
       .footer-top { grid-template-columns: 1fr 1fr; }
+      .tarot-grid { grid-template-columns: repeat(3, 1fr); }
+      .grand-cross-grid { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 768px) {
-      nav { padding: 12px 16px; }
+      nav { padding: 0 20px; }
       .nav-links { display: none; }
-      .toc-grid { grid-template-columns: 1fr; }
-      .toc-left { border-right: none; border-bottom: 1px solid var(--border-lt); }
-      .stats-grid { grid-template-columns: repeat(2,1fr); }
-      .features-grid { grid-template-columns: 1fr; }
-      .article-inner { grid-template-columns: 1fr; }
-      .article-inner.reverse { direction: ltr; }
-      .article-img-col { min-height: 280px; }
-      .catalog-grid { grid-template-columns: repeat(3,1fr); }
-      .cult-grid { grid-template-columns: repeat(2,1fr); }
+      .hero-body { padding: 80px 24px 32px; }
+      .hero-bottom { padding: 14px 24px; }
+      .births-intro, .rituals-intro, .founders-intro, .body-interface-inner,
+      .sub-feature, .timeline-intro { padding-left: 24px; padding-right: 24px; }
+      .chart-panel, .chart-panel-wide { margin-left: 24px; margin-right: 24px; }
+      .ritual-item { grid-template-columns: 100px 1px 1fr; padding: 0 24px; }
+      .section-band { padding-left: 24px; padding-right: 24px; }
+      .editors-note-inner { grid-template-columns: 1fr; }
+      .editors-note-aside { border-right: none; border-bottom: 1px solid var(--border-l); }
+      .editors-note-body { padding: 32px 24px; }
+      .body-interface-grid { grid-template-columns: 1fr; }
+      .shadow-inner { grid-template-columns: 1fr; }
+      .shadow-left { border-right: none; border-bottom: 1px solid var(--border-l); }
+      .store-inner { grid-template-columns: 1fr; }
+      .store-img { min-height: 240px; border-right: none; border-bottom: 1px solid var(--border-l); }
+      .ref-grid { grid-template-columns: 1fr; }
       .footer-top { grid-template-columns: 1fr; }
-      .footer-bottom { flex-direction: column; gap: 12px; }
-    }
-    @media (max-width: 480px) {
-      .catalog-grid { grid-template-columns: repeat(2,1fr); }
-      .cult-grid { grid-template-columns: 1fr 1fr; }
-      .newsletter-form { flex-direction: column; }
-      .newsletter-input { border-right: 1px solid rgba(255,255,255,.15); }
+      .footer-bottom { flex-direction: column; gap: 8px; }
+      .nl-form { flex-direction: column; }
+      .nl-input { border-right: 1px solid rgba(255,255,255,.2); border-radius: 980px; }
+      .nl-btn { border-radius: 980px; margin-top: 8px; }
+      .tarot-grid { grid-template-columns: repeat(2, 1fr); }
+      footer { padding: 40px 24px 24px; }
+      #references { padding: 48px 24px; }
     }
   </style>
 </head>
@@ -848,407 +675,995 @@
 
 <!-- NAV -->
 <nav id="main-nav">
-  <a href="#hero" class="nav-logo">The Botanist <em>·</em> Rare Specimens</a>
+  <a href="#hero" class="nav-wordmark">Hipstrology</a>
   <ul class="nav-links">
-    <li><a href="#features">Specimens</a></li>
-    <li><a href="#catalog">Catalog</a></li>
-    <li><a href="#cultivation">Notes</a></li>
-    <li><a href="#newsletter">Subscribe</a></li>
+    <li><a href="#three-births">The Births</a></li>
+    <li><a href="#jobs-chart">Jobs Chart</a></li>
+    <li><a href="#product-rituals">Products</a></li>
+    <li><a href="#jupiter-cycle">Jupiter</a></li>
+    <li><a href="#timeline">Timeline</a></li>
   </ul>
-  <a href="#newsletter" class="nav-issue">Issue № 01</a>
+  <a href="#newsletter" class="nav-issue">Issue 01 · Apple</a>
 </nav>
 
-<!-- HERO -->
+<!-- ═══════ HERO ═══════ -->
 <section id="hero">
   <div class="hero-body">
-    <p class="hero-kicker">Vol. I · Rare Specimens · Winter 2026</p>
-    <h1 class="hero-title" id="hero-title">Rare<br><span class="word-gold">Specimens</span></h1>
-    <div class="hero-rule" id="hero-rule"></div>
-    <p class="hero-desc">A field journal devoted to botanical curiosities at the edge of existence — the ghost orchids, living fossils, and cloud-forest relics that survived when everything else did not.</p>
-    <div class="hero-actions">
-      <a href="#toc" class="btn-solid">Read the Issue</a>
-      <a href="#catalog" class="btn-ghost">Browse Catalog</a>
+    <p class="hero-kicker">Hipstrology · Issue 01</p>
+    <h1 class="hero-masthead" id="hero-masthead">
+      Apple —<br>
+      <span class="line-2">And the symbolic<br>tree it fell from.</span>
+    </h1>
+    <p class="hero-issue-line">Vol. I · Apple Computer Inc. · Founded Aries · Incorporated Capricorn · IPO Sagittarius</p>
+    <p class="hero-deck">
+      Hipstrology Issue 01 is a symbolic research project exploring companies through astrology, tarot, Jungian archetypes, brand mythology, and historical timing against the birth charts of our culture's beloved brands.
+    </p>
+    <div class="hero-cta">
+      <a href="#editors-note" class="btn-primary">Read the Issue</a>
+      <a href="#timeline" class="btn-ghost">View the Timeline</a>
     </div>
   </div>
-  <div class="hero-footer">
-    <span class="hero-footer-label">The Botanist Magazine · Issue 01 · Winter 2026</span>
-    <div class="hero-scroll">
-      <div class="hero-scroll-line"></div>
-      Scroll
-    </div>
-  </div>
-  <span class="hero-specimen-tag">Specimen Reference A-001 — A-391</span>
-</section>
-
-<!-- TOC -->
-<section id="toc">
-  <div class="section-header">
-    <span class="section-kicker">Contents</span>
-    <div class="section-rule"></div>
-    <span class="section-count">5 Articles</span>
-  </div>
-  <div class="toc-grid">
-    <div class="toc-left">
-      <p class="toc-label">In This Issue</p>
-      <h2 class="toc-heading">What the <em>rarest</em> plants on earth can teach us</h2>
-      <span class="toc-issue-tag">Issue № 01 — Winter 2026</span>
-    </div>
-    <ul style="list-style:none">
-      <li><a href="#features" class="toc-item">
-        <span class="toc-num">01</span>
-        <div class="toc-title-wrap">
-          <span class="toc-title">The Ghost Orchid of Florida's Swamps</span>
-          <span class="toc-sub">Dendrophylax lindenii and the myth of the rootless flower</span>
-        </div>
-        <div class="toc-meta"><span class="toc-tag">Field Report</span><span class="toc-arrow">→</span></div>
-      </a></li>
-      <li><a href="#article-1" class="toc-item">
-        <span class="toc-num">02</span>
-        <div class="toc-title-wrap">
-          <span class="toc-title">Welwitschia: A Plant That Lives 2,000 Years</span>
-          <span class="toc-sub">The Namibian desert's solitary genius</span>
-        </div>
-        <div class="toc-meta"><span class="toc-tag">Specimen Study</span><span class="toc-arrow">→</span></div>
-      </a></li>
-      <li><a href="#article-2" class="toc-item">
-        <span class="toc-num">03</span>
-        <div class="toc-title-wrap">
-          <span class="toc-title">The Corpse Flower & Its Decade of Patience</span>
-          <span class="toc-sub">Amorphophallus titanum and the bloom that waits ten years</span>
-        </div>
-        <div class="toc-meta"><span class="toc-tag">Botany</span><span class="toc-arrow">→</span></div>
-      </a></li>
-      <li><a href="#article-3" class="toc-item">
-        <span class="toc-num">04</span>
-        <div class="toc-title-wrap">
-          <span class="toc-title">Cloud Forest Expedition: Peru, 3,400 m</span>
-          <span class="toc-sub">28 days searching for species that don't want to be found</span>
-        </div>
-        <div class="toc-meta"><span class="toc-tag">Expedition</span><span class="toc-arrow">→</span></div>
-      </a></li>
-      <li><a href="#cultivation" class="toc-item">
-        <span class="toc-num">05</span>
-        <div class="toc-title-wrap">
-          <span class="toc-title">Cultivation Notes: Growing the Uncultivable</span>
-          <span class="toc-sub">Protocols for five of the world's most demanding specimens</span>
-        </div>
-        <div class="toc-meta"><span class="toc-tag">Practice</span><span class="toc-arrow">→</span></div>
-      </a></li>
-    </ul>
-  </div>
-</section>
-
-<!-- STATS -->
-<section id="stats">
-  <div class="section-header" style="border-color:rgba(255,255,255,.08); color:rgba(253,251,247,.4)">
-    <span class="section-kicker" style="color:rgba(253,251,247,.4)">By the Numbers</span>
-    <div class="section-rule" style="background:rgba(255,255,255,.08)"></div>
-    <span class="section-count" style="color:rgba(253,251,247,.4)">The State of the Plant Kingdom</span>
-  </div>
-  <div class="stats-grid">
-    <div class="stat-item">
-      <span class="stat-num" data-target="391">0</span>
-      <p class="stat-label">Thousand known plant species</p>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num" data-target="2">0</span>
-      <p class="stat-label">New species found per week</p>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num" data-target="40">0</span>
-      <p class="stat-label">% facing extinction threat</p>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num" data-target="17">0</span>
-      <p class="stat-label">Habitats mapped in this issue</p>
+  <div class="hero-bottom">
+    <span class="hero-bottom-label">Issue 01 · Apple · Corporate Astrology · Web Edition</span>
+    <div class="hero-planets">
+      <span>☉</span> Pisces &nbsp;·&nbsp;
+      <span>☽</span> Aries &nbsp;·&nbsp;
+      <span>☿</span> Aquarius Rx &nbsp;·&nbsp;
+      <span>♃</span> Cancer 10H
     </div>
   </div>
 </section>
 
-<!-- FEATURES -->
-<section id="features">
-  <div class="section-header">
-    <span class="section-kicker">Featured Specimens</span>
-    <div class="section-rule"></div>
-    <span class="section-count">6 Species</span>
+<!-- IMG: Hero full-bleed strip -->
+<figure class="figure-block" style="margin:0">
+  <img src="https://picsum.photos/seed/ac-hero/1400/340?grayscale" alt="Hero image" class="mag-img" style="height:340px">
+</figure>
+
+<!-- ═══════ EDITOR'S NOTE ═══════ -->
+<section id="editors-note">
+  <div class="section-band">
+    <span class="section-band-num">00</span>
+    <span class="section-band-title">Editor's Note</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">Origin Story</span>
   </div>
-  <div class="features-grid">
-    <div class="feat-card">
-      <div class="feat-specimen-id">Spec. A-001</div>
-      <div class="feat-img">
-        <span class="feat-img-glyph">🌸</span>
-        <span class="feat-img-tag">Critically Endangered</span>
+  <div class="editors-note-inner">
+    <div class="editors-note-aside">
+      <p class="aside-label">Publication Data</p>
+      <div class="aside-meta">
+        <div class="aside-meta-row">Issue <span>01 · Apple</span></div>
+        <div class="aside-meta-row">Format <span>Web Zine</span></div>
+        <div class="aside-meta-row">Subject <span>Corporate Astrology</span></div>
+        <div class="aside-meta-row">Lens <span>Symbolic / Archetypal</span></div>
+        <div class="aside-meta-row">Voice <span>Branding + Mythology</span></div>
       </div>
-      <h3 class="feat-heading"><em>Dendrophylax lindenii</em></h3>
-      <p class="feat-body">The ghost orchid survives without leaves, drawing sustenance through roots fused to a single host tree. It blooms perhaps once a decade — if conditions are precisely right.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-specimen-id">Spec. A-017</div>
-      <div class="feat-img">
-        <span class="feat-img-glyph">🌿</span>
-        <span class="feat-img-tag">Vulnerable</span>
+      <div class="aside-quote">
+        "Millionaires don't use astrology. Billionaires do."
+        <cite>— Attributed to J.P. Morgan<br>(widely quoted; difficult to verify)</cite>
       </div>
-      <h3 class="feat-heading"><em>Welwitschia mirabilis</em></h3>
-      <p class="feat-body">Two leaves. Only ever two. The Welwitschia grows them for two thousand years, splitting and fraying in the Namib wind into what looks like wreckage but is, in fact, survival perfected.</p>
+      <!-- IMG: Editor portrait or Wolff Olins archival -->
+      <figure class="figure-block" style="margin:0">
+        <img src="https://picsum.photos/seed/ac-edit/560/440?grayscale" alt="Editor" class="mag-img" style="height:220px">
+        <figcaption>Image caption — editor / context</figcaption>
+      </figure>
     </div>
-    <div class="feat-card">
-      <div class="feat-specimen-id">Spec. A-044</div>
-      <div class="feat-img">
-        <span class="feat-img-glyph">🌱</span>
-        <span class="feat-img-tag">Endangered</span>
+    <div class="editors-note-body">
+      <h2 class="editors-note-heading">If Corporations Are People,<br>What's <em>Their Sign?</em></h2>
+      <p class="editors-note-subhead">On branding, myth, and astrology.</p>
+      <p class="body-text">
+        When Mitt Romney said "corporations are people," something clicked for me. Not politically. Symbolically. I was working in branding at a branding agency at the time — surrounded daily by the language of identity, personality, belief systems, archetypes, desire, and myth. In branding, we already treat corporations like people. We give them voices, values, origin stories, shadow traits, enemies, promises, and moods. We build entire worlds around them — and then call it positioning.
+      </p>
+      <p class="body-text">
+        Corporations are not just businesses. They are symbolic entities. They have birth dates, founders, myths, wounds, public personas, and private compulsions. A logo is a sigil. A keynote is a ritual. A flagship store is a temple. A founder story is a creation myth. A launch date is an initiation — if you take enough edibles and go shopping in San Francisco with your brand designer best friend, like I did last year.
+      </p>
+      <p class="body-text">
+        There is a line attributed to J.P. Morgan: <strong>"Millionaires don't use astrology. Billionaires do."</strong> The quote is difficult to verify — historians trace it to a book published decades after Morgan's death. But its persistence matters almost as much as its origin. Ronald Reagan's administration offered something less deniable: Nancy Reagan consulted astrologer Joan Quigley for seven years after the 1981 assassination attempt. According to former Chief of Staff Donald Regan, virtually every major move was cleared in advance — departure times for Air Force One, scheduling of summits with Gorbachev, timing of press conferences. Astrology was not at the fringe of that administration. It was near the machinery of state.
+      </p>
+      <p class="body-text">
+        For the first issue of Hipstrology, there is no better place to begin than Apple. Apple is a symbol before it is a stock. Its founding date gives us a chart. Its name gives us a symbol — the garden, the bite, the forbidden knowledge. Its stores give us temples. And here is a detail that never gets enough attention: before Apple existed, the twenty-year-old Jobs was at Atari writing equations for a horoscope software program called <em>Astrochart.</em> The man who would build devices that feel almost divinatory literally began his programming career building a divination system.
+      </p>
+      <p class="body-text">
+        Apple does more than sell us computers. It sells us a self-image — creative, chosen, intuitive, different. Which means Apple was never just a brand. It's a constellation of bright moments against the backdrop of intense personalities and transits. That tension is the whole story. And the chart is where we begin.
+      </p>
+      <p class="byline">— Hipstrology &nbsp;·&nbsp; <em>Vol. I, Issue 01</em></p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ THE THREE BIRTHS ═══════ -->
+<section id="three-births">
+  <div class="section-band">
+    <span class="section-band-num">01</span>
+    <span class="section-band-title">Feature</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">The Three Births</span>
+  </div>
+  <div class="births-intro">
+    <h2 class="feature-heading">Three Births,<br>Three <em>Charts</em></h2>
+    <p class="feature-intro">
+      Most companies have one founding date. Apple has three — and each one tells a different story about what the company is. Not versions of the same story. Different stories. Which means Apple has always been plural. It has always been more than one thing at once.
+    </p>
+  </div>
+  <div class="births-grid">
+    <div class="birth-card">
+      <span class="birth-sign">♈</span>
+      <p class="birth-date">April 1, 1976</p>
+      <h3 class="birth-heading">The Soul Chart</h3>
+      <p class="birth-sub">Aries · The Rebel Spark · Tarot: The Emperor</p>
+      <p class="birth-body">
+        April Fool's Day — which is either accidental or the most on-brand founding date in tech history. Two young men in a California garage, a homemade circuit board, and a refusal to accept that computing belonged to corporations and institutions. Aries is the first sign of the zodiac. It does not ask permission. It acts, then adjusts.
+        <br><br>
+        In tarot, Aries corresponds to The Emperor — which seems counterintuitive for a company that styled itself as the rebel. But this is Aries' paradox: the rebel and the empire-builder share the same origin. The Emperor is structure born from will. He does not inherit territory. He declares it.
+        <br><br>
+        <strong>Jungian lens: The Hero.</strong> The Aries Apple is the Hero at the threshold — technology removed from the priesthood of experts and placed into human hands. Promethean myth, California edition. The shadow of the Hero arrives early too: the computer for the rest of us eventually became the ecosystem you cannot easily leave.
+      </p>
+    </div>
+    <div class="birth-card">
+      <span class="birth-sign">♑</span>
+      <p class="birth-date">January 3, 1977</p>
+      <h3 class="birth-heading">The Body Chart</h3>
+      <p class="birth-sub">Capricorn · The Sealed Object · Tarot: The Devil</p>
+      <p class="birth-body">
+        Nine months after the spark, Apple becomes a legal entity. The incorporation date gives us Capricorn — and suddenly everything about Apple's design philosophy makes sense from a different angle. Capricorn is the mountain. It is structure, form, discipline, and the slow deliberate climb toward enduring power. Apple is — above almost all else — a company obsessed with form. The edge. The weight. The surface. The invisible screw. The seam that appears to have no seam.
+        <br><br>
+        In tarot, Capricorn corresponds to The Devil — and The Devil in symbolic terms is not evil. It is attachment, desire, glamour, and the seduction of beautiful material things. Apple makes objects so beautiful that we develop relationships with them. We touch them hundreds of times a day. We sleep beside them. We mourn when they break.
+        <br><br>
+        <strong>Jungian lens: The Persona and the Shadow.</strong> Apple understands persona better than almost any company in history. To own an Apple device is to appear as a certain kind of person. But every Persona casts a Shadow — control dressed as simplicity, a sealed ecosystem, spiritual language of creativity wrapped around a vast machine of supply chain secrecy.
+      </p>
+    </div>
+    <div class="birth-card">
+      <span class="birth-sign">♐</span>
+      <p class="birth-date">December 12, 1980</p>
+      <h3 class="birth-heading">The Market Persona</h3>
+      <p class="birth-sub">Sagittarius · The Gospel Goes Public · Tarot: Temperance</p>
+      <p class="birth-body">
+        Apple went public on December 12, 1980 — the largest IPO in the United States since Ford in 1956, raising $100 million and creating more than forty instant millionaires. Individual investors in Massachusetts were barred from buying shares by state regulators who deemed them "too risky." A $10,000 investment on IPO day would be worth approximately $32.7 million in 2026.
+        <br><br>
+        In tarot, Sagittarius corresponds to Temperance — the alchemist who blends two substances into something new. Apple blends art and engineering, beauty and utility, individuality and mass production. These combinations should not work. Temperance makes the impossible blend possible.
+        <br><br>
+        <strong>Jungian lens: The Magician.</strong> Steve Jobs did not present products like a salesman. He presented them like revelations. "One more thing" was not a product cue. It was a ritual phrase. The Magician's shadow is manipulation: the ability to enchant is also the ability to distort.
+      </p>
+    </div>
+  </div>
+
+  <!-- IMG: Three Births two-up -->
+  <figure class="figure-block" style="margin:0">
+    <div class="img-two-up">
+      <img src="https://picsum.photos/seed/ac-garage/800/280?grayscale" alt="The Los Altos garage, 1976" class="mag-img" style="height:280px">
+      <img src="https://picsum.photos/seed/ac-doc/800/280?grayscale" alt="Apple partnership document" class="mag-img" style="height:280px">
+    </div>
+    <figcaption style="border-left:none;border-top:1px solid var(--border);padding:8px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted)">Left: The Cupertino garage where Apple was founded. Right: The partnership agreement signed April 1, 1976.</figcaption>
+  </figure>
+
+  <!-- Formula banner -->
+  <div class="births-formula">
+    <span>Aries lights the fire</span>
+    <span class="formula-dot">·</span>
+    <span>Capricorn seals the object</span>
+    <span class="formula-dot">·</span>
+    <span>Sagittarius spreads the gospel</span>
+  </div>
+
+  <!-- Steve Jobs Chart Panel -->
+  <div class="chart-panel">
+    <div class="chart-panel-header">
+      <span class="chart-panel-title">Steve Jobs · Natal Chart Data</span>
+      <span class="chart-panel-sub">b. February 24, 1955 · 7:15 PM · San Francisco, CA</span>
+    </div>
+    <div class="chart-rows">
+      <div class="chart-row">
+        <p class="chart-planet">Sun ☉</p>
+        <p class="chart-position">5°44'<span class="chart-sign">Pisces</span></p>
       </div>
-      <h3 class="feat-heading"><em>Amorphophallus titanum</em></h3>
-      <p class="feat-body">The corpse flower stores energy for up to ten years, then erupts for 48 hours in an inflorescence that can reach three metres — and smells, deliberately, of rotting flesh.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-specimen-id">Spec. A-088</div>
-      <div class="feat-img">
-        <span class="feat-img-glyph">🌲</span>
-        <span class="feat-img-tag">Critically Endangered</span>
+      <div class="chart-row">
+        <p class="chart-planet">Moon ☽</p>
+        <p class="chart-position">7°44'<span class="chart-sign">Aries</span></p>
       </div>
-      <h3 class="feat-heading"><em>Wollemia nobilis</em></h3>
-      <p class="feat-body">Discovered in 1994 in a canyon west of Sydney. Botanists thought it had been extinct for two million years. Only 100 trees exist in the wild, in a location kept secret by the government.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-specimen-id">Spec. A-112</div>
-      <div class="feat-img">
-        <span class="feat-img-glyph">🌺</span>
-        <span class="feat-img-tag">Near Threatened</span>
+      <div class="chart-row">
+        <p class="chart-planet">Mercury ☿</p>
+        <p class="chart-position">14°24'<span class="chart-sign">Aquarius Rx</span></p>
       </div>
-      <h3 class="feat-heading"><em>Tacca chantrieri</em></h3>
-      <p class="feat-body">The black bat flower produces the deepest black pigmentation found in any flowering plant, with whisker-like filaments extending up to 70 cm. It grows in a single narrow band of tropical forest floor.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-specimen-id">Spec. A-203</div>
-      <div class="feat-img">
-        <span class="feat-img-glyph">🪴</span>
-        <span class="feat-img-tag">Vulnerable</span>
+      <div class="chart-row">
+        <p class="chart-planet">Venus ♀</p>
+        <p class="chart-position">—<span class="chart-sign">Capricorn</span></p>
       </div>
-      <h3 class="feat-heading"><em>Rafflesia arnoldii</em></h3>
-      <p class="feat-body">The world's largest individual flower, with no roots, stems, or leaves. It lives entirely inside the tissue of a host vine, invisible for years, before manifesting as a single enormous bloom.</p>
+      <div class="chart-row">
+        <p class="chart-planet">Mars ♂</p>
+        <p class="chart-position">29°<span class="chart-sign">Aries</span></p>
+      </div>
+      <div class="chart-row">
+        <p class="chart-planet">Jupiter ♃</p>
+        <p class="chart-position">10H<span class="chart-sign">Cancer</span></p>
+      </div>
+      <div class="chart-row">
+        <p class="chart-planet">Uranus ♅</p>
+        <p class="chart-position">10H<span class="chart-sign">Cancer conj. ♃</span></p>
+      </div>
+      <div class="chart-row">
+        <p class="chart-planet">Saturn ♄</p>
+        <p class="chart-position">—<span class="chart-sign">Scorpio</span></p>
+      </div>
     </div>
+  </div>
+</section>
+
+<!-- ═══════ STEVE JOBS COMPLETE CHART ═══════ -->
+<section id="jobs-chart">
+  <div class="section-band">
+    <span class="section-band-num">02</span>
+    <span class="section-band-title">Feature</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">Steve Jobs — The Complete Chart</span>
+  </div>
+  <div class="births-intro">
+    <h2 class="feature-heading">The Most <em>Analyzed</em><br>Founder Chart in Tech</h2>
+    <p class="feature-intro">February 24, 1955 — 7:15 PM PST — San Francisco, California. Birth time rated AA by Astrodatabank — the highest reliability classification. Life Path Number: 28/1. Apple was founded on a date that also sums to 28.</p>
+  </div>
+
+  <!-- Full Planetary Table -->
+  <div class="chart-panel-wide">
+    <div class="chart-panel-header">
+      <span class="chart-panel-title">Complete Planetary Positions · Western / Tropical</span>
+      <span class="chart-panel-sub">b. Feb 24, 1955 · 7:15 PM PST · San Francisco, CA</span>
+    </div>
+    <div class="chart-rows-5 chart-rows">
+      <div class="chart-row"><p class="chart-planet">Sun ☉</p><p class="chart-position">5°44'<span class="chart-sign">Pisces · 6H</span></p></div>
+      <div class="chart-row"><p class="chart-planet">Moon ☽</p><p class="chart-position">7°44'<span class="chart-sign">Aries · 7H</span></p></div>
+      <div class="chart-row"><p class="chart-planet">Ascendant</p><p class="chart-position">22°17'<span class="chart-sign">Virgo</span></p></div>
+      <div class="chart-row"><p class="chart-planet">MC</p><p class="chart-position">21°<span class="chart-sign">Gemini</span></p></div>
+      <div class="chart-row"><p class="chart-planet">Mercury ☿</p><p class="chart-position">14°24' Rx<span class="chart-sign">Aquarius · 5H</span></p></div>
+      <div class="chart-row"><p class="chart-planet">Venus ♀</p><p class="chart-position">21°12'<span class="chart-sign">Capricorn · 4H</span></p></div>
+      <div class="chart-row"><p class="chart-planet">Mars ♂</p><p class="chart-position">29°06'<span class="chart-sign">Aries · 8H</span></p></div>
+      <div class="chart-row"><p class="chart-planet">Jupiter ♃</p><p class="chart-position">20° Rx<span class="chart-sign">Cancer · 10H</span></p></div>
+      <div class="chart-row"><p class="chart-planet">Saturn ♄</p><p class="chart-position">21°<span class="chart-sign">Scorpio · 3H</span></p></div>
+      <div class="chart-row"><p class="chart-planet">Uranus ♅</p><p class="chart-position">21° Rx<span class="chart-sign">Cancer · 10H</span></p></div>
+      <div class="chart-row"><p class="chart-planet">Neptune ♆</p><p class="chart-position">26° Rx<span class="chart-sign">Libra · 2H</span></p></div>
+      <div class="chart-row"><p class="chart-planet">Pluto ♇</p><p class="chart-position">24° Rx<span class="chart-sign">Leo · 12H</span></p></div>
+      <div class="chart-row"><p class="chart-planet">North Node</p><p class="chart-position">3°24'<span class="chart-sign">Capricorn · 4H</span></p></div>
+    </div>
+  </div>
+
+  <!-- IMG: Jobs chart section two-up (portrait + natal chart wheel) -->
+  <div style="padding:0 32px 40px">
+    <div class="img-two-up">
+      <img src="https://picsum.photos/seed/ac-chart/800/340?grayscale" alt="Steve Jobs natal chart" class="mag-img" style="height:340px">
+      <img src="https://picsum.photos/seed/ac-jobs/800/340?grayscale" alt="Steve Jobs" class="mag-img" style="height:340px">
+    </div>
+  </div>
+
+  <div class="sub-feature">
+    <p class="sub-feature-kicker">The Big Three</p>
+    <h3 class="sub-feature-heading">Sun in Pisces, <em>6th House</em></h3>
+    <p class="body-text">Jobs' Pisces Sun placed in the 6th house of daily work is the foundational paradox of his character. Pisces is the visionary dreamer — boundless, imaginative, emotionally porous. But the 6th house grounds that vision in relentless daily craft, perfectionist routine, and service through labor. This placement produces the rare type who can access pure, boundary-less creative vision and then transmute it into disciplined, production-grade work. His famous fourteen-hour work days were not workaholic dysfunction. They were a 6th house Pisces expressing its nature: vision made into daily habit.</p>
+
+    <h3 class="sub-feature-heading">Moon in Aries, <em>7th House</em></h3>
+    <p class="body-text">The Aries Moon is fast, fiery, impatient, and competitive. In the 7th house of partnerships, this explains two central biographical facts: Jobs' notorious interpersonal intensity — his management by confrontation — and his pattern of deeply formative creative partnerships (Wozniak, Jony Ive, John Lasseter). He genuinely believed challenge and even cruelty produced better work. Partners were not collaborators to be protected. They were combatants to be pushed past their limits.</p>
+
+    <h3 class="sub-feature-heading">Virgo Rising</h3>
+    <p class="body-text">The Ascendant defines the outward persona. Virgo rising gives Jobs his exterior of precision, critique, and discriminating perfectionism. The hundreds of designs rejected, the products cancelled weeks before launch, the obsessive attention to parts of the product that customers would never see. His design mantra — <em>"Design is not just what it looks like and feels like. Design is how it works"</em> — is a perfect verbal expression of Virgo rising: the outer appearance must be an accurate reflection of inner function, not a facade over emptiness.</p>
+
+    <p class="sub-feature-kicker" style="margin-top:40px">The Cardinal Grand Cross</p>
+    <h3 class="sub-feature-heading">Four Arms, <em>Four Apple Expressions</em></h3>
+    <p class="body-text">The most important astrological signature in Jobs' chart is a Cardinal Grand Cross linking four planets across four Cardinal signs — the signs of initiation, action, and leadership.</p>
+  </div>
+
+  <!-- Grand Cross Grid -->
+  <div style="padding: 0 32px 48px">
+    <div class="grand-cross-grid">
+      <div class="grand-cross-cell">
+        <p class="gc-arm">Venus in Capricorn · 4H</p>
+        <p class="gc-expr"><strong>Perfect, enduring, practical taste.</strong> Minimalism, material quality, permanence — aluminum, glass, silicon. The aesthetic that cannot be rushed.</p>
+      </div>
+      <div class="grand-cross-cell">
+        <p class="gc-arm">Jupiter-Uranus in Cancer · 10H</p>
+        <p class="gc-expr"><strong>Innovation leadership.</strong> Disruption in the sign of home and family — technology that feels personal, domestic, human. Career peak through rupture.</p>
+      </div>
+      <div class="grand-cross-cell">
+        <p class="gc-arm">Mars in Aries · 29° · 8H</p>
+        <p class="gc-expr"><strong>Pure drive at maximum intensity.</strong> The anaretic degree signals urgency. Competitive ferocity, willingness to kill products that don't meet standards.</p>
+      </div>
+      <div class="grand-cross-cell">
+        <p class="gc-arm">Neptune in Libra · 2H</p>
+        <p class="gc-expr"><strong>The reality distortion field.</strong> Neptune turns illusion into real economic power — making others believe in something that doesn't yet exist.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-feature">
+    <p class="sub-feature-kicker">Mercury Retrograde in Aquarius</p>
+    <h3 class="sub-feature-heading">The <em>Retrograde</em> Genius</h3>
+    <p class="body-text">Mercury rules both his Ascendant (Virgo) and his Midheaven (Gemini). A single planet is the master of both his public face and his career identity. Mercury in Aquarius places his thinking in the sign of technology, the future, and radical departure from convention. In the 5th house of creativity, this Mercury becomes exuberant in sharing ideas — a Jobs keynote was not a product announcement. It was a theatrical event.</p>
+    <p class="body-text">The retrograde status appears at first as a weakness. But when a planet is retrograde, it is actually at its closest approach to Earth — brighter, more intense, not weaker. Jobs' retrograde Mercury produces not a communicator who speaks first but one who incubates deeply and then communicates with unusual force. The long development cycles. The refusal to ship before perfection.</p>
+    <p class="body-text">At 14° Aquarius, Mercury creates a critical geometric link with Apple's corporate chart: Apple's founding North Node sits at 14° Scorpio, forming a square to Jobs' natal Mercury. This is the astrological signature of their karmic interlock.</p>
+
+    <p class="sub-feature-kicker" style="margin-top:40px">The Vedic Chart</p>
+    <h3 class="sub-feature-heading">Pisces Ascendant, <em>Venus Dasha</em></h3>
+    <p class="body-text">In Vedic astrology, the sidereal zodiac shifts all positions by approximately 23 degrees, producing a Pisces Ascendant (Meena Lagna). Saturn sits in Libra — exalted. Moon nakshatra: Uttarabhadra — ruled by Saturn, associated with discipline behind creative vision and the ability to sustain depth over time.</p>
+  </div>
+
+  <!-- Vedic table -->
+  <div style="padding: 0 32px 16px">
+    <table class="vedic-table">
+      <tbody>
+        <tr><td>Sun</td><td>Aquarius · 12H</td></tr>
+        <tr><td>Moon</td><td>Pisces · 1H (Lagna)</td></tr>
+        <tr><td>Mercury</td><td>Capricorn · 11H</td></tr>
+        <tr><td>Venus</td><td>Sagittarius · 10H</td></tr>
+        <tr><td>Mars</td><td>Pisces · 1H</td></tr>
+        <tr><td>Jupiter</td><td>Gemini · 4H</td></tr>
+        <tr><td>Saturn</td><td>Libra (exalted) · 8H</td></tr>
+        <tr><td>Rahu</td><td>Sagittarius · 10H</td></tr>
+        <tr><td>Ketu</td><td>Gemini · 4H</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Dasha -->
+  <div style="padding: 0 32px 48px">
+    <p class="sub-feature-kicker" style="margin-bottom: 12px">The Venus Dasha · 1998–2018</p>
+    <table class="dasha-table">
+      <tbody>
+        <tr><td>Saturn Dasha · 1954–1974</td><td>Birth, childhood, India journey</td></tr>
+        <tr><td>Mercury Dasha · 1974–1991</td><td>Apple founding, Mac, Lisa, firing, NeXT, Toy Story</td></tr>
+        <tr><td>Ketu Dasha · 1991–1998</td><td>Apple near-bankruptcy, return to Apple</td></tr>
+        <tr><td>Venus Dasha · 1998–2018</td><td style="color:var(--cream)">iMac → iPod → iTunes → iPhone → iPad → <strong>$1 trillion milestone</strong></td></tr>
+      </tbody>
+    </table>
+    <p class="body-text" style="margin-top:16px; font-size:12px">The Venus Dasha runs from 1998 to 2018 — beginning precisely when Apple turned the corner from bankruptcy to world dominance. Venus rules beauty, harmony, technology in Jyotish, and material abundance. Jobs entered the Venus period with the iMac, and the period closes with Apple's $1 trillion milestone. The arc from comeback to apotheosis completed under a single planetary period.</p>
   </div>
 </section>
 
 <!-- PULL QUOTE 1 -->
-<section class="pullquote-section">
+<section class="pullquote-band">
   <div class="pullquote-inner">
-    <div class="pullquote-rule"></div>
-    <blockquote id="quote-text-1">
-      "A plant that blooms once in a decade asks nothing of you — except that you be there."
+    <div class="pq-rule"></div>
+    <blockquote id="pq-1">
+      "Apple was born three times. Aries for the soul. Capricorn for the body. Sagittarius for the myth that went public and never came back down."
     </blockquote>
-    <cite>— Dr. Maren Solberg, Field Botanist · The Botanist, Vol. I</cite>
-    <div class="pullquote-bg-num">I</div>
+    <cite>— Hipstrology, Issue 01</cite>
+    <div class="pq-bg">I</div>
   </div>
 </section>
 
-<!-- ARTICLE 1 -->
-<section class="article-section" id="article-1">
-  <div class="article-inner">
-    <div class="article-img-col" id="aimg-1">
-      <span class="article-img-glyph">🌿</span>
-      <span class="article-img-label">Welwitschia mirabilis · Namib Desert</span>
-      <span class="article-img-number">02</span>
+<!-- ═══════ THE FOUNDERS AS ARCHETYPES ═══════ -->
+<section id="founders">
+  <div class="section-band">
+    <span class="section-band-num">03</span>
+    <span class="section-band-title">Feature</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">The Founders as Archetypes</span>
+  </div>
+  <div class="founders-intro">
+    <h2 class="feature-heading">Four Men, Four <em>Archetypes</em></h2>
+    <p class="feature-intro">
+      Every company at its origin is a cast of characters playing roles that the mythology later simplifies. Apple had four founders. Most people remember one. But each brought something the others couldn't — and each embodies a different relationship to the work of building something new.
+    </p>
+  </div>
+  <div class="founders-grid">
+    <div class="founder-card">
+      <span class="founder-glyph">🌊</span>
+      <p class="founder-arcana">The Magician · Tarot I</p>
+      <h3 class="founder-name">Steve Jobs</h3>
+      <span class="founder-sign">Sun Pisces · Moon Aries · Mercury Aquarius Rx</span>
+      <div class="founder-rule"></div>
+      <p class="founder-body">
+        The Pisces Sun gives Jobs his peculiar quality — <em>the ability to see what doesn't exist yet and treat it as already real.</em> Pisces is the final sign, the sign that dissolves boundaries, the sign of the visionary who cannot always distinguish between the world as it is and the world as it could be. In Jobs, this was not a flaw. It was the mechanism.
+        <br><br>
+        His Aries Moon is the urgency beneath the vision — the emotional need for initiation, for motion, for the constant arrival of the new. The famous reality distortion field is not a trick. It is the natural output of a Pisces Sun convinced of what it sees, operating through an Aries Moon that cannot tolerate stillness.
+        <br><br>
+        <strong>Mercury retrograde in Aquarius</strong>: Jobs' mind was unconventional even by unconventional standards. He thought backwards from a future most people couldn't picture. Mercury Rx suggests a processing style that internalises before it speaks — which explains both his silences and his pronouncements.
+      </p>
     </div>
-    <div class="article-text-col" id="atxt-1">
-      <p class="article-kicker">Specimen Study</p>
-      <h2 class="article-heading">Welwitschia:<br><em>A Living Fossil</em></h2>
-      <p class="article-taxonomic">Welwitschia mirabilis · Hook.f. · 1863</p>
-      <p class="article-body">In 1859, the botanist Friedrich Welwitsch fell to his knees before a plant he had never seen in any taxonomy. He wept. He later wrote that he could not bring himself to collect a specimen — that disturbing it felt like desecration.</p>
-      <p class="article-body">Welwitschia is the sole living species of its order. It has two leaves. Only ever two. Both grow continuously from the base, the tips weathering and fraying over centuries in the Namib wind. The oldest confirmed specimens are over 1,500 years old.</p>
-      <a href="#" class="read-more">Read the Full Specimen Study</a>
+    <div class="founder-card">
+      <span class="founder-glyph">⚡</span>
+      <p class="founder-arcana">The Inventor · Tarot XVII</p>
+      <h3 class="founder-name">Steve Wozniak</h3>
+      <span class="founder-sign">Sun Aquarius · The Engineer of the Impossible</span>
+      <div class="founder-rule"></div>
+      <p class="founder-body">
+        Wozniak is the Aquarian ideal made flesh: the technologist as humanitarian, the inventor who built the Apple I as a gift for friends and was surprised when Jobs saw a product in it. The Apple I and Apple II were Wozniak's machines — technically brilliant, built for joy, almost entirely uninterested in commerce.
+        <br><br>
+        <em>Aquarius is the sign of the future arriving early.</em> Wozniak arrived early. He was doing in 1975 what the industry would spend the next decade learning to do. He didn't need the mythology that Jobs built around the work — the work was its own mythology to him.
+        <br><br>
+        The partnership of Jobs and Wozniak is an Aries/Aquarius alliance: fire and air, the visionary and the inventor, the salesman and the engineer. Neither could have built what they built without the other, and both knew it, and that knowledge didn't always make things easy.
+      </p>
+    </div>
+    <div class="founder-card">
+      <span class="founder-glyph">🚶</span>
+      <p class="founder-arcana">The One Who Walked Away · Tarot 0</p>
+      <h3 class="founder-name">Ronald Wayne</h3>
+      <span class="founder-sign">The Third Founder · Sold His Stake for $800</span>
+      <div class="founder-rule"></div>
+      <p class="founder-body">
+        Ronald Wayne is the third founder nobody talks about. He drew the original Apple logo — Newton under the apple tree — and wrote the first partnership agreement. Twelve days after signing, he sold his 10% stake back to Jobs and Wozniak for $800. At Apple's 2023 valuation, that stake would have been worth approximately $300 billion.
+        <br><br>
+        Wayne later said he had no regrets. He had his reasons — he was older, had other debts, and assessed the risk differently than two men in their twenties with nothing to lose. His is the archetype of the Fool at the beginning of the tarot: the one who stands at the edge, sees the cliff, and steps back.
+        <br><br>
+        <em>The Wayne story is the shadow story of every founding.</em> Not every character who appears at the origin survives to the mythology. His exit is as much a part of Apple's chart as any planet.
+      </p>
+    </div>
+    <div class="founder-card">
+      <span class="founder-glyph">♍</span>
+      <p class="founder-arcana">The Administrator · Tarot VIII</p>
+      <h3 class="founder-name">Tim Cook</h3>
+      <span class="founder-sign">Sun Scorpio · The Virgo Era Made Flesh</span>
+      <div class="founder-rule"></div>
+      <p class="founder-body">
+        Jobs handed the company to Cook on August 24, 2011 — a Virgo date, a Virgo transfer. Cook is the archetype of Strength, the tarot card of inner mastery, of power held rather than performed. Where Jobs operated from Pisces dissolution and Aries fire, Cook operates from precision, process, and supply chain as art form.
+        <br><br>
+        The Cook era is marked by Apple's move from products as mythology to products as infrastructure. The iPhone under Cook became the most profitable product in history. <strong>Under Cook, Apple crossed $1 trillion</strong> (August 2, 2018) and $3 trillion (January 2022). The sky on August 2, 2018 showed Uranus at 2° Taurus — nearly conjunct Jupiter at 1° Taurus from Apple's founding date.
+        <br><br>
+        <em>Scorpio Sun, Virgo transition date, trillion-dollar scale.</em> The administrator who made the myth into infrastructure.
+      </p>
     </div>
   </div>
 </section>
 
-<!-- ARTICLE 2 -->
-<section class="article-section" id="article-2">
-  <div class="article-inner reverse">
-    <div class="article-img-col" id="aimg-2">
-      <span class="article-img-glyph">🌱</span>
-      <span class="article-img-label">Amorphophallus titanum · Sumatra</span>
-      <span class="article-img-number">03</span>
+<!-- ═══════ SPIRITUAL ARCHITECTURE ═══════ -->
+<section id="spiritual-arch">
+  <div class="section-band">
+    <span class="section-band-num">04</span>
+    <span class="section-band-title">Feature</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">The Spiritual Architecture</span>
+  </div>
+  <div class="births-intro">
+    <h2 class="feature-heading">Before Apple,<br>There Was <em>India</em></h2>
+    <p class="feature-intro">Before there was an Apple, there was an India journey. Before there was an iPhone, there was a Zen monk. Before there was a product launch, there was a horoscope program. The spiritual biography of Steve Jobs is not footnote material. It is the root system of everything Apple made.</p>
+  </div>
+
+  <div class="sub-feature">
+    <p class="sub-feature-kicker">India · 1974</p>
+    <h3 class="sub-feature-heading">The Journey That <em>Changed Everything</em></h3>
+    <p class="body-text">In the summer of 1974, Jobs — then nineteen, a Reed College dropout working at Atari — left for India with his college friend Daniel Kottke to seek spiritual guidance. He traveled to the Kainchi Ashram of Neem Karoli Baba, a Hindu guru whose other devotees included Harvard professor Richard Alpert, later known as Ram Dass. He found the guru dead — Neem Karoli Baba had died in September 1973, months before Jobs arrived. Jobs and Kottke spent seven months traveling through the Indian countryside instead.</p>
+    <p class="body-text">He returned to California with a shaved head, in traditional Indian clothing, and with a philosophy that would shape everything Apple made: <em>minimalism, non-verbal knowing, the primacy of feel over specification.</em> Jobs described it directly: "The people in the Indian countryside don't use their intellect like we do, they use their intuition instead, and their intuition is far more developed than in the rest of the world. Intuition is a very powerful thing, more powerful than intellect, in my opinion. That's had a big impact on my work."</p>
+
+    <!-- IMG: India / spiritual three-up -->
+  </div>
+  <figure class="figure-block" style="margin:0 0 0">
+    <div class="img-three-up">
+      <img src="https://picsum.photos/seed/ac-india/600/220?grayscale" alt="Kainchi Ashram, Nainital" class="mag-img" style="height:220px">
+      <img src="https://picsum.photos/seed/ac-india2/600/220?grayscale" alt="Jobs in India, 1974" class="mag-img" style="height:220px">
+      <img src="https://picsum.photos/seed/ac-atari/600/220?grayscale" alt="Atari Astrochart, 1975" class="mag-img" style="height:220px">
     </div>
-    <div class="article-text-col" id="atxt-2">
-      <p class="article-kicker">Botany</p>
-      <h2 class="article-heading">The Corpse Flower's <em>Decade of Patience</em></h2>
-      <p class="article-taxonomic">Amorphophallus titanum · Becc. · 1878</p>
-      <p class="article-body">The titan arum doesn't flower on a schedule you can plan around. It gathers carbohydrates for up to a decade, building a corm that can weigh 90 kilograms, and when it finally blooms, the event lasts 48 hours. It heats its spathe to 36°C — human body temperature — to volatilise the compounds that smell like a rotting corpse.</p>
-      <p class="article-body">This is not an accident. The heat propels the scent for hundreds of metres, attracting the carrion beetles that will carry pollen to another titan arum, if one happens to be blooming nearby. Timing, across a forest, with no roots connecting them.</p>
-      <a href="#" class="read-more">Read the Full Article</a>
-    </div>
+    <figcaption style="border-left:none;border-top:1px solid var(--border);padding:8px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted)">Left: Kainchi Ashram. Center: Jobs in India, 1974. Right: Astrochart, the horoscope program Jobs wrote at Atari in 1975 — the year before Apple.</figcaption>
+  </figure>
+  <div class="sub-feature">
+    <p class="sub-feature-kicker" style="margin-top:40px">Zen Buddhism and Design</p>
+    <h3 class="sub-feature-heading">The Monk, the <em>Minimalism</em></h3>
+    <p class="body-text">Jobs studied Zen with Kobun Chino Otogawa at the Haiku Zen Center in Los Altos beginning in the mid-1970s. Kobun was later the Zen monk who married Jobs and Laurene Powell in 1991. The concrete design influence of Zen on Apple products is documented and acknowledged.</p>
+    <p class="body-text"><strong>Mu — emptiness, negative space, the meaningful absence of things</strong> — is directly reflected in Apple's refusal to include unnecessary buttons, ports, or visual elements. The removal of the headphone jack. The single button. The trackpad with no buttons. Mu made physical. Robert Thurman of Columbia University's Buddhist studies program described Jobs not as a practicing Buddhist but as someone who genuinely absorbed Zen's "compelling vision" — particularly the concept of <em>suchness:</em> things as they are, without conceptual overlay. That is the Apple unboxing experience. No instruction manual. Just the object, presented as itself.</p>
+
+    <p class="sub-feature-kicker" style="margin-top:40px">Atari · 1975</p>
+    <h3 class="sub-feature-heading">The First Program Was a <em>Horoscope</em></h3>
+    <p class="body-text">Before Apple existed, the twenty-year-old Jobs was at Atari writing mathematical equations for a horoscope software program called <strong>Astrochart</strong>. A January 2026 tech history piece on Adafruit documented the recreation of this program, confirming Jobs was involved in building astrology software in 1975 — the year before he co-founded Apple.</p>
+    <p class="body-text">The man who built devices that feel divinatory in their ability to anticipate user desire literally began his programming career building a divination system. The first software Jobs worked on was a horoscope. His last major project was Apple Park — a building whose circular design, reflecting pools, and precise orientation suggest cosmological intent. The arc from Astrochart to Apple Park is, at minimum, symbolically coherent.</p>
+
+    <p class="sub-feature-kicker" style="margin-top:40px">Numerology</p>
+    <h3 class="sub-feature-heading">The Number <em>28</em></h3>
+    <p class="body-text">Jobs' life path number is 28 — the sum 2+4+2+1+9+5+5 equals 28, a perfect number in mathematics, equal to the sum of its divisors (1+2+4+7+14 = 28). Apple was founded on April 1, 1976: 4+1+1+9+7+6 also equals 28. Whether deliberate or synchronistic, the recurrence of 28 as a root number across Jobs' birth date and Apple's founding date is part of the cosmic signature of the Jobs-Apple phenomenon. The number 28 corresponds to one lunar cycle — the moon returns to its starting position every 28 days.</p>
   </div>
 </section>
 
-<!-- ARTICLE 3 -->
-<section class="article-section" id="article-3">
-  <div class="article-inner">
-    <div class="article-img-col" id="aimg-3">
-      <span class="article-img-glyph">🌫️</span>
-      <span class="article-img-label">Cloud Forest · Manu, Peru · 3,400 m</span>
-      <span class="article-img-number">04</span>
-    </div>
-    <div class="article-text-col" id="atxt-3">
-      <p class="article-kicker">Expedition Report</p>
-      <h2 class="article-heading">Cloud Forest:<br><em>28 Days at 3,400 m</em></h2>
-      <p class="article-taxonomic">Manu Biosphere Reserve · Peru · 2025</p>
-      <p class="article-body">The cloud forest exists in a band of perpetual mist. Below, the Amazon basin. Above, the altiplano. Here, in the wet zone between 2,500 and 3,800 metres, plants evolved in isolation long enough to become entirely new forms.</p>
-      <p class="article-body">Our team spent 28 days in a single 4-hectare plot. We documented 14 species new to science — among them a miniature orchid with a petal span of 2.1 mm, visible only under magnification, and a bromeliad that had evolved to eat insects rather than wait for nutrients to arrive through rain.</p>
-      <a href="#" class="read-more">Read the Expedition Report</a>
-    </div>
+<!-- ═══════ THE PRODUCT RITUALS ═══════ -->
+<section id="product-rituals">
+  <div class="section-band">
+    <span class="section-band-num">05</span>
+    <span class="section-band-title">Feature</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">The Product Rituals</span>
   </div>
-</section>
+  <div class="rituals-intro">
+    <h2 class="feature-heading">Products as <em>Rituals</em></h2>
+    <p class="feature-intro">
+      Every Apple product launch happens on a specific date, in a specific sky. Over forty years, a pattern emerges: certain signs appear at pivotal moments, Jupiter and Saturn mark the transitions, and the launches that changed everything tend to cluster around cardinal points and sign-change boundaries.
+    </p>
+  </div>
+  <!-- IMG: 1984 ad / keynote banner -->
+  <figure class="figure-block" style="margin:0">
+    <img src="https://picsum.photos/seed/ac-1984/1400/200?grayscale" alt="1984 advertisement" class="mag-img" style="height:200px">
+    <figcaption style="border-left:none;border-top:1px solid var(--border);padding:8px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted)">The "1984" advertisement aired January 22, 1984, two days before the Macintosh launch. Directed by Ridley Scott. Never broadcast again.</figcaption>
+  </figure>
 
-<!-- SPECIMEN CATALOG -->
-<section id="catalog">
-  <div class="section-header">
-    <span class="section-kicker">Specimen Catalog</span>
-    <div class="section-rule"></div>
-    <span class="section-count">12 Species · Vol. I Selection</span>
-  </div>
-  <div class="catalog-grid">
-    <div class="catalog-card"><span class="catalog-glyph">🌸</span><span class="catalog-name">Ghost Orchid</span><span class="catalog-latin">Dendrophylax lindenii</span><span class="catalog-status status-cr">CR</span></div>
-    <div class="catalog-card"><span class="catalog-glyph">🌿</span><span class="catalog-name">Welwitschia</span><span class="catalog-latin">Welwitschia mirabilis</span><span class="catalog-status status-vu">VU</span></div>
-    <div class="catalog-card"><span class="catalog-glyph">🌱</span><span class="catalog-name">Titan Arum</span><span class="catalog-latin">Amorphophallus titanum</span><span class="catalog-status status-en">EN</span></div>
-    <div class="catalog-card"><span class="catalog-glyph">🌲</span><span class="catalog-name">Wollemi Pine</span><span class="catalog-latin">Wollemia nobilis</span><span class="catalog-status status-cr">CR</span></div>
-    <div class="catalog-card"><span class="catalog-glyph">🌺</span><span class="catalog-name">Black Bat Flower</span><span class="catalog-latin">Tacca chantrieri</span><span class="catalog-status status-vu">VU</span></div>
-    <div class="catalog-card"><span class="catalog-glyph">🪴</span><span class="catalog-name">Rafflesia</span><span class="catalog-latin">Rafflesia arnoldii</span><span class="catalog-status status-cr">CR</span></div>
-    <div class="catalog-card"><span class="catalog-glyph">🌻</span><span class="catalog-name">Jade Vine</span><span class="catalog-latin">Strongylodon macrobotrys</span><span class="catalog-status status-en">EN</span></div>
-    <div class="catalog-card"><span class="catalog-glyph">🍀</span><span class="catalog-name">Wood's Cycad</span><span class="catalog-latin">Encephalartos woodii</span><span class="catalog-status status-cr">CR</span></div>
-    <div class="catalog-card"><span class="catalog-glyph">🌾</span><span class="catalog-name">Dragon Blood Tree</span><span class="catalog-latin">Dracaena cinnabari</span><span class="catalog-status status-vu">VU</span></div>
-    <div class="catalog-card"><span class="catalog-glyph">🌵</span><span class="catalog-name">Saguaro Cactus</span><span class="catalog-latin">Carnegiea gigantea</span><span class="catalog-status status-lc">LC</span></div>
-    <div class="catalog-card"><span class="catalog-glyph">🌳</span><span class="catalog-name">Baobab</span><span class="catalog-latin">Adansonia grandidieri</span><span class="catalog-status status-en">EN</span></div>
-    <div class="catalog-card"><span class="catalog-glyph">🪷</span><span class="catalog-name">Middlemist Red</span><span class="catalog-latin">Camellia japonica cv.</span><span class="catalog-status status-cr">CR</span></div>
+  <div class="rituals-timeline">
+    <div class="ritual-item">
+      <div class="ritual-date-col">
+        <p class="ritual-date">Jan 22–24, 1984</p>
+        <p class="ritual-sign-line">☉ Aquarius</p>
+      </div>
+      <div class="ritual-line"></div>
+      <div class="ritual-content">
+        <h3 class="ritual-product">The <em>Macintosh</em></h3>
+        <p class="ritual-tagline">Aquarius · Rebellion Against the Machine</p>
+        <p class="ritual-body">The "1984" ad airs January 22nd, two days before the launch — staging Apple as liberator: a lone runner, a hypnotized mass audience, a hammer thrown at centralized control. The Mac arrives under Aquarius and says the machine does not have to belong to the institution. It can belong to the person. Forty years later, that promise still drives Apple's marketing language.</p>
+      </div>
+    </div>
+    <div class="ritual-item">
+      <div class="ritual-date-col">
+        <p class="ritual-date">Nov 10, 1997</p>
+        <p class="ritual-sign-line">☉ Scorpio</p>
+      </div>
+      <div class="ritual-line"></div>
+      <div class="ritual-content">
+        <h3 class="ritual-product">The Online <em>Apple Store</em></h3>
+        <p class="ritual-tagline">Scorpio · Revenge Through Direct Commerce</p>
+        <p class="ritual-body">Two months after Jobs returned as interim CEO, Apple launched its online store under Scorpio — the sign of control, hidden systems, and the return of power from those who took it. No more middlemen. This move predates the retail stores by four years. It is the first act of a Scorpio strategy that would become the App Store, Apple Music, Apple TV+, and Apple Pay — a services empire built on the principle that Apple owns the relationship end to end.</p>
+      </div>
+    </div>
+    <div class="ritual-item">
+      <div class="ritual-date-col">
+        <p class="ritual-date">Oct 23, 2001</p>
+        <p class="ritual-sign-line">☉ Scorpio</p>
+      </div>
+      <div class="ritual-line"></div>
+      <div class="ritual-content">
+        <h3 class="ritual-product">The <em>iPod</em></h3>
+        <p class="ritual-tagline">Scorpio · The Private Music Vault</p>
+        <p class="ritual-body">A thousand songs in your pocket. What Jobs was actually describing was a private emotional vault: memory, longing, taste, identity, and the entire soundtrack of a self compressed into a small white object. The white earbuds signaled precisely Scorpionic: <em>I am connected to my own interior world. Do not interrupt.</em> The iPod turned music from a shared, public experience into a private, portable one. It made the inner life portable.</p>
+      </div>
+    </div>
+    <div class="ritual-item">
+      <div class="ritual-date-col">
+        <p class="ritual-date">Apr 28, 2003</p>
+        <p class="ritual-sign-line">☉ Taurus</p>
+      </div>
+      <div class="ritual-line"></div>
+      <div class="ritual-content">
+        <h3 class="ritual-product">The <em>iTunes</em> Store</h3>
+        <p class="ritual-tagline">Taurus · Music Becomes an Object Again</p>
+        <p class="ritual-body">The iTunes Music Store arrives under Taurus — the sign of material value, ownership, and the tangible. In the era of Napster, music had become unstable: free, invisible, uncontained, impossible to own. Apple's answer was to restore materiality. Ninety-nine cents. One song. Yours. Taurus restores object status to something that had dissolved into pure digital ether. Apple did not merely sell songs. It rebuilt the relationship between music and possession.</p>
+      </div>
+    </div>
+    <div class="ritual-item">
+      <div class="ritual-date-col">
+        <p class="ritual-date">Jan 9 / Jun 29, 2007</p>
+        <p class="ritual-sign-line">♑ then ♋</p>
+      </div>
+      <div class="ritual-line"></div>
+      <div class="ritual-content">
+        <h3 class="ritual-product">The <em>iPhone</em></h3>
+        <p class="ritual-tagline">Capricorn then Cancer · Authority, Then Intimacy</p>
+        <p class="ritual-body">The iPhone has two births. The announcement on January 9 falls under Capricorn — the controlled reveal of a definitive object that reorganizes the hierarchy of an entire industry. Jobs introduces it as three devices in one, then says: Apple is introducing <em>one</em> device. The room erupts. But the iPhone releases five months later on June 29, under Cancer. And Cancer is home, attachment, emotional memory, intimacy, the container we live inside. <strong>Capricorn made it authoritative. Cancer made it indispensable.</strong></p>
+      </div>
+    </div>
+    <div class="ritual-item">
+      <div class="ritual-date-col">
+        <p class="ritual-date">Apr 3, 2010</p>
+        <p class="ritual-sign-line">☉ Aries</p>
+      </div>
+      <div class="ritual-line"></div>
+      <div class="ritual-content">
+        <h3 class="ritual-product">The <em>iPad</em></h3>
+        <p class="ritual-tagline">Aries · The Cycle Completes</p>
+        <p class="ritual-body">The iPad launches under Aries — closing a circle that opened with Apple's founding in April 1976. Critics called it a large iPhone. They missed the point. The iPad was Apple's declaration that the computer interface itself needed to be rebuilt from first principles — not adapted, not miniaturized, but reimagined. That is Aries: ignition, rupture, the courage to begin before the argument is settled. The iPad also arrives near Jupiter conjunct Jobs' natal Sun — the last major product he introduces while healthy.</p>
+      </div>
+    </div>
+    <div class="ritual-item">
+      <div class="ritual-date-col">
+        <p class="ritual-date">Feb 2, 2024</p>
+        <p class="ritual-sign-line">☉ Aquarius</p>
+      </div>
+      <div class="ritual-line"></div>
+      <div class="ritual-content">
+        <h3 class="ritual-product">Apple <em>Vision Pro</em></h3>
+        <p class="ritual-tagline">Aquarius Again · Reality Becomes Interface</p>
+        <p class="ritual-body">Vision Pro releases under Aquarius — the same sign as the Macintosh, forty years later. The echo is not subtle. Aquarius rules future systems, altered social architecture, and the redesign of perception through invention. The Vision Pro is not a screen. It is an attempt to place the Apple interface into the field of vision itself. Apple's oldest question — where does the tool end and the self begin — arrives here at its most extreme form.</p>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- PULL QUOTE 2 -->
-<section class="pullquote-section">
+<section class="pullquote-band">
   <div class="pullquote-inner">
-    <div class="pullquote-rule"></div>
-    <blockquote id="quote-text-2">
-      "Every rare plant is a question the earth asked once and almost forgot how to answer."
+    <div class="pq-rule"></div>
+    <blockquote id="pq-2">
+      "The iPhone launched under Cancer — the sign of home, belonging, and the body as a nest. Within five years, it had become the place where most people lived their emotional lives."
     </blockquote>
-    <cite>— Editorial Foreword · The Botanist, Vol. I</cite>
-    <div class="pullquote-bg-num">II</div>
+    <cite>— Hipstrology, Issue 01</cite>
+    <div class="pq-bg">II</div>
   </div>
 </section>
 
-<!-- CULTIVATION NOTES -->
-<section id="cultivation">
-  <div class="cultivation-inner">
-    <div class="section-header" style="padding:0 0 16px 0; margin-bottom:32px; border-color:var(--border-lt)">
-      <span class="section-kicker">Cultivation Notes</span>
-      <div class="section-rule"></div>
-      <span class="section-count">5 Protocols</span>
+<!-- ═══════ STORE AS TEMPLE ═══════ -->
+<section id="store-temple">
+  <div class="section-band">
+    <span class="section-band-num">06</span>
+    <span class="section-band-title">Feature</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">The Store as Temple</span>
+  </div>
+  <div class="store-inner">
+    <div class="store-img">
+      <img src="https://picsum.photos/seed/ac-store/900/520?grayscale" alt="Apple Store Fifth Avenue" class="mag-img" style="height:100%;min-height:480px;width:100%">
+      <span class="store-img-label">Fifth Avenue · New York · May 19, 2006</span>
     </div>
-    <h2 class="cultivation-heading">Growing the <em>Uncultivable</em></h2>
-    <div class="cult-grid">
-      <div class="cult-shell">
-        <div class="cult-inner">
-          <div class="cult-num">Protocol I</div>
-          <span class="cult-glyph">💧</span>
-          <span class="cult-name">Humidity Control</span>
-          <p class="cult-desc">Maintain 85–95% relative humidity for cloud forest epiphytes. Daily misting at dawn replicates condensation cycles.</p>
-        </div>
-      </div>
-      <div class="cult-shell">
-        <div class="cult-inner">
-          <div class="cult-num">Protocol II</div>
-          <span class="cult-glyph">🌡️</span>
-          <span class="cult-name">Thermal Rhythm</span>
-          <p class="cult-desc">A 10°C night-to-day temperature drop triggers dormancy cycles critical for orchid bloom induction.</p>
-        </div>
-      </div>
-      <div class="cult-shell">
-        <div class="cult-inner">
-          <div class="cult-num">Protocol III</div>
-          <span class="cult-glyph">🪨</span>
-          <span class="cult-name">Substrate Composition</span>
-          <p class="cult-desc">For desert specimens: 60% coarse pumice, 30% decomposed granite, 10% aged bark. Zero organic matter retained.</p>
-        </div>
-      </div>
-      <div class="cult-shell">
-        <div class="cult-inner">
-          <div class="cult-num">Protocol IV</div>
-          <span class="cult-glyph">🔬</span>
-          <span class="cult-name">Mycorrhizal Inoculation</span>
-          <p class="cult-desc">Ghost orchid seeds require specific fungal partners. Collect substrate from beneath existing specimens and transfer directly.</p>
-        </div>
-      </div>
-      <div class="cult-shell">
-        <div class="cult-inner">
-          <div class="cult-num">Protocol V</div>
-          <span class="cult-glyph">📅</span>
-          <span class="cult-name">Patience as Method</span>
-          <p class="cult-desc">Titan arum corms require 7–10 years before first bloom. There is no shortcut. Document and wait.</p>
-        </div>
-      </div>
+    <div class="store-text">
+      <p class="store-kicker">Retail as Sacred Architecture</p>
+      <h2 class="store-heading">Four Temples<br>and a <em>Glass Cube</em></h2>
+      <p class="body-text">
+        The first Apple Store opened May 19, 2001 — Taurus season, the sign of beautiful objects, of value made tangible, of the physical world as a site of meaning. Jobs understood something that no technology company had understood before: that the store was the brand. That walking into an Apple Store was a religious experience, and that this was not a metaphor.
+      </p>
+      <p class="body-text">
+        The stores are temples. The layout — open, white, minimal — is the architecture of a church without doctrine. The Genius Bar is the confessional booth where you bring your broken thing and a trained priest helps you restore it. The products are displayed like relics. <em>Nothing is priced.</em> You don't come in to shop. You come in to believe.
+      </p>
+      <p class="body-text">
+        The Fifth Avenue cube — open 24 hours, glass, a literal beacon — is Apple's most honest building. It doesn't pretend to be a store. It's a lantern. The glass box you enter to descend underground to the space where the products live: you go down into the temple. You go below the city. The cube is Taurus's earthly beauty made sacred infrastructure.
+      </p>
+      <p class="body-text">
+        Jobs called the four signature stores — Manhattan, Chicago, London, Tokyo — his four temples. He said this without irony. He was a Zen Buddhist. He understood that objects carry meaning, that space shapes consciousness, that beauty is not decorative. It is load-bearing.
+      </p>
     </div>
   </div>
 </section>
 
-<!-- NEWSLETTER -->
+<!-- ═══════ THE BODY BECOMES INTERFACE ═══════ -->
+<section id="body-interface">
+  <div class="section-band">
+    <span class="section-band-num">07</span>
+    <span class="section-band-title">Feature</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">The Body Becomes Interface</span>
+  </div>
+  <div class="body-interface-inner">
+    <h2 class="feature-heading">The Body Becomes<br>the <em>Interface</em></h2>
+    <p class="feature-intro" style="margin-top:16px">
+      The Cook era brought Apple into Virgo territory: health, the body, precision, the integration of biological data into daily life. Apple Watch and Apple Health represent the company's most intimate product category yet — and the most Virgoan.
+    </p>
+    <!-- IMG: Body interface banner -->
+    <figure class="figure-block" style="margin:16px 0 0">
+      <img src="https://picsum.photos/seed/ac-watch/1400/180?grayscale" alt="Apple Watch" class="mag-img" style="height:180px">
+    </figure>
+
+    <div class="body-interface-grid">
+      <div class="interface-card">
+        <span class="interface-icon">⌚</span>
+        <p class="interface-date">April 24, 2015 · Taurus</p>
+        <h3 class="interface-heading">Apple Watch</h3>
+        <p class="interface-body">
+          The first device Apple had made that required physical contact to work — you wear it, it touches you, it measures you. Taurus governs the body as a site of sensory experience, and the Watch arrived under that sign to claim the wrist. It counts your heartbeats. It knows when you've fallen. It suggests when to breathe.
+          <br><br>
+          This is Apple moving from the hand (iPhone) to the wrist to, eventually, the body as total interface. Virgo as destination: the health-monitoring, bio-tracking, precision-wellness future that Cook has been building toward since 2014.
+        </p>
+      </div>
+      <div class="interface-card">
+        <span class="interface-icon">🫀</span>
+        <p class="interface-date">September 17, 2014 · Virgo</p>
+        <h3 class="interface-heading">Apple Health</h3>
+        <p class="interface-body">
+          Virgo rules health, the body's systems, the detail-oriented practices of maintenance and care. Apple Health launched under its own sign: September 17, Virgo. A centralised platform for every biometric the iPhone could collect — steps, sleep, heart rate, reproductive cycles, medication schedules.
+          <br><br>
+          Jobs died of a pancreatic neuroendocrine tumour — a disease whose early detection is now part of what Apple's health monitoring is built to catch. There is something almost unbearable about that arc: the company he built, operating under the sign that governs the precise bodily care he famously resisted, building tools to catch what killed him.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ THE JUPITER CYCLE ═══════ -->
+<section id="jupiter-cycle">
+  <div class="section-band">
+    <span class="section-band-num">08</span>
+    <span class="section-band-title">Feature</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">The Jupiter Cycle — 35 Years of Cosmic Evidence</span>
+  </div>
+  <div class="births-intro">
+    <h2 class="feature-heading">Every 12 Years,<br>the Sky <em>Repeats</em></h2>
+    <p class="feature-intro">The most extensively analyzed astrological pattern in Jobs' career: the correlation between his major innovations and Jupiter's 12-year cycle transiting between his natal Midheaven (MC at 21° Gemini) and Imum Coeli (IC at 21° Sagittarius). Products launched near Jupiter on the IC became permanent institutions. Products launched near Jupiter on the MC were eventually discontinued.</p>
+  </div>
+
+  <!-- IMG: Jupiter cycle visualization -->
+  <figure class="figure-block" style="margin:0">
+    <img src="https://picsum.photos/seed/ac-jupiter/1400/260?grayscale" alt="Jupiter cycle" class="mag-img" style="height:260px">
+    <figcaption style="border-left:none;border-top:1px solid var(--border);padding:8px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted)">Jupiter's 12-year orbit mapped against Jobs' natal MC/IC axis. Products launched near IC (bottom of chart) became permanent. Products launched near MC were discontinued.</figcaption>
+  </figure>
+
+  <div style="padding: 0 32px 48px">
+    <table class="jup-table">
+      <thead>
+        <tr><th>Product / Milestone</th><th>Date</th><th>Jupiter Transit</th><th>Type</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Blue Boxes (first business)</td><td>Oct 1971</td><td>Jupiter on IC (Dec 1971)</td><td class="td-highlight">Foundational seed</td></tr>
+        <tr><td>Apple I &amp; company founded</td><td>Apr 1976</td><td>Jupiter on natal Mars (Mar 1976)</td><td class="td-highlight">Foundational seed</td></tr>
+        <tr><td class="td-highlight">Apple II released</td><td>Jun 1977</td><td>Jupiter on MC (Jul 1977)</td><td style="color:var(--text4)">Transitional — discontinued 1993</td></tr>
+        <tr style="background:var(--surface2)"><td class="td-highlight"><strong>Macintosh launched</strong></td><td>Jan 1984</td><td>Jupiter on IC (Dec 1983)</td><td style="color:var(--text4)">FOUNDATIONAL — still sold today</td></tr>
+        <tr><td>Jobs fired from Apple</td><td>May 1985</td><td>Jupiter Rx on natal Mercury</td><td style="color:var(--text4)">Crisis</td></tr>
+        <tr><td class="td-highlight">NeXT Computer announced</td><td>Oct 1988</td><td>Jupiter on MC (Jun 1989)</td><td style="color:var(--text4)">Transitional — hardware discontinued 1990</td></tr>
+        <tr style="background:var(--surface2)"><td class="td-highlight"><strong>Toy Story / Pixar IPO</strong></td><td>Nov 1995</td><td>Jupiter on IC (Dec 1995)</td><td style="color:var(--text4)">FOUNDATIONAL — franchise ongoing</td></tr>
+        <tr><td>Jobs returns to Apple</td><td>Sep 1997</td><td>Jupiter Rx on Mercury (12 yrs later)</td><td class="td-highlight">Return — exact repeat of 1985</td></tr>
+        <tr><td>iMac</td><td>Aug 1998</td><td>Jupiter on Mercury</td><td style="color:var(--text4)">Recovery</td></tr>
+        <tr><td class="td-highlight">iPod</td><td>Oct 2001</td><td>Jupiter on MC (Jun 2001)</td><td style="color:var(--text4)">Transitional — full line retired 2022</td></tr>
+        <tr style="background:var(--surface2)"><td class="td-highlight"><strong>iPhone announced / released</strong></td><td>Jan / Jun 2007</td><td>Jupiter on IC (Nov 2007)</td><td style="color:var(--text4)">FOUNDATIONAL — most profitable product in history</td></tr>
+        <tr><td>iPad</td><td>Apr 2010</td><td>Jupiter conjunct natal Sun (Feb 2010)</td><td class="td-highlight">Foundational — Jupiter touches his core</td></tr>
+        <tr><td>iCloud / Apple Park presented</td><td>Jun 6, 2011</td><td>Jupiter on natal Mars</td><td style="color:var(--text4)">Final act</td></tr>
+        <tr><td>Death</td><td>Oct 5, 2011</td><td>MC primary direction to Mars (Oct 4)</td><td style="color:var(--text4)">—</td></tr>
+      </tbody>
+    </table>
+
+    <p class="body-text" style="margin-top:24px"><strong>The IC plants seeds that grow into permanent foundations. The MC produces climactic achievements that peak and pass.</strong> That distinction, across 35 years and ten major products, is the Jupiter cycle's most striking claim.</p>
+    <p class="body-text">Jobs was fired in May 1985 — Jupiter retrograde, crossing his natal Mercury. He returned in September 1997 — Jupiter retrograde, crossing his natal Mercury again. The gap: exactly twelve years, one Jupiter cycle. Both events were also major communication and narrative pivots: the 1985 departure was about Apple's direction narrative. The 1997 return launched "Think Different." Mercury rules communication. Both events happened on Jupiter's retrograde passage over Jobs' natal Mercury, twelve years apart.</p>
+
+    <p class="sub-feature-kicker" style="margin-top:40px; margin-bottom:12px">The Saturn-Neptune Macro Cycle</p>
+    <table class="sn-table">
+      <thead><tr><th>S-N Alignment</th><th>Year</th><th>Jobs' Career Event</th></tr></thead>
+      <tbody>
+        <tr><td>Opposition</td><td>1971–72</td><td>Blue Boxes — first entrepreneurial act</td></tr>
+        <tr><td>Trine</td><td>1976–77</td><td>Apple I/II — first mass-produced personal computer</td></tr>
+        <tr><td>Sextile</td><td>1982–83</td><td>Macintosh development climax</td></tr>
+        <tr><td>Opposition</td><td>2006–07</td><td>iPhone — the final masterpiece</td></tr>
+      </tbody>
+    </table>
+    <p class="body-text" style="margin-top:16px; font-size:12px">Astrodienst's analysis: "Steve Jobs' career as a visionary innovator can be understood by following the thread of one complete Saturn-Neptune cycle, from the oppositions of 1971–72 until the oppositions of 2006–07" — a precisely 35-year arc from the Blue Box to the iPhone.</p>
+  </div>
+</section>
+
+<!-- ═══════ THE CORPORATE CHART ═══════ -->
+<section id="corporate-chart" style="background:var(--surface); border-top:1px solid var(--border-l)">
+  <div class="section-band">
+    <span class="section-band-num">09</span>
+    <span class="section-band-title">Feature</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">The Apple Corporate Chart</span>
+  </div>
+  <div class="births-intro">
+    <h2 class="feature-heading">Cosmic <em>Coordinates</em></h2>
+    <p class="feature-intro">The founding chart, the $1 trillion alignment, and the evidence that makes astrological analysts regard Apple as the best corporate case study in the modern record.</p>
+  </div>
+  <div class="sub-feature">
+    <p class="sub-feature-kicker">The Founding Chart · April 1, 1976</p>
+    <h3 class="sub-feature-heading">Jupiter at 1° Taurus,<br>North Node at <em>14° Scorpio</em></h3>
+    <p class="body-text">On the day the Apple Computer Company partnership was signed: <strong>Jupiter at 1° Taurus</strong> — the planet of abundance sitting on the money and business sign at its most foundational degree. <strong>North Node at 14° Scorpio</strong> — the karmic North Node in the sign of high finance, transformation, and corporate power. <strong>South Node at 14° Taurus</strong> — creating a Taurus-Scorpio financial axis across the chart. Ron Wayne typed the partnership document on that date and sold his 10% stake for $800 days later.</p>
+
+    <p class="sub-feature-kicker" style="margin-top:40px">August 2, 2018</p>
+    <h3 class="sub-feature-heading">The $1 Trillion <em>Alignment</em></h3>
+    <p class="body-text">The day Apple became the first publicly traded company worth $1 trillion, two things happened simultaneously in the sky:</p>
+    <p class="body-text"><strong>Transiting Uranus reached 2° Taurus</strong> — landing within one degree of Apple's natal Jupiter at 1° Taurus. Uranus takes 84 years to complete one orbit. This was the first time Uranus had returned to this degree since Apple was founded. The first Uranus return in Apple's history arrived on the day Apple hit $1 trillion.</p>
+    <p class="body-text"><strong>Transiting Jupiter reached 14° Scorpio</strong> — landing exactly on Apple's founding North Node at 14° Scorpio. This was Jupiter's seventh return to Apple's natal North Node. Both outer planets returned simultaneously to within one degree of Apple's founding positions — on the same day, the day of the most significant financial milestone in the company's history.</p>
+    <p class="body-text">Jobs' natal chart interlocks with these coordinates: his natal Mercury sits at 14° Aquarius, squaring Apple's North Node at 14° Scorpio. His natal Chiron sits at 2° Aquarius, squaring Apple's Jupiter at 1° Taurus and the 2018 Uranus transit. The founder's personal chart and the company's founding chart share the same geometric coordinates — and both activated on the same historic day. As Jessica Adams wrote: <em>"How often does this happen? Once in a company's lifetime."</em></p>
+
+    <p class="sub-feature-kicker" style="margin-top:40px">The Tarot of Apple</p>
+    <h3 class="sub-feature-heading">If Apple Were a <em>Spread</em></h3>
+  </div>
+  <div style="padding: 0 32px 48px">
+    <div class="tarot-grid">
+      <div class="tarot-cell"><p class="tarot-card-name">The Fool</p><p class="tarot-card-body">The garage. The leap. The absurdity of believing two young men could change computing.</p></div>
+      <div class="tarot-cell"><p class="tarot-card-name">The Magician</p><p class="tarot-card-body">The keynote. The product reveal. The invisible future made visible. One more thing.</p></div>
+      <div class="tarot-cell"><p class="tarot-card-name">The Emperor</p><p class="tarot-card-body">The will to build a world and define the rules of that world.</p></div>
+      <div class="tarot-cell"><p class="tarot-card-name">The Hierophant</p><p class="tarot-card-body">The Apple Store. The Genius Bar. The initiation into the system of belonging.</p></div>
+      <div class="tarot-cell"><p class="tarot-card-name">The Devil</p><p class="tarot-card-body">The beautiful object that binds us. Desire, dependency, ecosystem, attachment.</p></div>
+      <div class="tarot-cell"><p class="tarot-card-name">Temperance</p><p class="tarot-card-body">The alchemy of art and engineering, beauty and utility, hardware and software.</p></div>
+      <div class="tarot-cell"><p class="tarot-card-name">The Moon</p><p class="tarot-card-body">The dream field, the aura, the distortion, the longing projected onto the machine.</p></div>
+      <div class="tarot-cell"><p class="tarot-card-name">Strength</p><p class="tarot-card-body">Wozniak. The heart-force that made the early machine lovable.</p></div>
+      <div class="tarot-cell"><p class="tarot-card-name">The Hermit</p><p class="tarot-card-body">Apple Health. The inward lantern. The body becoming readable through data.</p></div>
+      <div class="tarot-cell"><p class="tarot-card-name">Death</p><p class="tarot-card-body">The Jobs-to-Cook transition. The dream must survive in another body.</p></div>
+      <div class="tarot-cell"><p class="tarot-card-name">The World</p><p class="tarot-card-body">The ecosystem completed — phone, watch, laptop, cloud, services, store, music, identity.</p></div>
+      <div class="tarot-cell"><p class="tarot-card-name">Apple's Deck</p><p class="tarot-card-body">Apple's story is not one card. It is a deck. The chart shows where it all began.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ THE APPLE SHADOW ═══════ -->
+<section id="apple-shadow">
+  <div class="section-band">
+    <span class="section-band-num">10</span>
+    <span class="section-band-title">Feature</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">The Apple Shadow</span>
+  </div>
+  <div class="shadow-inner">
+    <div class="shadow-left">
+      <h2 class="shadow-heading">The Cost of<br><em>Enchantment</em></h2>
+      <p class="body-text">Jung's concept of the Shadow is not about evil. It is about what we cannot see in ourselves because we are too identified with the opposite quality. The Shadow is the cost of the gift. The underside of the strength.</p>
+      <table class="shadow-gift-table">
+        <tbody>
+          <tr><td>Simplicity</td><td>→ Control</td></tr>
+          <tr><td>Beauty</td><td>→ Perfectionism as cruelty</td></tr>
+          <tr><td>Ecosystem</td><td>→ Enclosure</td></tr>
+          <tr><td>Privacy</td><td>→ Opacity</td></tr>
+          <tr><td>Devotion</td><td>→ Dependency</td></tr>
+          <tr><td>Design</td><td>→ Invisible labor</td></tr>
+        </tbody>
+      </table>
+      <p class="body-text" style="margin-top:20px">Apple's Capricorn incorporation chart gave it The Devil — and The Devil has been present in every product Apple has ever made. Not as evil. As attachment. The beautiful object that you desire so completely that it begins to organize your life around itself. The cleaner the object, the more hidden the machinery behind it. The smoother the surface, the less visible the hands that polished it.</p>
+    </div>
+    <div class="shadow-right">
+      <p class="body-text" style="margin-top: 0">
+        <em>The most powerful form of control is the kind that feels like freedom. You are not trapped. You just don't want to leave.</em> Apple has always understood this. The sealed ecosystem. The locked repair path. The spiritual language of creativity wrapped around a vast machine of supply chain secrecy, labor extraction, and capital.
+      </p>
+      <p class="body-text">
+        The invisible labor shadow is perhaps the hardest to sit with, because it requires holding Apple's beautiful objects alongside the conditions of their manufacture — the supply chain that Apple manages with extraordinary Scorpionic control, the factories that produce the devices, the extraction of materials, the working conditions of the people whose hands make what our hands hold. The object is clean. The system behind it is not. That gap is where Apple's deepest shadow lives.
+      </p>
+      <p class="body-text">
+        Jung's Shadow work is not about condemning the Shadow. It is about seeing it clearly enough that it stops operating unconsciously. The goal is not to stop using Apple products. The goal is to understand what the relationship actually is — what we project onto the devices, what needs they address, what parts of ourselves we have outsourced to them.
+      </p>
+      <p class="body-text">
+        <strong>The shadow is not the opposite of the light. It is the shape the light makes when something stands in it.</strong> Apple stands in its own light constantly. What part of ourselves did we place inside the device? And do we know how to get it back?
+      </p>
+      <!-- IMG: Shadow section portrait -->
+      <figure class="figure-block" style="margin:24px 0 0">
+        <img src="https://picsum.photos/seed/ac-shadow/800/220?grayscale" alt="Shadow" class="mag-img" style="height:220px">
+        <figcaption>Image caption — shadow / contrast</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- PULL QUOTE 3 -->
+<section class="pullquote-band">
+  <div class="pullquote-inner">
+    <div class="pq-rule"></div>
+    <blockquote id="pq-3">
+      "The shadow is not the opposite of the light. It is the shape the light makes when something stands in it. Apple stands in its own light constantly."
+    </blockquote>
+    <cite>— Hipstrology, Issue 01 · The Apple Shadow</cite>
+    <div class="pq-bg">III</div>
+  </div>
+</section>
+
+<!-- ═══════ SYMBOLIC TIMELINE ═══════ -->
+<section id="timeline">
+  <div class="section-band">
+    <span class="section-band-num">11</span>
+    <span class="section-band-title">Reference</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">Symbolic Timeline</span>
+  </div>
+  <div class="timeline-intro">
+    <h2 class="feature-heading" style="font-size:clamp(24px,3vw,40px)">Apple's Dates<br>and Their <em>Skies</em></h2>
+  </div>
+  <table class="timeline-table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Event</th>
+        <th>Sun Sign</th>
+        <th>Astrological Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="td-date">Apr 1, 1976</td><td class="td-event">Apple Computer founded</td><td class="td-sign">♈ Aries</td><td class="td-note">Cardinal fire; pure initiation; Jupiter at 1° Taurus on founding</td></tr>
+      <tr><td class="td-date">Jan 3, 1977</td><td class="td-event">Apple Computer Inc. incorporated</td><td class="td-sign">♑ Capricorn</td><td class="td-note">Cardinal earth; institution built; ambition structured</td></tr>
+      <tr><td class="td-date">Dec 12, 1980</td><td class="td-event">Apple IPO · $1.8B valuation</td><td class="td-sign">♐ Sagittarius</td><td class="td-note">Mutable fire; myth goes public; philosophy becomes an offer</td></tr>
+      <tr><td class="td-date">Jan 24, 1984</td><td class="td-event">Macintosh launches</td><td class="td-sign">♒ Aquarius</td><td class="td-note">"Hello." The computer that speaks; future-arrival; revolutionary gesture</td></tr>
+      <tr><td class="td-date">Nov 1997</td><td class="td-event">Apple Online Store opens</td><td class="td-sign">♏ Scorpio</td><td class="td-note">Direct commerce; the company controls distribution; Scorpio revenge arc</td></tr>
+      <tr><td class="td-date">May 19, 2001</td><td class="td-event">First Apple Store opens</td><td class="td-sign">♉ Taurus</td><td class="td-note">Beautiful objects; value made tangible; the store as temple</td></tr>
+      <tr><td class="td-date">Oct 23, 2001</td><td class="td-event">iPod launches</td><td class="td-sign">♏ Scorpio</td><td class="td-note">Interiority; obsession; 1,000 songs as private world; 6 wks after 9/11</td></tr>
+      <tr><td class="td-date">Jun 29, 2007</td><td class="td-event">iPhone launches</td><td class="td-sign">♋ Cancer</td><td class="td-note">Home; belonging; conj. Jobs' natal Jupiter/Uranus Cancer 10H</td></tr>
+      <tr><td class="td-date">Apr 3, 2010</td><td class="td-event">iPad launches</td><td class="td-sign">♈ Aries</td><td class="td-note">Post-PC declaration; return to founding sign; new beginning named</td></tr>
+      <tr><td class="td-date">Aug 24, 2011</td><td class="td-event">Jobs hands CEO to Tim Cook</td><td class="td-sign">♍ Virgo</td><td class="td-note">Virgo transition; precision, health, supply chain era begins</td></tr>
+      <tr><td class="td-date">Sep 17, 2014</td><td class="td-event">Apple Health launches</td><td class="td-sign">♍ Virgo</td><td class="td-note">Virgo governs health; launches under its own sign</td></tr>
+      <tr><td class="td-date">Apr 24, 2015</td><td class="td-event">Apple Watch launches</td><td class="td-sign">♉ Taurus</td><td class="td-note">Body as sensory site; tactile computing; the wrist claimed</td></tr>
+      <tr><td class="td-date">Aug 2, 2018</td><td class="td-event">Apple crosses $1 trillion</td><td class="td-sign">♌ Leo</td><td class="td-note">Uranus at 2° Taurus — near-exact return to founding Jupiter at 1° Taurus</td></tr>
+      <tr><td class="td-date">Jan 3, 2022</td><td class="td-event">Apple crosses $3 trillion</td><td class="td-sign">♑ Capricorn</td><td class="td-note">Return to incorporation sign; Capricorn's long game paying off</td></tr>
+      <tr><td class="td-date">Feb 2, 2024</td><td class="td-event">Vision Pro launches</td><td class="td-sign">♒ Aquarius</td><td class="td-note">Aquarius returns; spatial computing; 40 years after the Mac</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════ REFERENCES ═══════ -->
+<section id="references">
+  <div class="section-band" style="margin:0 -32px; padding-left:32px; padding-right:32px">
+    <span class="section-band-num">12</span>
+    <span class="section-band-title">Sources & References</span>
+    <div class="section-band-rule"></div>
+    <span class="section-band-tag">Web Edition</span>
+  </div>
+  <div class="ref-grid">
+    <div>
+      <p class="ref-group-title">Steve Jobs — Chart & Biography</p>
+      <ul class="ref-list">
+        <li><a href="https://www.astro.com/astro-databank/Jobs,_Steve" target="_blank">Astrodatabank — Steve Jobs, AA-rated birth data</a></li>
+        <li><a href="https://sevenstarsastrology.com/astrology-profession-calling-3-steve-jobs-bill-gates/" target="_blank">Seven Stars Astrology — Jobs & Gates: Mercury and the Profession</a></li>
+        <li><a href="https://sitharsastrology.com/blog/steve-jobs-horoscope-analysis" target="_blank">Sithar's Astrology — Steve Jobs Horoscope Analysis</a></li>
+        <li><a href="https://tonylouis.wordpress.com/2011/10/07/astrology-primary-directions-and-the-death-of-steve-jobs/" target="_blank">Tony Louis — Primary Directions and the Death of Steve Jobs</a></li>
+        <li><a href="https://blog.adafruit.com/2026/01/06/we-recreated-steve-jobss-1975-atari-horoscope-program-and-you-can-run-it/" target="_blank">Adafruit — We Recreated Steve Jobs's 1975 Atari Horoscope Program</a></li>
+        <li><a href="https://abcnews.com/Health/steve-jobs-buddhism-guided-life-mantra-focus-simplicity/story?id=14682458" target="_blank">ABC News — Steve Jobs' Buddhism guided his life</a></li>
+        <li><a href="https://www.nytimes.com/2011/10/06/business/steve-jobs-of-apple-dies-at-56.html" target="_blank">New York Times — Steve Jobs of Apple Dies at 56</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="ref-group-title">Apple — Corporate Charts & Milestones</p>
+      <ul class="ref-list">
+        <li><a href="https://www.jessicaadams.com/2018/08/02/blog/the-apple-1-trillion-astrology-chart/" target="_blank">Jessica Adams — The Apple $1 Trillion Astrology Chart</a></li>
+        <li><a href="https://stockastrologer.com/example-charts/" target="_blank">StockAstrologer — Financial Astrology of Apple (IPO Chart)</a></li>
+        <li><a href="https://www.astro.com/astro-databank/Apple,_Shares" target="_blank">Astro.com — Apple Shares, December 12, 1980</a></li>
+        <li><a href="https://www.fastcompany.com/91246252/apple-ipo-44-anniversary-invested-1000-shares-worth-today" target="_blank">Fast Company — Apple IPO 44th Anniversary</a></li>
+        <li><a href="https://www.reuters.com/article/business/timeline-apple-product-introductions-and-milestones-idUSTRE60Q56D/" target="_blank">Reuters — Apple Product Introductions and Milestones</a></li>
+        <li><a href="https://www.astro.com" target="_blank">Astrodienst — Steve Jobs Career and Jupiter Cycles</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="ref-group-title">Astrology, Power & Capital</p>
+      <ul class="ref-list">
+        <li><a href="https://karenchristino.com/evangeline-adams/j-p-morgan-and-astrology/" target="_blank">Karen Christino — J.P. Morgan and Astrology</a></li>
+        <li><a href="https://www.independent.co.uk/news/people/joan-quigley-astrologer-who-was-said-by-white-house-insiders-to-have-influenced-the-policies-of-president-ronald-reagan-9819573.html" target="_blank">The Independent — Joan Quigley: Reagan's Astrologer</a></li>
+        <li><a href="https://www.hoover.org/news/hoover-makes-available-newly-processed-papers-nancys-reagans-white-house-astrologer" target="_blank">Hoover Institution — Joan Quigley Papers (2025)</a></li>
+        <li><a href="https://www.buffalo.edu/news/releases/2026/02/tirado-bramen-astrological-speculation.html" target="_blank">University at Buffalo — Astrological Speculation and Capitalism (Feb 2026)</a></li>
+        <li><a href="https://www.inc.com/gabrielle-bienasz/how-this-company-uses-astrology-to-make-business-decisions/91254002" target="_blank">Inc. — How CHANI Uses Astrology to Make Business Decisions</a></li>
+        <li><a href="https://www.reddit.com/r/AskHistorians/comments/os63pb/did_jp_morgan_really_say_millionaires_dont_use/" target="_blank">Reddit AskHistorians — Did J.P. Morgan really say this?</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ CLOSING ═══════ -->
+<section class="pullquote-band" style="background:var(--bg)">
+  <div class="pullquote-inner" style="max-width:900px">
+    <div class="pq-rule"></div>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(13px,1.5vw,18px);color:var(--silver);line-height:1.85;margin-bottom:28px">
+      Apple's genius has always been its ability to move inward. First the desk. Then the home. Then the pocket. Then the wrist. Then the body. Now, with spatial computing, the field of perception itself. Each threshold closer to the self. Each product more intimate than the last. The garage becomes an origin story, the keynote becomes a ritual, the store becomes a temple, the product becomes a symbol, and the company becomes something we project our desires, our identities, and our deepest longings onto.
+    </p>
+    <blockquote style="font-size:clamp(18px,2.5vw,28px);margin-bottom:20px">
+      "Apple did not simply sell us computers. It sold us a self-image. Which means it was never just a brand. It was always a chart waiting to be read."
+    </blockquote>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">
+      <span class="data-chip">Aries lights the fire</span>
+      <span class="data-chip">Capricorn seals the object</span>
+      <span class="data-chip">Sagittarius spreads the gospel</span>
+      <span class="data-chip">Taurus builds the temple</span>
+      <span class="data-chip">Virgo measures the body</span>
+    </div>
+    <p style="margin-top:28px;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.12em">Issue 02 coming.</p>
+  </div>
+</section>
+
+<!-- ═══════ NEWSLETTER ═══════ -->
 <section id="newsletter">
-  <div class="newsletter-inner">
-    <p class="newsletter-kicker">Field Notes · Monthly</p>
-    <h2 class="newsletter-heading">Dispatches from the <em>field</em></h2>
-    <p class="newsletter-sub">Monthly specimen reports, cultivation protocols, expedition diaries, and alerts on newly described species. For those who take plants seriously.</p>
-    <form class="newsletter-form" onsubmit="handleSubscribe(event)">
-      <input class="newsletter-input" type="email" placeholder="your@email.com" required>
-      <button class="newsletter-btn" type="submit">Subscribe</button>
+  <div class="nl-inner">
+    <p class="nl-kicker">Issue 02 Is Coming</p>
+    <h2 class="nl-heading">The next corporation<br>has a <em>chart too</em></h2>
+    <p class="nl-sub">Issue 02 looks at a different company, a different founding date, a different set of planetary conditions. Subscribe and we'll send it when it's ready.</p>
+    <form class="nl-form" onsubmit="handleSubscribe(event)">
+      <input class="nl-input" type="email" placeholder="your@email.com" required>
+      <button class="nl-btn" type="submit">Subscribe</button>
     </form>
-    <p id="newsletter-confirm" style="display:none;margin-top:16px;font-size:12px;color:var(--gold);letter-spacing:.1em;">✦ You are now on the field list.</p>
+    <p id="nl-confirm" style="display:none;margin-top:16px;font-size:12px;color:var(--gold);letter-spacing:.1em;font-family:var(--mono)">✦ You're on the list.</p>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ═══════ FOOTER ═══════ -->
 <footer>
   <div class="footer-top">
     <div>
-      <div class="footer-logo">The Botanist <em>·</em> Rare Specimens</div>
-      <p class="footer-tagline">An independent journal for field botanists, collectors, and everyone who has ever stopped to look closely at something growing in an unlikely place.</p>
+      <div class="footer-wordmark">Hipstrology</div>
+      <p class="footer-tagline">A symbolic research project exploring companies through astrology, tarot, Jungian archetypes, brand mythology, and historical timing against the birth charts of our culture's beloved brands.</p>
     </div>
     <div class="footer-col">
-      <p class="footer-col-title">Journal</p>
+      <p class="footer-col-title">Issues</p>
       <ul>
-        <li><a href="#">Current Issue</a></li>
+        <li><a href="#">Issue 01 · Apple</a></li>
+        <li><a href="#">Issue 02 · TBA</a></li>
         <li><a href="#">Archive</a></li>
-        <li><a href="#">Subscribe</a></li>
         <li><a href="#">About</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <p class="footer-col-title">Topics</p>
       <ul>
-        <li><a href="#">Field Reports</a></li>
-        <li><a href="#">Specimen Studies</a></li>
-        <li><a href="#">Cultivation Notes</a></li>
-        <li><a href="#">Taxonomy</a></li>
+        <li><a href="#">Corporate Astrology</a></li>
+        <li><a href="#">Founder Charts</a></li>
+        <li><a href="#">Product Timing</a></li>
+        <li><a href="#">Brand Mythology</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <p class="footer-col-title">Community</p>
+      <p class="footer-col-title">Connect</p>
       <ul>
         <li><a href="#">Newsletter</a></li>
-        <li><a href="#">Expeditions</a></li>
-        <li><a href="#">Seed Exchange</a></li>
+        <li><a href="#">Instagram</a></li>
         <li><a href="#">Contact</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2026 The Botanist Magazine. All rights reserved.</span>
-    <div class="footer-socials">
-      <a href="#" title="Instagram">◈</a>
-      <a href="#" title="Twitter">◉</a>
-      <a href="#" title="iNaturalist">◆</a>
-      <a href="#" title="YouTube">▷</a>
-    </div>
+    <span>© 2026 Hipstrology. All rights reserved.</span>
+    <span>Issue 01 · Apple Computer Inc. · Web Edition</span>
   </div>
 </footer>
 
-<!-- Three.js via importmap -->
+<!-- Three.js -->
 <script type="importmap">
   { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
 </script>
@@ -1258,6 +1673,7 @@ import * as THREE from 'three';
 
 const canvas   = document.getElementById('webgl');
 const scene    = new THREE.Scene();
+scene.fog      = new THREE.FogExp2(0x07060a, 0.020);
 const camera   = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.1, 200);
 camera.position.z = 14;
 
@@ -1266,383 +1682,296 @@ renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.setSize(innerWidth, innerHeight);
 renderer.setClearColor(0x000000, 0);
 
-// ── Lights ───────────────────────────────────────────────────────────────────
-scene.add(new THREE.AmbientLight(0xf0e8d0, 1.0));
-const goldLight   = new THREE.PointLight(0xD0AB39, 2.5, 40);
-goldLight.position.set(3, 4, 6);
-scene.add(goldLight);
-const warmLight   = new THREE.PointLight(0xa07820, 2.0, 30);
-warmLight.position.set(-5, -2, 5);
-scene.add(warmLight);
+// Lights
+scene.add(new THREE.AmbientLight(0x1a0a2e, 1.2));
+const goldLight   = new THREE.PointLight(0xD0AB39, 3.0, 40); goldLight.position.set(3,4,6); scene.add(goldLight);
+const purpleLight = new THREE.PointLight(0x6b3fa0, 4.0, 30); purpleLight.position.set(-5,-2,5); scene.add(purpleLight);
 
-// ── Star field — dark/gold points, subtle on light bg ─────────────────────────
-function makeStars(count, spread, size, color, opacity) {
+// Stars
+function makeStars(n, spread, size, color, opacity) {
   const geo = new THREE.BufferGeometry();
-  const pos = new Float32Array(count * 3);
-  for (let i = 0; i < count * 3; i++) pos[i] = (Math.random() - .5) * spread;
-  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const pos = new Float32Array(n*3);
+  for (let i=0;i<n*3;i++) pos[i]=(Math.random()-.5)*spread;
+  geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
   return new THREE.Points(geo, new THREE.PointsMaterial({
-    color, size, transparent: true, opacity,
-    sizeAttenuation: true, depthWrite: false,
-    blending: THREE.NormalBlending,
+    color, size, transparent:true, opacity, sizeAttenuation:true,
+    blending:THREE.AdditiveBlending, depthWrite:false
   }));
 }
-const starsGold = makeStars(600,  100, 0.07, 0xD0AB39, 0.22);
-const starsDark = makeStars(1000, 120, 0.04, 0x4a3e28, 0.18);
-scene.add(starsGold, starsDark);
+const stars1 = makeStars(1800, 120, 0.08, 0xffffff, 0.85);
+const stars2 = makeStars(500,  80,  0.16, 0xD0AB39, 0.45);
+scene.add(stars1, stars2);
 
-// ── Moon orb — warm gold tones, semi-transparent ──────────────────────────────
-const moonGeo = new THREE.SphereGeometry(2.5, 64, 64);
-const moonMat = new THREE.MeshStandardMaterial({
-  color:            0xe8d8a0,
-  emissive:         0xD0AB39,
-  emissiveIntensity:0.08,
-  roughness:        0.75,
-  metalness:        0.1,
-  transparent:      true,
-  opacity:          0.13,
-});
-const moon = new THREE.Mesh(moonGeo, moonMat);
+// Moon orb
+const moon = new THREE.Mesh(
+  new THREE.SphereGeometry(2.5, 64, 64),
+  new THREE.MeshStandardMaterial({ color:0x1a0a3a, emissive:0x4a1f80, emissiveIntensity:.55, roughness:.6, metalness:.1, transparent:true, opacity:.82 })
+);
 moon.position.set(-5.5, 2.5, -4);
 scene.add(moon);
-
-// Moon edge ring (thin outline effect)
-const moonEdge = new THREE.Mesh(
-  new THREE.SphereGeometry(2.55, 48, 48),
-  new THREE.MeshBasicMaterial({
-    color: 0xD0AB39, wireframe: true,
-    transparent: true, opacity: 0.06,
-  })
+const halo = new THREE.Mesh(
+  new THREE.SphereGeometry(3.5, 32, 32),
+  new THREE.MeshBasicMaterial({ color:0x6b3fa0, transparent:true, opacity:.07, blending:THREE.AdditiveBlending, depthWrite:false, side:THREE.BackSide })
 );
-moonEdge.position.copy(moon.position);
-scene.add(moonEdge);
+halo.position.copy(moon.position);
+scene.add(halo);
 
-// ── Saturn-like planet ────────────────────────────────────────────────────────
-const saturnMat = new THREE.MeshStandardMaterial({
-  color:            0xc8b06a,
-  emissive:         0xD0AB39,
-  emissiveIntensity:0.05,
-  roughness:        0.6,
-  metalness:        0.15,
-  transparent:      true,
-  opacity:          0.18,
-});
-const saturn = new THREE.Mesh(new THREE.SphereGeometry(1.0, 48, 48), saturnMat);
-saturn.position.set(6, -2.5, -2);
-scene.add(saturn);
+// Saturn
+const saturn = new THREE.Mesh(
+  new THREE.SphereGeometry(1.1,48,48),
+  new THREE.MeshStandardMaterial({ color:0x2a1840, emissive:0xD0AB39, emissiveIntensity:.12, roughness:.4, metalness:.2 })
+);
+saturn.position.set(6,-2.5,-2); scene.add(saturn);
 
-const ringMat = new THREE.MeshBasicMaterial({
-  color: 0xD0AB39, transparent: true, opacity: 0.18, depthWrite: false,
-  side: THREE.DoubleSide,
-});
-const ring = new THREE.Mesh(new THREE.TorusGeometry(1.8, 0.06, 5, 100), ringMat);
-ring.position.copy(saturn.position);
-ring.rotation.x = Math.PI * 0.38;
-scene.add(ring);
+const ring = new THREE.Mesh(
+  new THREE.TorusGeometry(1.9,.065,5,120),
+  new THREE.MeshBasicMaterial({ color:0xD0AB39, transparent:true, opacity:.28, blending:THREE.AdditiveBlending, depthWrite:false })
+);
+ring.position.copy(saturn.position); ring.rotation.x = Math.PI*.38; scene.add(ring);
 
 const ring2 = new THREE.Mesh(
-  new THREE.TorusGeometry(2.2, 0.025, 4, 80),
-  new THREE.MeshBasicMaterial({ color: 0x91D93A, transparent: true, opacity: 0.09, depthWrite: false, side: THREE.DoubleSide })
+  new THREE.TorusGeometry(2.3,.03,4,100),
+  new THREE.MeshBasicMaterial({ color:0x9b59d0, transparent:true, opacity:.12, blending:THREE.AdditiveBlending, depthWrite:false })
 );
-ring2.position.copy(saturn.position);
-ring2.rotation.x = Math.PI * 0.38;
-scene.add(ring2);
+ring2.position.copy(saturn.position); ring2.rotation.x = Math.PI*.38; scene.add(ring2);
 
-// ── Crystal polyhedra — wireframe, ink + gold ─────────────────────────────────
-function makeCrystal(GeoClass, args, x, y, z, color, opacity) {
-  const mesh = new THREE.Mesh(
-    new GeoClass(...args),
-    new THREE.MeshBasicMaterial({ color, wireframe: true, transparent: true, opacity })
-  );
-  mesh.position.set(x, y, z);
-  scene.add(mesh);
-  return mesh;
+// Crystals
+function crystal(Geo, args, x, y, z, color, opacity) {
+  const m = new THREE.Mesh(new Geo(...args), new THREE.MeshBasicMaterial({ color, wireframe:true, transparent:true, opacity }));
+  m.position.set(x,y,z); scene.add(m); return m;
 }
-const crystal1 = makeCrystal(THREE.OctahedronGeometry,  [0.7, 0],  3.5,  3.5, -6,  0xD0AB39, 0.18);
-const crystal2 = makeCrystal(THREE.IcosahedronGeometry, [0.5, 0], -3.0, -3.5, -5,  0x91D93A, 0.14);
-const crystal3 = makeCrystal(THREE.TetrahedronGeometry, [0.55, 0], 1.5, -4.5, -8,  0x161615, 0.08);
-const crystal4 = makeCrystal(THREE.OctahedronGeometry,  [0.32, 0],-6.5,  1.0, -3,  0xD0AB39, 0.10);
+const c1 = crystal(THREE.OctahedronGeometry,  [.7,0],  3.5,  3.5,-6, 0xD0AB39,.18);
+const c2 = crystal(THREE.IcosahedronGeometry, [.5,0], -3.0, -3.5,-5, 0x9b59d0,.14);
+const c3 = crystal(THREE.TetrahedronGeometry, [.55,0], 1.5, -4.5,-8, 0xD0AB39,.12);
+const c4 = crystal(THREE.OctahedronGeometry,  [.32,0],-6.5,  1.0,-3, 0xc9a8f5,.10);
 
-// ── Mouse + scroll ────────────────────────────────────────────────────────────
-const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
-window.addEventListener('mousemove', e => {
-  mouse.tx = (e.clientX / innerWidth  - .5) * 2;
-  mouse.ty = (e.clientY / innerHeight - .5) * 2;
-});
-let scrollY = 0;
-window.addEventListener('scroll', () => { scrollY = window.scrollY; });
+// Mouse + scroll
+const mouse = {x:0,y:0,tx:0,ty:0};
+window.addEventListener('mousemove', e => { mouse.tx=(e.clientX/innerWidth-.5)*2; mouse.ty=(e.clientY/innerHeight-.5)*2; });
+let scrollY=0;
+window.addEventListener('scroll', () => { scrollY=window.scrollY; });
 
-// ── Animate ───────────────────────────────────────────────────────────────────
 const clock = new THREE.Clock();
 function animate() {
   requestAnimationFrame(animate);
   const t = clock.getElapsedTime();
-
-  mouse.x += (mouse.tx - mouse.x) * .04;
-  mouse.y += (mouse.ty - mouse.y) * .04;
-
-  const scrollPct = scrollY / Math.max(document.body.scrollHeight - innerHeight, 1);
-  camera.position.y += (-scrollPct * 5 - camera.position.y) * .05;
-  camera.position.x += (mouse.x * .5 - camera.position.x) * .04;
-  camera.rotation.z += (-mouse.x * .012 - camera.rotation.z) * .04;
-
-  // Star rotation
-  starsGold.rotation.y = t * 0.010;
-  starsDark.rotation.y = t * 0.007;
-
-  // Moon bob
-  moon.position.y    = 2.5 + Math.sin(t * 0.28) * 0.22;
-  moon.rotation.y    = t * 0.05;
-  moonEdge.position.copy(moon.position);
-  moonEdge.rotation.y = moon.rotation.y;
-
-  // Saturn spin + drift
-  saturn.rotation.y  = t * 0.16;
-  saturn.position.x  = 6    + Math.sin(t * 0.14) * 0.25;
-  saturn.position.y  = -2.5 + Math.cos(t * 0.20) * 0.18;
-  ring.position.copy(saturn.position);
-  ring2.position.copy(saturn.position);
-  ring.rotation.z    = t * 0.035;
-
-  // Crystals rotate
-  crystal1.rotation.x = t * 0.20; crystal1.rotation.y = t * 0.13;
-  crystal2.rotation.x = t * 0.14; crystal2.rotation.z = t * 0.17;
-  crystal3.rotation.y = t * 0.16; crystal3.rotation.z = t * 0.11;
-  crystal4.rotation.x = t * 0.09; crystal4.rotation.y = t * 0.22;
-
-  // Light pulse
-  goldLight.intensity = 2.3 + Math.sin(t * 1.1) * 0.5;
-  warmLight.intensity = 1.8 + Math.sin(t * 0.7 + 1) * 0.4;
-
-  renderer.render(scene, camera);
+  mouse.x += (mouse.tx-mouse.x)*.04;
+  mouse.y += (mouse.ty-mouse.y)*.04;
+  const sp = scrollY/Math.max(document.body.scrollHeight-innerHeight,1);
+  camera.position.y += (-sp*5-camera.position.y)*.06;
+  camera.position.x += (mouse.x*.6-camera.position.x)*.04;
+  camera.rotation.z += (-mouse.x*.015-camera.rotation.z)*.04;
+  stars1.rotation.y = t*.012; stars2.rotation.y = t*.008; stars1.rotation.x = t*.004;
+  moon.position.y = 2.5+Math.sin(t*.3)*.25; moon.rotation.y = t*.06;
+  halo.position.copy(moon.position);
+  saturn.rotation.y = t*.18;
+  saturn.position.x = 6+Math.sin(t*.15)*.3;
+  saturn.position.y = -2.5+Math.cos(t*.22)*.2;
+  ring.position.copy(saturn.position); ring2.position.copy(saturn.position);
+  ring.rotation.z = t*.04;
+  c1.rotation.x=t*.22; c1.rotation.y=t*.14;
+  c2.rotation.x=t*.15; c2.rotation.z=t*.19;
+  c3.rotation.y=t*.17; c3.rotation.z=t*.12;
+  c4.rotation.x=t*.10; c4.rotation.y=t*.24;
+  goldLight.intensity = 2.8+Math.sin(t*1.2)*.6;
+  purpleLight.intensity = 3.8+Math.sin(t*.7+1)*.8;
+  renderer.render(scene,camera);
 }
 animate();
 
 window.addEventListener('resize', () => {
-  camera.aspect = innerWidth / innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth, innerHeight);
+  camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
 });
 </script>
 
 <script>
-// ── Lenis ─────────────────────────────────────────────────────────────────────
-const lenis = new Lenis({
-  duration:    1.8,
-  easing:      t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  smoothWheel: true,
-  wheelMultiplier: 0.9,
-});
-
+// Lenis
+const lenis = new Lenis({ duration:2.0, easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)), smoothWheel:true, wheelMultiplier:0.85 });
 gsap.registerPlugin(ScrollTrigger);
-gsap.ticker.add(time => lenis.raf(time * 1000));
+gsap.ticker.add(time => lenis.raf(time*1000));
 gsap.ticker.lagSmoothing(0);
 lenis.on('scroll', ScrollTrigger.update);
 ScrollTrigger.scrollerProxy(document.body, {
-  scrollTop(v) { return arguments.length ? lenis.scrollTo(v, { immediate: true }) : lenis.scroll; },
-  getBoundingClientRect() { return { top: 0, left: 0, width: innerWidth, height: innerHeight }; },
+  scrollTop(v) { return arguments.length ? lenis.scrollTo(v,{immediate:true}) : lenis.scroll; },
+  getBoundingClientRect() { return {top:0,left:0,width:innerWidth,height:innerHeight}; }
 });
 ScrollTrigger.defaults({ scroller: document.body });
 
-// Progress bar + nav
 lenis.on('scroll', ({ progress, scroll }) => {
-  document.getElementById('progress-bar').style.width = (progress * 100) + '%';
+  document.getElementById('progress-bar').style.width = (progress*100)+'%';
   document.getElementById('main-nav').classList.toggle('scrolled', scroll > 60);
 });
 
-// ── Char split ────────────────────────────────────────────────────────────────
+// Char split
 function splitChars(el) {
   function walk(node) {
-    if (node.nodeType === 3) {
-      const chars = [...node.textContent];
-      chars.forEach(ch => {
-        const s = document.createElement('span');
-        s.className = 'char';
-        s.style.display = 'inline-block';
-        s.textContent = ch === ' ' ? ' ' : ch;
-        node.parentNode.insertBefore(s, node);
+    if (node.nodeType===3) {
+      [...node.textContent].forEach(ch => {
+        const s=document.createElement('span');
+        s.className='char'; s.style.display='inline-block';
+        s.textContent=ch===' '?' ':ch;
+        node.parentNode.insertBefore(s,node);
       });
       node.parentNode.removeChild(node);
-    } else if (node.nodeType === 1) {
-      [...node.childNodes].forEach(walk);
-    }
+    } else if (node.nodeType===1) { [...node.childNodes].forEach(walk); }
   }
   [...el.childNodes].forEach(walk);
   return el.querySelectorAll('.char');
 }
-
 function splitWords(el) {
-  el.innerHTML = el.innerHTML.replace(/(\S+)/g, '<span class="quote-word" style="display:inline-block">$1</span>');
+  el.innerHTML=el.innerHTML.replace(/(\S+)/g,'<span class="quote-word" style="display:inline-block">$1</span>');
   return el.querySelectorAll('.quote-word');
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-// HERO
-// ══════════════════════════════════════════════════════════════════════════════
-const heroTl = gsap.timeline({ delay: 0.15 });
+// ── HERO ──
+const heroTl = gsap.timeline({ delay:.2 });
+heroTl.fromTo('.hero-kicker', { opacity:0, y:14, letterSpacing:'.45em' }, { opacity:1, y:0, letterSpacing:'.22em', duration:1.0, ease:'power3.out' });
+const masterEl = document.getElementById('hero-masthead');
+const masterChars = splitChars(masterEl);
+heroTl.fromTo(masterChars, { opacity:0, y:60, rotateX:-40 }, { opacity:1, y:0, rotateX:0, duration:.85, ease:'back.out(1.5)', stagger:.025 }, '-=0.5');
+heroTl.fromTo('.hero-issue-line', { opacity:0, y:12 }, { opacity:1, y:0, duration:.8, ease:'power3.out' }, '-=0.3');
+heroTl.fromTo('.hero-deck',       { opacity:0, y:16, filter:'blur(5px)' }, { opacity:1, y:0, filter:'blur(0px)', duration:.9, ease:'power3.out' }, '-=0.4');
+heroTl.fromTo('.hero-cta',        { opacity:0, y:12 }, { opacity:1, y:0, duration:.7, ease:'power3.out' }, '-=0.4');
+heroTl.fromTo('.hero-bottom',     { opacity:0 }, { opacity:1, duration:.9 }, '-=0.2');
 
-heroTl.fromTo('.hero-kicker',
-  { opacity: 0, y: 12, letterSpacing: '0.5em' },
-  { opacity: 1, y: 0,  letterSpacing: '0.3em', duration: 0.9, ease: 'power3.out' }
-);
-
-const titleEl    = document.getElementById('hero-title');
-const titleChars = splitChars(titleEl);
-heroTl.fromTo(titleChars,
-  { opacity: 0, y: 50, rotateX: -25 },
-  { opacity: 1, y: 0,  rotateX: 0, duration: 0.8, ease: 'power3.out', stagger: 0.03 },
-  '-=0.5'
-);
-
-heroTl.to('#hero-rule', { width: '80px', duration: 0.8, ease: 'power3.inOut' }, '-=0.2');
-
-heroTl.fromTo('.hero-desc',
-  { opacity: 0, y: 16, filter: 'blur(4px)' },
-  { opacity: 1, y: 0,  filter: 'blur(0px)', duration: 0.9, ease: 'power3.out' },
-  '-=0.5'
-);
-
-heroTl.fromTo('.hero-actions',
-  { opacity: 0, y: 12 },
-  { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
-  '-=0.4'
-);
-
-heroTl.fromTo('.hero-footer, .hero-specimen-tag',
-  { opacity: 0 },
-  { opacity: 1, duration: 0.9, stagger: 0.1 },
-  '-=0.3'
-);
-
-// Hero scroll-out parallax
-gsap.to('#hero .hero-body', {
-  y: -60, opacity: 0, ease: 'none',
-  scrollTrigger: { trigger: '#hero', start: 'center center', end: 'bottom top', scrub: 1.8 }
+gsap.to('#hero .hero-body', { y:-60, opacity:0, ease:'none',
+  scrollTrigger: { trigger:'#hero', start:'center center', end:'bottom top', scrub:1.8 }
 });
 
-// ══════════════════════════════════════════════════════════════════════════════
-// TOC
-// ══════════════════════════════════════════════════════════════════════════════
-gsap.timeline({ scrollTrigger: { trigger: '#toc', start: 'top 75%' } })
-  .fromTo('.toc-left',   { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out' })
-  .fromTo('.toc-item',   { opacity: 0, x: 30  }, { opacity: 1, x: 0, duration: 0.7, ease: 'power3.out', stagger: 0.09 }, '-=0.5');
+// ── EDITORS NOTE ──
+gsap.timeline({ scrollTrigger:{ trigger:'#editors-note', start:'top 75%' } })
+  .fromTo('.editors-note-aside', { opacity:0, x:-30 }, { opacity:1, x:0, duration:.9, ease:'power3.out' })
+  .fromTo('.editors-note-heading', { opacity:0, y:24 }, { opacity:1, y:0, duration:.9, ease:'power3.out' }, '-=0.6')
+  .fromTo('.editors-note-body .body-text', { opacity:0, y:16 }, { opacity:1, y:0, duration:.7, ease:'power3.out', stagger:.1 }, '-=0.5');
 
-// ══════════════════════════════════════════════════════════════════════════════
-// STATS
-// ══════════════════════════════════════════════════════════════════════════════
-gsap.fromTo('.stat-item',
-  { opacity: 0, y: 30 },
-  { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.12,
-    scrollTrigger: { trigger: '#stats', start: 'top 80%' } }
+// ── BIRTHS ──
+gsap.fromTo('.birth-card',
+  { opacity:0, y:40, scale:.94 },
+  { opacity:1, y:0, scale:1, duration:.8, ease:'power3.out', stagger:.12,
+    scrollTrigger:{ trigger:'.births-grid', start:'top 78%' } }
 );
-document.querySelectorAll('.stat-num[data-target]').forEach(el => {
-  const target = +el.dataset.target;
-  ScrollTrigger.create({
-    trigger: el, start: 'top 85%', once: true,
-    onEnter() {
-      gsap.to({ val: 0 }, {
-        val: target, duration: 1.4, ease: 'power2.out',
-        onUpdate() { el.textContent = Math.round(this.targets()[0].val); }
-      });
-    }
-  });
-});
-
-// ══════════════════════════════════════════════════════════════════════════════
-// FEATURES
-// ══════════════════════════════════════════════════════════════════════════════
-gsap.fromTo('.feat-card',
-  { opacity: 0, y: 40, scale: 0.96 },
-  { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'power3.out',
-    stagger: { amount: 0.5 },
-    scrollTrigger: { trigger: '.features-grid', start: 'top 78%' } }
+gsap.fromTo('.chart-row',
+  { opacity:0, y:10 },
+  { opacity:1, y:0, duration:.4, ease:'power2.out', stagger:.04,
+    scrollTrigger:{ trigger:'.chart-panel', start:'top 82%' } }
 );
 
-// ══════════════════════════════════════════════════════════════════════════════
-// PULL QUOTES
-// ══════════════════════════════════════════════════════════════════════════════
-['#quote-text-1', '#quote-text-2'].forEach(sel => {
+// ── PULL QUOTES ──
+['#pq-1','#pq-2','#pq-3'].forEach(sel => {
   const el    = document.querySelector(sel);
   const words = splitWords(el);
-  const parent = el.closest('.pullquote-section');
-  gsap.fromTo(parent.querySelector('.pullquote-rule'),
-    { width: 0 },
-    { width: '40px', duration: 0.8, ease: 'power3.inOut',
-      scrollTrigger: { trigger: parent, start: 'top 82%' } }
-  );
-  gsap.fromTo(words,
-    { opacity: 0, y: 10 },
-    { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', stagger: 0.04,
-      scrollTrigger: { trigger: el, start: 'top 80%' } }
-  );
-  gsap.fromTo(parent.querySelector('cite'),
-    { opacity: 0, y: 6 },
-    { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
-      scrollTrigger: { trigger: parent.querySelector('cite'), start: 'top 88%' } }
-  );
+  const band  = el.closest('.pullquote-band');
+  gsap.to(band.querySelector('.pq-rule'), { width:'40px', duration:.8, ease:'power3.inOut',
+    scrollTrigger:{ trigger:band, start:'top 82%' } });
+  gsap.fromTo(words, { opacity:0, y:10 }, { opacity:1, y:0, duration:.45, ease:'power2.out', stagger:.035,
+    scrollTrigger:{ trigger:el, start:'top 80%' } });
+  gsap.fromTo(band.querySelector('cite'), { opacity:0 }, { opacity:1, duration:.7,
+    scrollTrigger:{ trigger:band.querySelector('cite'), start:'top 88%' } });
 });
 
-// ══════════════════════════════════════════════════════════════════════════════
-// ARTICLES — cinematic split
-// ══════════════════════════════════════════════════════════════════════════════
-[
-  { img: '#aimg-1', txt: '#atxt-1', imgX: -60, txtX: 50 },
-  { img: '#aimg-2', txt: '#atxt-2', imgX: 60,  txtX: -50 },
-  { img: '#aimg-3', txt: '#atxt-3', imgX: -60, txtX: 50 },
-].forEach(({ img, txt, imgX, txtX }) => {
-  const trigger = document.querySelector(img).closest('.article-section');
-  gsap.fromTo(img,
-    { opacity: 0, x: imgX, scale: 0.96 },
-    { opacity: 1, x: 0, scale: 1, duration: 1.1, ease: 'power3.out',
-      scrollTrigger: { trigger, start: 'top 78%' } }
-  );
-  gsap.fromTo(txt,
-    { opacity: 0, x: txtX },
-    { opacity: 1, x: 0, duration: 1.0, ease: 'power3.out',
-      scrollTrigger: { trigger, start: 'top 78%' } }
-  );
-  gsap.to(img, {
-    y: -30, ease: 'none',
-    scrollTrigger: { trigger, start: 'top bottom', end: 'bottom top', scrub: 2 }
-  });
-});
-
-// ══════════════════════════════════════════════════════════════════════════════
-// CATALOG — wave ripple
-// ══════════════════════════════════════════════════════════════════════════════
-gsap.fromTo('.catalog-card',
-  { opacity: 0, y: 24, scale: 0.92 },
-  { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: 'back.out(1.3)',
-    stagger: { amount: 0.6, from: 'start', grid: [2, 6] },
-    scrollTrigger: { trigger: '.catalog-grid', start: 'top 80%' } }
+// ── FOUNDERS ──
+gsap.fromTo('.founder-card',
+  { opacity:0, y:48, scale:.95 },
+  { opacity:1, y:0, scale:1, duration:.9, ease:'back.out(1.3)', stagger:.14,
+    scrollTrigger:{ trigger:'.founders-grid', start:'top 78%' } }
 );
 
-// ══════════════════════════════════════════════════════════════════════════════
-// CULTIVATION GLASS CARDS — stagger fan in
-// ══════════════════════════════════════════════════════════════════════════════
-gsap.fromTo('.cult-shell',
-  { opacity: 0, y: 50, rotation: i => (i - 2) * 2 },
-  { opacity: 1, y: 0, rotation: 0, duration: 0.9, ease: 'back.out(1.4)',
-    stagger: { amount: 0.4, from: 'center' },
-    scrollTrigger: { trigger: '.cult-grid', start: 'top 80%' } }
+// ── PRODUCT RITUALS ──
+gsap.fromTo('.ritual-item',
+  { opacity:0, x:-30 },
+  { opacity:1, x:0, duration:.8, ease:'power3.out', stagger:.1,
+    scrollTrigger:{ trigger:'.rituals-timeline', start:'top 80%' } }
 );
 
-// ══════════════════════════════════════════════════════════════════════════════
-// NEWSLETTER
-// ══════════════════════════════════════════════════════════════════════════════
-gsap.fromTo('.newsletter-inner',
-  { opacity: 0, y: 40, scale: 0.95 },
-  { opacity: 1, y: 0, scale: 1, duration: 1.0, ease: 'power3.out',
-    scrollTrigger: { trigger: '#newsletter', start: 'top 80%' } }
+// ── STORE TEMPLE ──
+gsap.fromTo('#store-temple .store-img', { opacity:0, x:-50, scale:.95 }, { opacity:1, x:0, scale:1, duration:1.1, ease:'power3.out',
+  scrollTrigger:{ trigger:'#store-temple', start:'top 75%' } });
+gsap.fromTo('#store-temple .store-text', { opacity:0, x:50 }, { opacity:1, x:0, duration:1.0, ease:'power3.out',
+  scrollTrigger:{ trigger:'#store-temple', start:'top 75%' } });
+
+// ── BODY INTERFACE ──
+gsap.fromTo('.interface-card',
+  { opacity:0, y:30, scale:.95 },
+  { opacity:1, y:0, scale:1, duration:.8, ease:'power3.out', stagger:.15,
+    scrollTrigger:{ trigger:'.body-interface-grid', start:'top 80%' } }
 );
 
-// ── Newsletter submit ─────────────────────────────────────────────────────────
+// ── SHADOW ──
+gsap.fromTo('.shadow-left', { opacity:0, x:-40 }, { opacity:1, x:0, duration:1.0, ease:'power3.out',
+  scrollTrigger:{ trigger:'#apple-shadow', start:'top 75%' } });
+gsap.fromTo('.shadow-right', { opacity:0, x:40 }, { opacity:1, x:0, duration:1.0, ease:'power3.out',
+  scrollTrigger:{ trigger:'#apple-shadow', start:'top 75%' } });
+
+// ── TIMELINE ──
+gsap.fromTo('.timeline-table tbody tr',
+  { opacity:0, y:12 },
+  { opacity:1, y:0, duration:.5, ease:'power2.out', stagger:.04,
+    scrollTrigger:{ trigger:'.timeline-table', start:'top 80%' } }
+);
+
+// ── JOBS CHART ──
+gsap.fromTo('#jobs-chart .grand-cross-cell',
+  { opacity:0, y:20 },
+  { opacity:1, y:0, duration:.7, ease:'power3.out', stagger:.1,
+    scrollTrigger:{ trigger:'.grand-cross-grid', start:'top 80%' } }
+);
+gsap.fromTo('.dasha-table td, .vedic-table td',
+  { opacity:0, x:-10 },
+  { opacity:1, x:0, duration:.4, ease:'power2.out', stagger:.03,
+    scrollTrigger:{ trigger:'#jobs-chart', start:'top 30%' } }
+);
+
+// ── SPIRITUAL ARCH ──
+gsap.fromTo('#spiritual-arch .sub-feature-heading, #spiritual-arch .body-text',
+  { opacity:0, y:20 },
+  { opacity:1, y:0, duration:.7, ease:'power3.out', stagger:.08,
+    scrollTrigger:{ trigger:'#spiritual-arch', start:'top 75%' } }
+);
+
+// ── JUPITER CYCLE ──
+gsap.fromTo('.jup-table tbody tr',
+  { opacity:0, y:10 },
+  { opacity:1, y:0, duration:.4, ease:'power2.out', stagger:.04,
+    scrollTrigger:{ trigger:'.jup-table', start:'top 80%' } }
+);
+gsap.fromTo('.sn-table td',
+  { opacity:0 },
+  { opacity:1, duration:.4, ease:'power2.out', stagger:.05,
+    scrollTrigger:{ trigger:'.sn-table', start:'top 85%' } }
+);
+
+// ── CORPORATE CHART ──
+gsap.fromTo('.tarot-cell',
+  { opacity:0, scale:.9, y:20 },
+  { opacity:1, scale:1, y:0, duration:.6, ease:'back.out(1.4)', stagger:.06,
+    scrollTrigger:{ trigger:'.tarot-grid', start:'top 80%' } }
+);
+
+// ── SHADOW TABLE ──
+gsap.fromTo('.shadow-gift-table tr',
+  { opacity:0, x:-20 },
+  { opacity:1, x:0, duration:.5, ease:'power3.out', stagger:.08,
+    scrollTrigger:{ trigger:'.shadow-gift-table', start:'top 80%' } }
+);
+
+// ── REFERENCES ──
+gsap.fromTo('.ref-group-title, .ref-list li',
+  { opacity:0, y:10 },
+  { opacity:1, y:0, duration:.5, ease:'power2.out', stagger:.03,
+    scrollTrigger:{ trigger:'#references', start:'top 80%' } }
+);
+
+// ── NEWSLETTER ──
+gsap.fromTo('.nl-inner', { opacity:0, y:40, scale:.94 }, { opacity:1, y:0, scale:1, duration:1.0, ease:'power3.out',
+  scrollTrigger:{ trigger:'#newsletter', start:'top 80%' } });
+
 window.handleSubscribe = function(e) {
   e.preventDefault();
-  const confirm = document.getElementById('newsletter-confirm');
-  confirm.style.display = 'block';
-  gsap.fromTo(confirm, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' });
-  e.target.style.display = 'none';
+  const c=document.getElementById('nl-confirm');
+  c.style.display='block';
+  gsap.fromTo(c,{opacity:0,y:8},{opacity:1,y:0,duration:.7,ease:'power3.out'});
+  e.target.style.display='none';
 };
 </script>
 
